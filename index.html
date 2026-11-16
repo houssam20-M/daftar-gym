@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="ar-MA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C7A63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Daftar l-Gym">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<title>Daftar l-Gym</title>
+<style>
+:root{
+  --bg:#EDF1F0; --surface:#FFFFFF; --sunk:#F5F8F7; --ink:#13201D; --muted:#5A6A66; --line:#D5DEDB;
+  --accent:#0C7A63; --accent-ink:#FFFFFF; --accent-soft:#DDF0EA;
+  --good:#17804F; --warn:#9A6408; --bad:#B4372B;
+  --good-soft:#DDF3E7; --warn-soft:#FBEFD3; --bad-soft:#FADFDB;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root{
+  --bg:#0E1513; --surface:#162019; --sunk:#111A17; --ink:#E7EFEC; --muted:#94A5A0; --line:#27352F;
+  --accent:#3FCBA7; --accent-ink:#062019; --accent-soft:#143229;
+  --good:#5AD49A; --warn:#E8B95A; --bad:#F08A7E;
+  --good-soft:#13301F; --warn-soft:#33290F; --bad-soft:#3A1B17; color-scheme:dark } }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:26px;font-weight:800}
+h2{font-size:20px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:48px;height:48px;flex:none;border-radius:11px}
+.week-chip{font-weight:700;background:var(--accent-soft);color:var(--ink);padding:6px 12px;border-radius:999px;font-size:14px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;min-width:0}
+.stat .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.stat .val{font-size:27px;font-weight:800;line-height:1.15;margin-top:4px}
+.stat .val small{font-size:14px;font-weight:500;color:var(--muted)}
+.stat .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+@media (max-width:640px){ .stats{grid-template-columns:repeat(2,1fr)} }
+
+.banner{border-radius:var(--r);padding:10px 14px;background:var(--warn-soft);color:var(--ink);border:1px solid var(--line);font-size:14px}
+section.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.block-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:640px){ .grid{grid-template-columns:repeat(2,1fr)} section.block{padding:15px} }
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.wide{grid-column:1/-1}
+label,.flabel{font-size:13px;font-weight:500;color:var(--muted)}
+input,textarea,select{font:inherit;font-size:16px;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:64px}
+input:focus-visible,textarea:focus-visible,button:focus-visible,.seg label:focus-within,.nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label{cursor:pointer;border:1px solid var(--line);background:var(--sunk);color:var(--ink);border-radius:10px;padding:9px 13px;font-size:14px;font-weight:600}
+.seg input:checked + label{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--sunk);color:var(--ink);padding:10px 14px;font-weight:600}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+button.link{border:none;background:none;padding:4px 6px;color:var(--accent);font-size:13px}
+button:disabled{opacity:.55;cursor:default}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.msg{font-size:13.5px;color:var(--muted)}
+
+.toggle{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.toggle button{border:none;border-radius:0;background:var(--sunk);padding:8px 14px;font-size:14px}
+.toggle button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+
+.chart{position:relative;min-width:0}
+.chart svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.chart .grid-l{stroke:var(--line);stroke-width:1}
+.chart .axis-t{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.chart .ln{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .area{fill:var(--accent);opacity:.09}
+.chart .dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.chart .end-t{fill:var(--ink);font-size:12px;font-weight:700}
+.chart .cross{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:6px 9px;border-radius:8px;transform:translate(-50%,-115%);white-space:nowrap;z-index:2}
+.empty{background:var(--sunk);border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--muted)}
+
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.down{color:var(--good);font-weight:700}.up{color:var(--bad);font-weight:700}
+
+.targets{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){ .targets{grid-template-columns:1fr} }
+.meter{display:flex;flex-direction:column;gap:6px;min-width:0}
+.meter .top{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.bar{height:10px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:999px;width:0}
+.bar i.over{background:var(--bad)}
+.rules{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--sunk)}
+.pill.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.foods{display:flex;gap:8px;flex-wrap:wrap}
+.foods button{font-size:13.5px;font-weight:500;padding:8px 11px;text-align:left}
+.foods button.off{border-color:var(--bad);color:var(--bad)}
+.foods button small{display:block;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.meal{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.meal:last-child{border-bottom:none}
+.meal .txt{min-width:0;overflow-wrap:anywhere}
+.meal .side{text-align:right;white-space:nowrap;font-size:13px;color:var(--muted)}
+details{border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:700}
+.plan td:first-child{font-weight:700;white-space:nowrap}
+.part{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.ex{display:grid;grid-template-columns:auto 1fr 100px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.ex input[type="checkbox"]{width:26px;height:26px;padding:0;accent-color:var(--accent)}
+.ex .nm{font-weight:700;min-width:0}
+.ex .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.ex .kg{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted)}
+.ex .kg input{text-align:right;padding:8px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;min-height:150px}
+
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.nav .in{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;width:100%;max-width:560px}
+.nav a{text-decoration:none;color:var(--muted);text-align:center;padding:12px 2px;border-radius:10px;font-weight:700;font-size:13px}
+.nav a[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11967A"/><stop offset="1" stop-color="#0A5F4E"/></linearGradient></defs>
+        <rect width="100" height="100" rx="23" fill="url(#lg)"/>
+        <g transform="rotate(-30 50 50)">
+          <rect x="18" y="38.5" width="7" height="23" rx="2.5" fill="#BDEBDD"/>
+          <rect x="75" y="38.5" width="7" height="23" rx="2.5" fill="#BDEBDD"/>
+          <rect x="25.5" y="33" width="9" height="34" rx="3" fill="#FFFFFF"/>
+          <rect x="65.5" y="33" width="9" height="34" rx="3" fill="#FFFFFF"/>
+          <rect x="33" y="47.2" width="34" height="5.6" rx="2.8" fill="#FFFFFF"/>
+        </g>
+      </svg>
+      <div>
+        <h1>Daftar l-Gym</h1>
+        <p class="muted" id="subline">173 cm · l-hadaf 78 kg</p>
+      </div>
+    </div>
+    <span class="week-chip num" id="weekChip">Simana 1</span>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="stats" id="stats" data-view="lyoum">
+    <div class="stat"><div class="lbl">Wazn daba</div><div class="val num" id="sNow">—</div><div class="sub" id="sNowSub">&nbsp;</div></div>
+    <div class="stat"><div class="lbl">N9es mn l-bdya</div><div class="val num" id="sLost">—</div><div class="sub" id="sLostSub">&nbsp;</div></div>
+    <div class="stat"><div class="lbl">Ba9i l l-hadaf</div><div class="val num" id="sLeft">—</div><div class="sub" id="sLeftSub">&nbsp;</div></div>
+    <div class="stat"><div class="lbl">BMI</div><div class="val num" id="sBmi">—</div><div class="sub" id="sBmiSub">&nbsp;</div></div>
+  </div>
+
+  <section class="block" id="seance" data-view="lyoum">
+    <div class="block-head">
+      <div>
+        <h2>Seance d lyoum</h2>
+        <p class="muted small" id="sxSub">&nbsp;</p>
+      </div>
+      <span class="pill" id="sxDay">Nhar A</span>
+    </div>
+    <div id="sxBody"></div>
+    <div class="field"><span class="flabel">Kifach dazt?</span>
+      <div class="seg" role="radiogroup" aria-label="Kifach dazt">
+        <input type="radio" name="sxFeel" id="sxF1" value="sahla"><label for="sxF1">Sahla</label>
+        <input type="radio" name="sxFeel" id="sxF2" value="mezyana"><label for="sxF2">Mezyana</label>
+        <input type="radio" name="sxFeel" id="sxF3" value="s3iba"><label for="sxF3">S3iba</label>
+      </div>
+    </div>
+    <div class="field"><label for="sxNote">Molahada (wja3, machine ma l9itihach...)</label><input id="sxNote" type="text" maxlength="300"></div>
+    <div class="row">
+      <button class="primary" type="button" id="sxSave">Sejjel seance</button>
+      <span class="msg" id="sxMsg" role="status"></span>
+    </div>
+  </section>
+
+  <section class="block" id="checkin" data-view="simana">
+    <div>
+      <h2>Istibyan d simana</h2>
+      <p class="muted small">3emmro merra f simana, nefs n-nhar, mn b3d ma ttwzen sba7 3la r-ri9.</p>
+    </div>
+    <form id="ciForm" novalidate>
+      <div class="grid">
+        <div class="field"><label for="ciDate">Date</label><input id="ciDate" type="date" required></div>
+        <div class="field"><label for="ciWeight">Wazn (kg)</label><input id="ciWeight" type="number" step="0.1" min="40" max="250" inputmode="decimal" placeholder="114.2" required></div>
+        <div class="field"><label for="ciWaist">Dawr l-kerch (cm), ila bghiti</label><input id="ciWaist" type="number" step="0.5" min="40" max="220" inputmode="decimal"></div>
+        <div class="field"><label for="ciLift">Seances d l-7adid had simana</label><input id="ciLift" type="number" step="1" min="0" max="14" inputmode="numeric" placeholder="6"></div>
+        <div class="field"><label for="ciWalk">Iyam li mchiti fihom</label><input id="ciWalk" type="number" step="1" min="0" max="7" inputmode="numeric" placeholder="7"></div>
+        <div class="field"><label for="ciSleep">N3ass (sway3 f lila)</label><input id="ciSleep" type="number" step="0.5" min="0" max="14" inputmode="decimal" placeholder="7.5"></div>
+        <div class="field"><label for="ciDiet">Iyam li 7tarmti fihom l-makla (0-7)</label><input id="ciDiet" type="number" step="1" min="0" max="7" inputmode="numeric" placeholder="6"></div>
+        <div class="field"><span class="flabel">Khobz wla sokkar had simana?</span>
+          <div class="seg" role="radiogroup" aria-label="Khobz wla sokkar">
+            <input type="radio" name="ciCheat" id="ciCheat0" value="la"><label for="ciCheat0">La</label>
+            <input type="radio" name="ciCheat" id="ciCheat1" value="chwiya"><label for="ciCheat1">Chwiya</label>
+            <input type="radio" name="ciCheat" id="ciCheat2" value="bzaf"><label for="ciCheat2">Bzaf</label>
+          </div>
+        </div>
+        <div class="field"><span class="flabel">Ta9a (1 3yan, 5 mezyan bzaf)</span>
+          <div class="seg" role="radiogroup" aria-label="Ta9a">
+            <input type="radio" name="ciEnergy" id="ciE1" value="1"><label for="ciE1">1</label>
+            <input type="radio" name="ciEnergy" id="ciE2" value="2"><label for="ciE2">2</label>
+            <input type="radio" name="ciEnergy" id="ciE3" value="3"><label for="ciE3">3</label>
+            <input type="radio" name="ciEnergy" id="ciE4" value="4"><label for="ciE4">4</label>
+            <input type="radio" name="ciEnergy" id="ciE5" value="5"><label for="ciE5">5</label>
+          </div>
+        </div>
+        <div class="field wide"><label for="ciNote">Molahadat (wja3, chno kan s3ib, chno t7ssen)</label><textarea id="ciNote" maxlength="600"></textarea></div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="primary" type="submit" id="ciSave">Sejjel simana</button>
+        <span class="msg" id="ciMsg" role="status"></span>
+      </div>
+    </form>
+  </section>
+
+  <section class="block" id="progress" data-view="t9eddom">
+    <div class="block-head">
+      <h2>T9eddom dyal l-wazn</h2>
+      <div class="toggle" role="group" aria-label="Simana wla chher">
+        <button type="button" id="vWeek" aria-pressed="true">Kol simana</button>
+        <button type="button" id="vMonth" aria-pressed="false">Kol chher</button>
+      </div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="tablewrap" id="tableWrap"></div>
+  </section>
+
+  <section class="block" id="makla" data-view="makla">
+    <div class="block-head">
+      <div>
+        <h2>Makla</h2>
+        <p class="muted small">L-hadaf dyal kol nhar, o ch7al kliti lyoum.</p>
+      </div>
+      <div class="rules"><span class="pill">✕ Bla khobz</span><span class="pill">✕ Bla sokkar</span><span class="pill">3 L ma</span></div>
+    </div>
+    <div class="targets">
+      <div class="meter"><div class="top"><span>Calories lyoum</span><span class="num" id="mKcalTxt">0 / 2400 kcal</span></div><div class="bar"><i id="mKcalBar"></i></div></div>
+      <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 / 170 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
+    </div>
+    <p class="msg" id="mVerdict" role="status"></p>
+
+    <div>
+      <h3>Zid b dghya</h3>
+      <p class="muted small" style="margin:2px 0 10px">Dghet 3la li kliti. L-ar9am ta9ribiya, l kol portion.</p>
+      <div class="foods" id="foods"></div>
+    </div>
+
+    <div>
+      <h3>Wejba khra</h3>
+      <div class="grid" style="margin-top:8px">
+        <div class="field wide"><label for="mealText">Ach kliti</label><input id="mealText" type="text" maxlength="200" placeholder="Matalan: tajine l7em b l-ber9o9"></div>
+        <div class="field"><label for="mealKcal">kcal (ila 3refti)</label><input id="mealKcal" type="number" min="0" max="5000" inputmode="numeric"></div>
+        <div class="field"><label for="mealProt">Protein g (ila 3refti)</label><input id="mealProt" type="number" min="0" max="400" inputmode="numeric"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" type="button" id="mealAdd">Zid l-wejba</button>
+        <span class="msg" id="mealMsg" role="status"></span>
+      </div>
+    </div>
+
+    <div>
+      <h3>Wejbat lyoum</h3>
+      <div id="mealsToday"></div>
+    </div>
+
+    <details>
+      <summary>Mital dyal nhar kamel (bla khobz, bla sokkar)</summary>
+      <div class="tablewrap" style="margin-top:10px">
+        <table class="plan">
+          <thead><tr><th>Wejba</th><th>Ach takol</th><th class="n">kcal</th><th class="n">Protein</th></tr></thead>
+          <tbody>
+            <tr><td>Ftour</td><td>3 bidat + chofan (60 g) b 7lib + banana + atay bla sokkar</td><td class="n">≈600</td><td class="n">≈35 g</td></tr>
+            <tr><td>10h</td><td>Raib wla yaourt nature + kemcha louz (30 g)</td><td class="n">≈300</td><td class="n">≈12 g</td></tr>
+            <tr><td>Ghda</td><td>Tajine djaj (200 g sder) b khodra bzaf + rouz wla btata (200 g mteybin) + chlada</td><td class="n">≈750</td><td class="n">≈65 g</td></tr>
+            <tr><td>9bel wla b3d l-7adid</td><td>7okka tun (b l-ma) + 2 bidat meslou9in + teffa7a</td><td class="n">≈330</td><td class="n">≈40 g</td></tr>
+            <tr><td>3cha</td><td>T9ebsil 3des wla loubia + 150 g 7out mechwi + chlada</td><td class="n">≈520</td><td class="n">≈40 g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small" style="margin-top:8px">F blast l-khobz: rouz, btata, chofan, 3des. Zit: mel3e9a wa7da kbira f tajine dyalek.</p>
+    </details>
+  </section>
+
+  <section class="block" data-view="kter">
+    <div>
+      <h2>Ta9rir l Claude wla OpenCode</h2>
+      <p class="muted small">Mnin tji l d-dar: dghet "Nskh t-ta9rir", o lse9o f Claude Code wla OpenCode. Fih l-wazn, l-awzan dyal l-exercices, o l-makla.</p>
+    </div>
+    <div class="row"><button class="primary" type="button" id="repCopy">Nskh t-ta9rir</button><span class="msg" id="repMsg" role="status"></span></div>
+    <textarea class="mono" id="repBox" readonly hidden aria-label="Ta9rir"></textarea>
+  </section>
+
+  <section class="block" data-view="kter">
+    <div>
+      <h2>L-plan dyali</h2>
+      <p class="muted small">Beddel hadchi ghir ila gal lik l-coach (Claude wla OpenCode).</p>
+    </div>
+    <div class="grid">
+      <div class="field"><label for="pHeight">Toul (cm)</label><input id="pHeight" type="number" min="120" max="230" inputmode="numeric"></div>
+      <div class="field"><label for="pGoal">L-hadaf (kg)</label><input id="pGoal" type="number" min="40" max="200" step="0.5" inputmode="decimal"></div>
+      <div class="field"><label for="pStart">Awal nhar</label><input id="pStart" type="date"></div>
+      <div class="field"><label for="pKcal">kcal f nhar</label><input id="pKcal" type="number" min="1000" max="5000" step="50" inputmode="numeric"></div>
+      <div class="field"><label for="pProt">Protein f nhar (g)</label><input id="pProt" type="number" min="40" max="350" step="5" inputmode="numeric"></div>
+    </div>
+    <div class="row"><button type="button" id="pSave">Sejjel l-plan</button><span class="msg" id="pMsg" role="status"></span></div>
+  </section>
+
+  <section class="block" data-view="kter">
+    <div>
+      <h2>Nskha i7tiyatiya</h2>
+      <p class="muted small">L-ma3lomat kayt7efdo f had telephone bo7do. Dir nskha merra f simana, bach ila tbeddel telephone wla tms7 l-mtsaffe7 ma ydi3 walou.</p>
+    </div>
+    <div class="row">
+      <button type="button" id="bkExport">Khrej nskha (fichier)</button>
+      <button type="button" id="bkShow">Werri n-nskha</button>
+      <span class="msg" id="bkMsg" role="status"></span>
+    </div>
+    <div class="field"><label for="bkBox">Bach trje3 nskha 9dima: lse9ha hna o dghet "Rje3 n-nskha"</label><textarea class="mono" id="bkBox"></textarea></div>
+    <div class="row"><button type="button" id="bkImport">Rje3 n-nskha</button></div>
+  </section>
+</div>
+
+<nav class="nav" aria-label="Tabs">
+  <div class="in">
+    <a href="#lyoum">Lyoum</a>
+    <a href="#simana">Simana</a>
+    <a href="#t9eddom">T9eddom</a>
+    <a href="#makla">Makla</a>
+    <a href="#kter">Kter</a>
+  </div>
+</nav>
+
+<script>
+/* ---------- storage: everything lives in this phone's localStorage ---------- */
+const KEY = 'daftar-gym-v1';
+const DEF = { heightCm:173, goalKg:78, kcal:2400, proteinG:170, startDate:'2026-11-17' };
+let S = { plan:{}, checkins:{}, sessions:{}, meals:[] };
+let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true;
+const $ = id => document.getElementById(id);
+function clean(o){
+  const out = { plan:{}, checkins:{}, sessions:{}, meals:[] };
+  if (!o || typeof o !== 'object') return out;
+  if (o.plan && typeof o.plan === 'object') for (const k in DEF) if (o.plan[k] != null) out.plan[k] = o.plan[k];
+  const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s);
+  if (o.checkins && typeof o.checkins === 'object') for (const k in o.checkins) { const c = o.checkins[k]; if (isDate(k) && c && typeof c.weightKg === 'number') out.checkins[k] = { ...c, date:k }; }
+  if (o.sessions && typeof o.sessions === 'object') for (const k in o.sessions) { const s = o.sessions[k]; if (isDate(k) && s && typeof s === 'object') out.sessions[k] = { ...s, date:k }; }
+  if (Array.isArray(o.meals)) out.meals = o.meals.filter(m => m && isDate(m.date || '')).map(m => ({ id:String(m.id || (m.ts + '-' + Math.random().toString(36).slice(2,7))), ts:Number(m.ts) || 0, date:m.date, text:String(m.text || ''), kcal:Number(m.kcal) || 0, proteinG:Number(m.proteinG) || 0, off:!!m.off }));
+  return out;
+}
+function load(){ try { const raw = localStorage.getItem(KEY); if (raw) S = clean(JSON.parse(raw)); } catch (e) { storageOk = false; } sync(); }
+function persist(){ try { localStorage.setItem(KEY, JSON.stringify(S)); storageOk = true; } catch (e) { storageOk = false; } sync(); showStorageState(); return storageOk; }
+function sync(){
+  plan = { ...DEF, ...S.plan };
+  checkins = Object.values(S.checkins).sort((a,b) => a.date < b.date ? -1 : 1);
+  sessions = Object.values(S.sessions).sort((a,b) => a.date < b.date ? 1 : -1);
+  meals = [...S.meals].sort((a,b) => a.ts - b.ts);
+}
+function showStorageState(){ const b = $('banner'); b.hidden = storageOk; b.textContent = storageOk ? '' : 'Had l-mtsaffe7 ma khellanich n7fed l-ma3lomat. Khrej mn l-mode privé wla jerreb Chrome.'; }
+
+/* ---------- helpers ---------- */
+const f1 = n => (n == null || isNaN(n)) ? '—' : Number(n).toFixed(1);
+const iso = d => { const z = new Date(d.getTime() - d.getTimezoneOffset()*60000); return z.toISOString().slice(0,10); };
+const today = () => iso(new Date());
+const dnum = s => new Date(s + 'T00:00:00').getTime();
+const MONTHS = ['Yanayer','Fbrayer','Mars','Abril','May','Yunyu','Yulyuz','Ghucht','Chutanbir','Uktubr','Nuwanbir','Dujanbir'];
+const dShort = s => { const p = s.split('-'); return p[2] + '/' + p[1]; };
+const mLabel = k => { const p = k.split('-'); return MONTHS[+p[1]-1] + ' ' + p[0]; };
+function el(tag, cls, text){ const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function signed(n){ return (n > 0 ? '+' : '') + f1(n); }
+function diffCell(td, n){ if (n == null) { td.textContent = '—'; return; } td.textContent = signed(n); if (n < -0.05) td.classList.add('down'); else if (n > 0.05) td.classList.add('up'); }
+function radioVal(name){ const r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : null; }
+function setRadio(name, v){ document.querySelectorAll('input[name="' + name + '"]').forEach(r => r.checked = (v != null && r.value === String(v))); }
+const numOrNull = id => { const v = $(id).value.trim().replace(',', '.'); if (v === '') return null; const n = Number(v); return isNaN(n) ? null : n; };
+function twoStep(btn, label, run){
+  btn.onclick = () => {
+    if (btn.dataset.sure !== '1'){ btn.dataset.sure = '1'; btn.textContent = 'Mt2ekked?'; setTimeout(() => { btn.dataset.sure = ''; btn.textContent = label; }, 4000); return; }
+    btn.dataset.sure = ''; btn.textContent = label; run();
+  };
+}
+
+/* ---------- summary ---------- */
+function renderStats(){
+  const first = checkins[0], last = checkins[checkins.length-1];
+  $('subline').textContent = plan.heightCm + ' cm · l-hadaf ' + plan.goalKg + ' kg';
+  $('weekChip').textContent = 'Simana ' + dayInfo().week;
+  if (!last){
+    ['sNow','sLost','sLeft','sBmi'].forEach(i => $(i).textContent = '—');
+    $('sNowSub').textContent = 'Twzen o 3emmer tab "Simana"';
+    $('sLostSub').textContent = $('sLeftSub').textContent = $('sBmiSub').textContent = ' ';
+    return;
+  }
+  const setVal = (id, v) => { $(id).textContent = ''; $(id).append(f1(v) + ' ', el('small','', 'kg')); };
+  setVal('sNow', last.weightKg); $('sNowSub').textContent = 'Akhir wazn: ' + dShort(last.date);
+  const lost = first.weightKg - last.weightKg; setVal('sLost', lost);
+  const days = (dnum(last.date) - dnum(first.date)) / 864e5;
+  $('sLostSub').textContent = days >= 7 ? f1(lost / (days/7)) + ' kg f simana' : 'Mn ' + f1(first.weightKg) + ' kg';
+  const left = last.weightKg - plan.goalKg; setVal('sLeft', Math.max(0, left));
+  const rate = days >= 14 ? lost / (days/7) : 0;
+  $('sLeftSub').textContent = (rate > 0.1 && left > 0) ? 'Te9riban ' + Math.ceil(left / rate) + ' simana b had l-iqa3' : 'L-hadaf: ' + plan.goalKg + ' kg';
+  const bmi = last.weightKg / Math.pow(plan.heightCm/100, 2);
+  $('sBmi').textContent = f1(bmi);
+  $('sBmiSub').textContent = bmi < 25 ? 'Wazn 3adi' : bmi < 30 ? 'Fo9 l-wazn chwiya' : 'L-3adi: ta7t 25';
+}
+
+/* ---------- chart ---------- */
+function monthly(){
+  const map = new Map();
+  for (const c of checkins){ const k = c.date.slice(0,7); if (!map.has(k)) map.set(k, []); map.get(k).push(c); }
+  const out = []; let prevEnd = null;
+  for (const [k, arr] of map){
+    const start = prevEnd == null ? arr[0].weightKg : prevEnd, end = arr[arr.length-1].weightKg;
+    const vals = key => arr.map(a => a[key]).filter(x => typeof x === 'number');
+    const avg = key => { const v = vals(key); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; };
+    const sum = key => { const v = vals(key); return v.length ? v.reduce((a,b)=>a+b,0) : null; };
+    out.push({ key:k, weightKg:end, start, diff:end-start, lifts:sum('lifts'), sleep:avg('sleepH'), energy:avg('energy'), diet:avg('dietDays') });
+    prevEnd = end;
+  }
+  return out;
+}
+function renderChart(){
+  const box = $('chart'); box.innerHTML = '';
+  const pts = view === 'week' ? checkins.map(c => ({ x:dnum(c.date), y:c.weightKg, label:dShort(c.date) }))
+                              : monthly().map(m => ({ x:dnum(m.key + '-15'), y:m.weightKg, label:mLabel(m.key) }));
+  if (!pts.length){ box.append(el('div','empty', 'Ba9i ma kayn 7ta wazn. Mnin t3emmer awal istibyan, l-khet dyal l-wazn ghadi yban hna.')); return; }
+  const W = 720, H = 250, m = { l:42, r:54, t:16, b:28 };
+  let lo = Math.min(...pts.map(p => p.y)), hi = Math.max(...pts.map(p => p.y));
+  if (hi - lo < 2){ lo -= 1; hi += 1; }
+  const step = [0.5,1,2,5,10,20].find(s => (hi - lo) / s <= 5) || 20;
+  lo = Math.floor(lo/step)*step; hi = Math.ceil(hi/step)*step;
+  const x0 = pts[0].x, x1 = pts[pts.length-1].x;
+  const X = v => x1 === x0 ? (m.l + (W - m.l - m.r)/2) : m.l + (v - x0)/(x1 - x0) * (W - m.l - m.r);
+  const Y = v => m.t + (hi - v)/(hi - lo) * (H - m.t - m.b);
+  const NS = 'http://www.w3.org/2000/svg';
+  const s = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+  const svg = s('svg', { viewBox:'0 0 ' + W + ' ' + H, role:'img', 'aria-label':'Wazn b kg 3la l-wa9t' });
+  for (let v = lo; v <= hi + 1e-9; v += step){
+    svg.append(s('line', { class:'grid-l', x1:m.l, x2:W - m.r, y1:Y(v), y2:Y(v) }));
+    svg.append(s('text', { class:'axis-t', x:m.l - 8, y:Y(v) + 4, 'text-anchor':'end' }, String(+v.toFixed(1))));
+  }
+  const every = Math.max(1, Math.ceil(pts.length / 6));
+  pts.forEach((p, i) => {
+    const isLast = i === pts.length-1;
+    if (!isLast && (i % every !== 0 || (pts.length-1-i) < every)) return;
+    svg.append(s('text', { class:'axis-t', x:X(p.x), y:H - 8, 'text-anchor':'middle' }, p.label));
+  });
+  if (pts.length > 1){
+    const d = pts.map((p,i) => (i ? 'L' : 'M') + X(p.x).toFixed(1) + ' ' + Y(p.y).toFixed(1)).join(' ');
+    svg.append(s('path', { class:'area', d: d + ' L' + X(x1).toFixed(1) + ' ' + (H - m.b) + ' L' + X(x0).toFixed(1) + ' ' + (H - m.b) + ' Z' }));
+    svg.append(s('path', { class:'ln', d }));
+  }
+  pts.forEach(p => svg.append(s('circle', { class:'dot', cx:X(p.x), cy:Y(p.y), r:4.5 })));
+  const lastP = pts[pts.length-1];
+  svg.append(s('text', { class:'end-t', x:X(lastP.x) + 9, y:Y(lastP.y) + 4 }, f1(lastP.y) + ' kg'));
+  const cross = s('line', { class:'cross', y1:m.t, y2:H - m.b, x1:0, x2:0, visibility:'hidden' });
+  svg.append(cross);
+  const tip = el('div','tip'); tip.hidden = true;
+  box.append(svg, tip);
+  const move = ev => {
+    const r = svg.getBoundingClientRect(); const px = (ev.clientX - r.left) / r.width * W;
+    let best = pts[0]; for (const p of pts) if (Math.abs(X(p.x) - px) < Math.abs(X(best.x) - px)) best = p;
+    cross.setAttribute('x1', X(best.x)); cross.setAttribute('x2', X(best.x)); cross.setAttribute('visibility','visible');
+    tip.textContent = best.label + ' · ' + f1(best.y) + ' kg'; tip.hidden = false;
+    tip.style.left = Math.min(86, Math.max(14, X(best.x) / W * 100)) + '%'; tip.style.top = (Y(best.y) / H * r.height) + 'px';
+  };
+  svg.addEventListener('pointermove', move); svg.addEventListener('pointerdown', move);
+  svg.addEventListener('pointerleave', () => { tip.hidden = true; cross.setAttribute('visibility','hidden'); });
+  if (pts.length === 1) box.append(el('p','muted small', 'N9ta wa7da daba. Mn simana jaya ghadi yban l-khet.'));
+}
+
+/* ---------- tables ---------- */
+function renderTable(){
+  const wrap = $('tableWrap'); wrap.innerHTML = '';
+  if (!checkins.length) return;
+  const t = el('table'), th = el('thead'), tb = el('tbody'), hr = el('tr');
+  const heads = view === 'week'
+    ? [['Date',0],['Wazn',1],['Far9',1],['7adid',1],['Mchi',1],['N3ass',1],['Ta9a',1],['Makla',1],['Khobz/sokkar',0],['Molahadat',0],['',0]]
+    : [['Chher',0],['Bdya',1],['Niheya',1],['Far9',1],['7adid',1],['N3ass',1],['Ta9a',1],['Makla',1]];
+  heads.forEach(h => hr.append(el('th', h[1] ? 'n' : '', h[0])));
+  th.append(hr); t.append(th, tb);
+  const num = (v, suf) => { const td = el('td','n'); td.textContent = (typeof v === 'number') ? (Number.isInteger(v) ? v : f1(v)) + (suf || '') : '—'; return td; };
+  if (view === 'week'){
+    [...checkins].reverse().forEach((c, i, arr) => {
+      const prev = arr[i+1], tr = el('tr');
+      tr.append(el('td','num', c.date), num(c.weightKg, ' kg'));
+      const d = el('td','n'); diffCell(d, prev ? c.weightKg - prev.weightKg : null); tr.append(d);
+      tr.append(num(c.lifts), num(c.walkDays, '/7'), num(c.sleepH, ' h'), num(c.energy, '/5'), num(c.dietDays, '/7'));
+      tr.append(el('td','', c.cheat || '—'));
+      const note = el('td','', c.note || ''); note.style.minWidth = '160px'; tr.append(note);
+      const act = el('td'), ed = el('button','link','Beddel'), del = el('button','link','7iyed'); ed.type = del.type = 'button';
+      ed.onclick = () => { fillForm(c); location.hash = 'simana'; };
+      twoStep(del, '7iyed', () => { delete S.checkins[c.date]; persist(); renderAll(); });
+      act.style.whiteSpace = 'nowrap'; act.append(ed, del); tr.append(act); tb.append(tr);
+    });
+  } else {
+    [...monthly()].reverse().forEach(mo => {
+      const tr = el('tr'); tr.append(el('td','', mLabel(mo.key)), num(mo.start, ' kg'), num(mo.weightKg, ' kg'));
+      const d = el('td','n'); diffCell(d, mo.diff); tr.append(d);
+      tr.append(num(mo.lifts), num(mo.sleep, ' h'), num(mo.energy, '/5'), num(mo.diet, '/7')); tb.append(tr);
+    });
+  }
+  wrap.append(t);
+}
+
+/* ---------- weekly form ---------- */
+function fillForm(c){
+  $('ciDate').value = c.date; $('ciWeight').value = c.weightKg == null ? '' : c.weightKg; $('ciWaist').value = c.waistCm == null ? '' : c.waistCm;
+  $('ciLift').value = c.lifts == null ? '' : c.lifts; $('ciWalk').value = c.walkDays == null ? '' : c.walkDays; $('ciSleep').value = c.sleepH == null ? '' : c.sleepH;
+  $('ciDiet').value = c.dietDays == null ? '' : c.dietDays; $('ciNote').value = c.note || '';
+  setRadio('ciCheat', c.cheat); setRadio('ciEnergy', c.energy);
+  $('ciMsg').textContent = 'Kat3eddel simana dyal ' + c.date;
+}
+$('ciForm').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const msg = $('ciMsg'), date = $('ciDate').value, w = numOrNull('ciWeight');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)){ msg.textContent = 'Khtar date.'; $('ciDate').focus(); return; }
+  if (w == null || w < 40 || w > 250){ msg.textContent = 'Kteb l-wazn b kg (matalan 114.2).'; $('ciWeight').focus(); return; }
+  const doc = { date, weightKg: Math.round(w*10)/10, savedAt: new Date().toISOString() };
+  const opt = { waistCm:numOrNull('ciWaist'), lifts:numOrNull('ciLift'), walkDays:numOrNull('ciWalk'), sleepH:numOrNull('ciSleep'), dietDays:numOrNull('ciDiet') };
+  for (const k in opt) if (opt[k] != null) doc[k] = opt[k];
+  const e = radioVal('ciEnergy'); if (e) doc.energy = Number(e);
+  const ch = radioVal('ciCheat'); if (ch) doc.cheat = ch;
+  const note = $('ciNote').value.trim(); if (note) doc.note = note;
+  S.checkins[date] = doc;
+  if (!persist()){ msg.textContent = 'Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.'; return; }
+  msg.textContent = 'Tsejjlat simana dyal ' + date + '.';
+  ['ciWaist','ciLift','ciWalk','ciSleep','ciDiet','ciNote','ciWeight'].forEach(i => $(i).value = '');
+  setRadio('ciCheat', null); setRadio('ciEnergy', null); renderAll();
+});
+
+/* ---------- today's session ---------- */
+// [key, name, sets, reps, takes a weight]
+const PROGRAM = {
+  A: { am:[['leg-press','Leg press',3,'10-12',1],['plank','Plank',3,'20-40 tanya',0],['mchi','Mchi 3la tapis',1,'20-30 d9i9a',0]],
+       pm:[['chest-press','Chest press',3,'10-12',1],['lat-pulldown','Lat pulldown',3,'10-12',1],['lateral-raises','Lateral raises',2,'12-15',1]] },
+  B: { am:[['romanian-deadlift','Romanian deadlift b haltères',3,'10',1],['leg-curl','Leg curl',2,'12',1],['mchi','Mchi 3la tapis',1,'20-30 d9i9a',0]],
+       pm:[['seated-row','Seated row',3,'10-12',1],['shoulder-press','Shoulder press b haltères',3,'10-12',1],['biceps-curl','Biceps curl',2,'12',1]] },
+  C: { am:[['goblet-squat','Goblet squat (wla squat 3la banc)',3,'10',1],['calf-raises','Calf raises',3,'15',1],['mchi','Mchi 3la tapis',1,'20-30 d9i9a',0]],
+       pm:[['incline-press','Développé incliné b haltères',3,'10-12',1],['cable-row','Tirage horizontal',3,'10-12',1],['triceps-pushdown','Triceps pushdown',2,'12',1]] },
+  L: { am:[['cardio','Vélo wla tapis, khfif',1,'30 d9i9a',0]], pm:[['stretch','Étirements',1,'10 d9ay9',0],['plank','Plank',3,'20-40 tanya',0]] }
+};
+let sessDirty = false, sessShown = '';
+function dayInfo(){
+  const idx = Math.round((dnum(today()) - dnum(plan.startDate)) / 864e5), pre = idx < 0;
+  return { day: ['A','B','C','A','B','C','L'][pre ? 0 : idx % 7], week: pre ? 1 : Math.floor(idx / 7) + 1, pre };
+}
+function lastKg(key){
+  const t = today();
+  for (const s of sessions) if (s.date < t && s.items && s.items[key] && typeof s.items[key].kg === 'number') return s.items[key].kg;
+  return null;
+}
+function renderSession(force){
+  const info = dayInfo(), mine = S.sessions[today()];
+  const stamp = today() + info.day + info.week + (mine ? mine.savedAt : '');
+  if (!force && (sessDirty || stamp === sessShown)) return;
+  sessShown = stamp; sessDirty = false;
+  $('sxDay').textContent = info.day === 'L' ? 'Nhar khfif' : 'Nhar ' + info.day;
+  $('sxSub').textContent = info.pre ? 'Katbda nhar ' + dShort(plan.startDate) + '. Hada howa awal nhar.' : (info.week <= 2 ? 'Simana ' + info.week + ': 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.' : 'Simana ' + info.week + ': khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.');
+  const body = $('sxBody'); body.innerHTML = '';
+  const prog = PROGRAM[info.day];
+  [['am','Sba7'],['pm','3chiya']].forEach(part => {
+    body.append(el('div','part', part[1]));
+    prog[part[0]].forEach(x => {
+      const key = x[0], name = x[1], sets = x[2], reps = x[3], hasKg = x[4];
+      const saved = (mine && mine.items && mine.items[key]) || {};
+      const n = info.week <= 2 ? Math.min(sets, 2) : sets;
+      const row = el('div','ex'), cb = el('input'); cb.type = 'checkbox'; cb.id = 'sx-' + key + '-done'; cb.checked = !!saved.done; cb.setAttribute('aria-label', name + ': derta');
+      const nm = el('div','nm', name), prev = hasKg ? lastKg(key) : null;
+      nm.append(el('span','num', (sets > 1 || hasKg ? n + ' x ' : '') + reps + (prev != null ? ' · akhir merra ' + prev + ' kg' : '')));
+      row.append(cb, nm);
+      if (hasKg){
+        const kg = el('div','kg'), inp = el('input'); inp.type = 'number'; inp.step = '0.5'; inp.min = '0'; inp.max = '500'; inp.inputMode = 'decimal'; inp.id = 'sx-' + key + '-kg';
+        inp.setAttribute('aria-label', name + ': wazn b kg'); if (typeof saved.kg === 'number') inp.value = saved.kg; else if (prev != null) inp.placeholder = prev;
+        inp.addEventListener('input', () => { sessDirty = true; }); kg.append(inp, 'kg'); row.append(kg);
+      } else row.append(el('span'));
+      cb.addEventListener('change', saveSession);
+      body.append(row);
+    });
+  });
+  setRadio('sxFeel', mine ? mine.feel : null); $('sxNote').value = mine && mine.note ? mine.note : '';
+}
+function saveSession(){
+  const msg = $('sxMsg'), info = dayInfo(), prog = PROGRAM[info.day], items = {};
+  [...prog.am, ...prog.pm].forEach(x => {
+    const key = x[0], it = { done: $('sx-' + key + '-done').checked };
+    if (x[4]){ const v = $('sx-' + key + '-kg').value.trim().replace(',', '.'), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.kg = n; }
+    if (it.done || it.kg != null) items[key] = it;
+  });
+  const feel = radioVal('sxFeel'), note = $('sxNote').value.trim();
+  if (!Object.keys(items).length && !feel && !note){ msg.textContent = '3ellem 3la l-exercices li derti wla kteb l-awzan.'; return; }
+  const doc = { date: today(), day: info.day, week: info.week, items, savedAt: new Date().toISOString() };
+  if (feel) doc.feel = feel; if (note) doc.note = note;
+  S.sessions[doc.date] = doc;
+  if (!persist()){ msg.textContent = 'Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.'; return; }
+  sessDirty = false; sessShown = today() + info.day + info.week + doc.savedAt;
+  const done = Object.values(items).filter(i => i.done).length, total = prog.am.length + prog.pm.length;
+  msg.textContent = 'Tsejjlat (' + done + '/' + total + ').' + (done === total ? ' Bsa7a o ra7a.' : '');
+}
+$('sxSave').onclick = saveSession;
+$('sxNote').addEventListener('input', () => { sessDirty = true; });
+document.querySelectorAll('input[name="sxFeel"]').forEach(r => r.addEventListener('change', saveSession));
+
+/* ---------- food ---------- */
+// [name, kcal, protein g, off-plan]
+const FOODS = [
+  ['Bida meslou9a (1)',78,6],['Sder djaj 100 g',165,31],['7okka tun b l-ma',120,26],['Sardine mechwi 100 g',200,24],['Kefta 100 g',250,20],
+  ['3des, t9ebsil',290,20],['Loubia, t9ebsil',300,19],['Rouz mteyeb 150 g',195,4],['Btata meslou9a 200 g',170,4],['Chofan 60 g',230,8],
+  ['7lib, kas',120,8],['Lben, kas',100,8],['Raib wla yaourt nature',80,5],['Louz 30 g',175,6],['Banana',100,1],['Teffa7a',80,0],
+  ['Chlada, t9ebsil',40,2],['Khodra d tajine, t9ebsil',150,4],['Zit zitoun, mel3e9a kbira',120,0],['Harira, zlafa',180,8],
+  ['Khobz, rbe3 khobza',150,5,1],['Atay b sokkar, kas',60,0,1],['Monada, kas',105,0,1]
+];
+function todayMeals(){ const t = today(); return meals.filter(m => m.date === t); }
+function addMeal(text, kcal, prot, off){
+  S.meals.push({ id: Date.now() + '-' + Math.random().toString(36).slice(2,7), ts: Date.now(), date: today(), text, kcal: Math.round(kcal || 0), proteinG: Math.round(prot || 0), off: !!off });
+  const ok = persist(); renderMeals(); return ok;
+}
+function renderFoods(){
+  const box = $('foods'); box.innerHTML = '';
+  FOODS.forEach(f => {
+    const b = el('button', f[3] ? 'off' : '', (f[3] ? '✕ ' : '') + f[0]); b.type = 'button';
+    b.append(el('small','', f[1] + ' kcal · ' + f[2] + ' g'));
+    b.onclick = () => { $('mealMsg').textContent = addMeal(f[0], f[1], f[2], f[3]) ? 'Tzadet: ' + f[0] : 'Ma tzadetch.'; };
+    box.append(b);
+  });
+}
+function renderMeals(){
+  const list = todayMeals();
+  const kcal = list.reduce((a,m) => a + m.kcal, 0), prot = list.reduce((a,m) => a + m.proteinG, 0), offs = list.filter(m => m.off).length;
+  $('mKcalTxt').textContent = kcal + ' / ' + plan.kcal + ' kcal';
+  $('mProtTxt').textContent = prot + ' / ' + plan.proteinG + ' g';
+  const kb = $('mKcalBar'), pb = $('mProtBar');
+  kb.style.width = Math.min(100, kcal / plan.kcal * 100) + '%'; kb.classList.toggle('over', kcal > plan.kcal * 1.05);
+  pb.style.width = Math.min(100, prot / plan.proteinG * 100) + '%';
+  const v = $('mVerdict');
+  if (!list.length) v.textContent = '';
+  else if (offs) v.textContent = '✕ Lyoum kayn ' + offs + ' d l-7wayej li machi f l-plan (khobz wla sokkar).';
+  else if (kcal > plan.kcal * 1.05) v.textContent = '✕ Fetti l-hadaf b ' + (kcal - plan.kcal) + ' kcal. Ghedda rje3 l l-plan, bla ma t3a9eb rassek.';
+  else if (kcal >= plan.kcal * 0.85 && prot >= plan.proteinG * 0.85) v.textContent = '✓ Nhar mzyan: l-calories o l-protein f blassthom.';
+  else if (kcal >= plan.kcal * 0.85) v.textContent = '~ L-calories kamlin walakin l-protein na9es b ' + Math.max(0, plan.proteinG - prot) + ' g. Zid tun, bid wla djaj.';
+  else v.textContent = 'Ba9i lik ' + Math.max(0, plan.kcal - kcal) + ' kcal o ' + Math.max(0, plan.proteinG - prot) + ' g protein.';
+  const box = $('mealsToday'); box.innerHTML = '';
+  if (!list.length){ box.append(el('p','muted small', 'Ba9i ma sejjelti 7ta wejba lyoum.')); return; }
+  list.forEach(m => {
+    const row = el('div','meal'), left = el('div','txt', (m.off ? '✕ ' : '') + (m.text || 'Wejba')), side = el('div','side');
+    side.append(el('div','num', m.kcal + ' kcal · ' + m.proteinG + ' g'));
+    const del = el('button','link','7iyed'); del.type = 'button';
+    twoStep(del, '7iyed', () => { S.meals = S.meals.filter(x => x.id !== m.id); persist(); renderMeals(); });
+    side.append(del); row.append(left, side); box.append(row);
+  });
+}
+$('mealAdd').onclick = () => {
+  const text = $('mealText').value.trim(), msg = $('mealMsg');
+  if (!text){ msg.textContent = 'Kteb ach kliti.'; $('mealText').focus(); return; }
+  const k = numOrNull('mealKcal'), p = numOrNull('mealProt');
+  if (addMeal(text, k, p, /khobz|sokkar|monada|7elwa|msemen|chebbakiya/i.test(text))){
+    msg.textContent = (k == null) ? 'Tzadet bla calories. Goulha l Claude f t-ta9rir o howa y9eddarha.' : 'Tzadet.';
+    $('mealText').value = $('mealKcal').value = $('mealProt').value = '';
+  } else msg.textContent = 'Ma tzadetch.';
+};
+
+/* ---------- report for the coach ---------- */
+function report(){
+  const L = [], info = dayInfo();
+  L.push('GYM REPORT ' + today() + ' (mn l-app Daftar l-Gym)');
+  L.push('Plan: ' + plan.heightCm + ' cm, goal ' + plan.goalKg + ' kg, ' + plan.kcal + ' kcal + ' + plan.proteinG + ' g protein/day, start ' + plan.startDate + '. Today = week ' + info.week + ', day ' + info.day + '.');
+  L.push(''); L.push('WEIGH-INS:');
+  if (!checkins.length) L.push('  (none yet)');
+  checkins.forEach(c => L.push('  ' + c.date + ': ' + c.weightKg + ' kg' + (c.waistCm != null ? ', waist ' + c.waistCm + ' cm' : '') + (c.lifts != null ? ', lifts ' + c.lifts : '') + (c.walkDays != null ? ', walk ' + c.walkDays + '/7' : '') + (c.sleepH != null ? ', sleep ' + c.sleepH + 'h' : '') + (c.energy != null ? ', energy ' + c.energy + '/5' : '') + (c.dietDays != null ? ', diet ' + c.dietDays + '/7' : '') + (c.cheat ? ', bread/sugar: ' + c.cheat : '') + (c.note ? ' | ' + c.note : '')));
+  L.push(''); L.push('SESSIONS (last 14, newest first):');
+  if (!sessions.length) L.push('  (none yet)');
+  sessions.slice(0, 14).forEach(s => {
+    const items = Object.keys(s.items || {}).map(k => k + (s.items[k].kg != null ? ' ' + s.items[k].kg + 'kg' : '') + (s.items[k].done ? ' done' : ' NOT done')).join(', ');
+    L.push('  ' + s.date + ' day ' + s.day + ' (week ' + s.week + ')' + (s.feel ? ', felt ' + s.feel : '') + ': ' + (items || 'nothing ticked') + (s.note ? ' | ' + s.note : ''));
+  });
+  L.push(''); L.push('FOOD (last 7 days):');
+  const byDay = {}; meals.forEach(m => { (byDay[m.date] = byDay[m.date] || []).push(m); });
+  const days = Object.keys(byDay).sort().slice(-7);
+  if (!days.length) L.push('  (none yet)');
+  days.forEach(d => { const a = byDay[d]; L.push('  ' + d + ': ' + a.reduce((x,m) => x + m.kcal, 0) + ' kcal, ' + a.reduce((x,m) => x + m.proteinG, 0) + ' g protein | ' + a.map(m => m.text + (m.kcal ? '' : ' (kcal unknown)')).join('; ')); });
+  return L.join('\n');
+}
+async function copyText(text, box, msg, okText){
+  box.value = text; box.hidden = false;
+  try { await navigator.clipboard.writeText(text); msg.textContent = okText; }
+  catch (e) { box.focus(); box.select(); msg.textContent = 'Nskho b yeddik: dghet mtewwel 3la n-ness o khtar "Copier".'; }
+}
+$('repCopy').onclick = () => copyText(report(), $('repBox'), $('repMsg'), 'Tnskh. Lse9o daba f Claude Code wla OpenCode.');
+
+/* ---------- plan + backup ---------- */
+function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; }
+$('pSave').onclick = () => {
+  const h = numOrNull('pHeight'), g = numOrNull('pGoal'), k = numOrNull('pKcal'), p = numOrNull('pProt'), st = $('pStart').value, msg = $('pMsg');
+  if (!h || !g || !k || !p || !/^\d{4}-\d{2}-\d{2}$/.test(st)){ msg.textContent = '3emmer ga3 l-khanat.'; return; }
+  S.plan = { heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st };
+  msg.textContent = persist() ? 'L-plan tsejjel.' : 'Ma tsejjelch.'; renderAll(true);
+};
+$('bkShow').onclick = () => copyText(JSON.stringify(S), $('bkBox'), $('bkMsg'), 'N-nskha tnskhat. Sifetha l rassek f WhatsApp wla Telegram.');
+$('bkExport').onclick = () => {
+  try {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type:'application/json' }));
+    a.download = 'daftar-gym-' + today() + '.json'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    $('bkMsg').textContent = 'L-fichier khrej l Téléchargements.';
+  } catch (e) { $('bkMsg').textContent = 'Ma khrejch. Dghet "Werri n-nskha" o nskhha.'; }
+};
+twoStep($('bkImport'), 'Rje3 n-nskha', () => {
+  const msg = $('bkMsg');
+  try {
+    const parsed = clean(JSON.parse($('bkBox').value));
+    if (!Object.keys(parsed.checkins).length && !Object.keys(parsed.sessions).length && !parsed.meals.length && !Object.keys(parsed.plan).length){ msg.textContent = 'Had n-nskha khawya wla machi dyal had l-app.'; return; }
+    S = parsed; msg.textContent = persist() ? 'N-nskha rej3at.' : 'Ma rej3atch.'; fillPlan(); renderAll(true);
+  } catch (e) { msg.textContent = 'N-ness li lse9ti machi nskha s7i7a.'; }
+});
+
+/* ---------- tabs ---------- */
+const VIEWS = ['lyoum','simana','t9eddom','makla','kter'];
+function route(){
+  const h = location.hash.slice(1), v = VIEWS.includes(h) ? h : 'lyoum';
+  document.querySelectorAll('[data-view]').forEach(e => { e.hidden = e.dataset.view !== v; });
+  document.querySelectorAll('.nav a').forEach(a => { if (a.getAttribute('href') === '#' + v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- boot ---------- */
+function renderAll(force){ renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); }
+function setView(v){ view = v; $('vWeek').setAttribute('aria-pressed', v === 'week'); $('vMonth').setAttribute('aria-pressed', v === 'month'); renderChart(); renderTable(); }
+$('vWeek').onclick = () => setView('week'); $('vMonth').onclick = () => setView('month');
+load(); showStorageState();
+$('ciDate').value = today(); fillPlan(); renderFoods(); route(); renderAll(true);
+// A new day starts while the app stays open in the background: refresh when it comes back.
+document.addEventListener('visibilitychange', () => { if (!document.hidden) renderAll(); });
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
