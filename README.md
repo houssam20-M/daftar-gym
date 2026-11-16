@@ -1,0 +1,56 @@
+# Daftar l-Gym
+
+App sghira dyal telephone bach ttebbe3 l-gym o l-makla. Katkhdem bla internet, o l-ma3lomat kayb9aw f telephone dyalek bo7do.
+
+**L-lien:** https://houssam20-m.github.io/daftar-gym/
+
+## Kifach trekkebha
+
+1. 7ell l-lien f Chrome dyal telephone (merra wa7da, b internet).
+2. 3 n9at l-fo9, "Installer l'application" wla "Ajouter à l'écran d'accueil".
+3. Mn b3d katdkhol mn l-icône nichan, 7ta bla internet.
+
+## Ach fiha
+
+| Tab | Ach kaydir |
+|---|---|
+| Lyoum | Seance d nhar (A, B, C wla nhar khfif). Kat3ellem 3la l-exercices o katkteb l-kg. |
+| Simana | Istibyan d kol simana: wazn, n3ass, ta9a, makla. |
+| T9eddom | Graphique dyal l-wazn, b simana wla b chher. |
+| Makla | Katzid li kliti o kat7seb l-calories o l-protein 3la l-hadaf dyal nhar. |
+| Kter | Ta9rir l l-coach, l-plan (toul, hadaf, calories), o nskha i7tiyatiya. |
+
+## L-programme
+
+Full body, kol nhar m9soum 3la jouj: rjlin o mchi f sba7, l-fou9 f l-3chiya.
+Tertib: A, B, C, A, B, C, nhar khfif, o t3awed.
+
+| Nhar | Sba7 | 3chiya |
+|---|---|---|
+| A | Leg press, plank, mchi | Chest press, lat pulldown, lateral raises |
+| B | Romanian deadlift, leg curl, mchi | Seated row, shoulder press, biceps curl |
+| C | Goblet squat, calf raises, mchi | Développé incliné, tirage horizontal, triceps pushdown |
+| Khfif | Vélo wla tapis 30 d9i9a | Étirements, plank |
+
+## L-ma3lomat
+
+- Kolchi kayt7fed f `localStorage` dyal l-mtsaffe7 f telephone. Walou ma kaymchi l chi serveur.
+- Ila ms7ti l-ma3lomat dyal Chrome wla beddelti telephone, kaydi3o. Dir "Khrej nskha" f tab Kter merra f simana.
+- "Nskh t-ta9rir" kay3tik ness fih l-wazn, l-awzan dyal l-exercices o l-makla, bach tlse9o l l-coach.
+
+## L-fichiers
+
+| Fichier | Ach howa |
+|---|---|
+| `index.html` | L-app kamla: HTML, CSS o JavaScript f fichier wa7ed |
+| `sw.js` | Service worker: howa li kaykhelliha tkhdem bla internet |
+| `manifest.webmanifest` | Smiya, l-alwan o l-icônes dyal t-terkib |
+| `icon-192.png`, `icon-512.png` | L-logo |
+
+## Bach tbeddel chi 7aja
+
+1. Beddel `index.html`.
+2. F `sw.js`, zid ra9m f `CACHE` (matalan `daftar-gym-v2`). Bla hadi, telephone kayb9a 3la n-nskha l-9dima.
+3. `git commit` o `git push`. Telephone kayakhod n-nskha jdida mnin t7ell l-app b internet.
+
+L-ar9am dyal l-calories f l-app ta9ribiya.
