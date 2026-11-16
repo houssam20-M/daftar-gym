@@ -43,6 +43,7 @@ p{margin:0}
 header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .logo{width:48px;height:48px;flex:none;border-radius:11px}
+.setup-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .week-chip{font-weight:700;background:var(--accent-soft);color:var(--ink);padding:6px 12px;border-radius:999px;font-size:14px}
 
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -139,7 +140,67 @@ summary{cursor:pointer;font-weight:700}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="setup" hidden>
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11967A"/><stop offset="1" stop-color="#0A5F4E"/></linearGradient></defs>
+      <rect width="100" height="100" rx="23" fill="url(#lg2)"/>
+      <g transform="rotate(-30 50 50)">
+        <rect x="18" y="38.5" width="7" height="23" rx="2.5" fill="#BDEBDD"/>
+        <rect x="75" y="38.5" width="7" height="23" rx="2.5" fill="#BDEBDD"/>
+        <rect x="25.5" y="33" width="9" height="34" rx="3" fill="#FFFFFF"/>
+        <rect x="65.5" y="33" width="9" height="34" rx="3" fill="#FFFFFF"/>
+        <rect x="33" y="47.2" width="34" height="5.6" rx="2.8" fill="#FFFFFF"/>
+      </g>
+    </svg>
+    <div>
+      <h1>Daftar l-Gym</h1>
+      <p class="muted">Mer7ba. 3emmer l-ma3lomat dyalek merra wa7da.</p>
+    </div>
+  </div>
+
+  <section class="block" id="suForm">
+    <div>
+      <h2>Chkoun nta?</h2>
+      <p class="muted small">Bihom kan7seb lik l-calories o l-protein dyal kol nhar. Hadchi kayb9a f telephone dyalek bo7do.</p>
+    </div>
+    <div class="grid">
+      <div class="field wide"><span class="flabel">Jins</span>
+        <div class="seg" role="radiogroup" aria-label="Jins">
+          <input type="radio" name="suSex" id="suSexM" value="m"><label for="suSexM">Rajel</label>
+          <input type="radio" name="suSex" id="suSexF" value="f"><label for="suSexF">Mra</label>
+        </div>
+      </div>
+      <div class="field"><label for="suAge">L-3mer (3am)</label><input id="suAge" type="number" min="14" max="90" step="1" inputmode="numeric"></div>
+      <div class="field"><label for="suHeight">Toul (cm)</label><input id="suHeight" type="number" min="120" max="230" step="1" inputmode="numeric"></div>
+      <div class="field"><label for="suWeight">Wazn daba (kg)</label><input id="suWeight" type="number" min="40" max="250" step="0.1" inputmode="decimal"></div>
+      <div class="field"><label for="suGoal">L-wazn li bghiti twsel lih (kg)</label><input id="suGoal" type="number" min="40" max="200" step="0.5" inputmode="decimal"></div>
+      <div class="field"><label for="suStart">Awal nhar d gym</label><input id="suStart" type="date"></div>
+    </div>
+    <div class="row">
+      <button class="primary" type="button" id="suGo">7seb l-plan dyali</button>
+      <span class="msg" id="suMsg" role="status"></span>
+    </div>
+  </section>
+
+  <section class="block" id="suResult" hidden>
+    <div>
+      <h2>L-plan dyalek</h2>
+      <p class="muted small" id="suWhy">&nbsp;</p>
+    </div>
+    <div class="setup-tiles">
+      <div class="stat"><div class="lbl">Calories f nhar</div><div class="val num" id="suKcal">—</div></div>
+      <div class="stat"><div class="lbl">Protein f nhar</div><div class="val num" id="suProt">—</div></div>
+    </div>
+    <p class="muted small">Ar9am ta9ribiya. T9der tbeddelhom mn b3d f tab "Kter".</p>
+    <div class="row">
+      <button class="primary" type="button" id="suEnter">Dkhol l l-app</button>
+      <button type="button" id="suBack">Rje3 beddel</button>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="app" hidden>
   <header class="top">
     <div class="brand">
       <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
@@ -155,7 +216,7 @@ summary{cursor:pointer;font-weight:700}
       </svg>
       <div>
         <h1>Daftar l-Gym</h1>
-        <p class="muted" id="subline">173 cm · l-hadaf 78 kg</p>
+        <p class="muted" id="subline">&nbsp;</p>
       </div>
     </div>
     <span class="week-chip num" id="weekChip">Simana 1</span>
@@ -253,8 +314,8 @@ summary{cursor:pointer;font-weight:700}
       <div class="rules"><span class="pill">✕ Bla khobz</span><span class="pill">✕ Bla sokkar</span><span class="pill">3 L ma</span></div>
     </div>
     <div class="targets">
-      <div class="meter"><div class="top"><span>Calories lyoum</span><span class="num" id="mKcalTxt">0 / 2400 kcal</span></div><div class="bar"><i id="mKcalBar"></i></div></div>
-      <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 / 170 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
+      <div class="meter"><div class="top"><span>Calories lyoum</span><span class="num" id="mKcalTxt">0 kcal</span></div><div class="bar"><i id="mKcalBar"></i></div></div>
+      <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
     </div>
     <p class="msg" id="mVerdict" role="status"></p>
 
@@ -339,7 +400,7 @@ summary{cursor:pointer;font-weight:700}
   </section>
 </div>
 
-<nav class="nav" aria-label="Tabs">
+<nav class="nav" id="nav" aria-label="Tabs" hidden>
   <div class="in">
     <a href="#lyoum">Lyoum</a>
     <a href="#simana">Simana</a>
@@ -352,7 +413,8 @@ summary{cursor:pointer;font-weight:700}
 <script>
 /* ---------- storage: everything lives in this phone's localStorage ---------- */
 const KEY = 'daftar-gym-v1';
-const DEF = { heightCm:173, goalKg:78, kcal:2400, proteinG:170, startDate:'2026-11-17' };
+// No built-in numbers: every phone starts empty and fills these in on the first-run screen.
+const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null };
 let S = { plan:{}, checkins:{}, sessions:{}, meals:[] };
 let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true;
 const $ = id => document.getElementById(id);
@@ -680,7 +742,7 @@ $('mealAdd').onclick = () => {
 function report(){
   const L = [], info = dayInfo();
   L.push('GYM REPORT ' + today() + ' (mn l-app Daftar l-Gym)');
-  L.push('Plan: ' + plan.heightCm + ' cm, goal ' + plan.goalKg + ' kg, ' + plan.kcal + ' kcal + ' + plan.proteinG + ' g protein/day, start ' + plan.startDate + '. Today = week ' + info.week + ', day ' + info.day + '.');
+  L.push('Plan: ' + (plan.sex ? (plan.sex === 'f' ? 'female, ' : 'male, ') : '') + (plan.age ? plan.age + 'y, ' : '') + plan.heightCm + ' cm, goal ' + plan.goalKg + ' kg, ' + plan.kcal + ' kcal + ' + plan.proteinG + ' g protein/day, start ' + plan.startDate + '. Today = week ' + info.week + ', day ' + info.day + '.');
   L.push(''); L.push('WEIGH-INS:');
   if (!checkins.length) L.push('  (none yet)');
   checkins.forEach(c => L.push('  ' + c.date + ': ' + c.weightKg + ' kg' + (c.waistCm != null ? ', waist ' + c.waistCm + ' cm' : '') + (c.lifts != null ? ', lifts ' + c.lifts : '') + (c.walkDays != null ? ', walk ' + c.walkDays + '/7' : '') + (c.sleepH != null ? ', sleep ' + c.sleepH + 'h' : '') + (c.energy != null ? ', energy ' + c.energy + '/5' : '') + (c.dietDays != null ? ', diet ' + c.dietDays + '/7' : '') + (c.cheat ? ', bread/sugar: ' + c.cheat : '') + (c.note ? ' | ' + c.note : '')));
@@ -709,7 +771,7 @@ function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan
 $('pSave').onclick = () => {
   const h = numOrNull('pHeight'), g = numOrNull('pGoal'), k = numOrNull('pKcal'), p = numOrNull('pProt'), st = $('pStart').value, msg = $('pMsg');
   if (!h || !g || !k || !p || !/^\d{4}-\d{2}-\d{2}$/.test(st)){ msg.textContent = '3emmer ga3 l-khanat.'; return; }
-  S.plan = { heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st };
+  S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st };
   msg.textContent = persist() ? 'L-plan tsejjel.' : 'Ma tsejjelch.'; renderAll(true);
 };
 $('bkShow').onclick = () => copyText(JSON.stringify(S), $('bkBox'), $('bkMsg'), 'N-nskha tnskhat. Sifetha l rassek f WhatsApp wla Telegram.');
@@ -725,6 +787,7 @@ twoStep($('bkImport'), 'Rje3 n-nskha', () => {
   try {
     const parsed = clean(JSON.parse($('bkBox').value));
     if (!Object.keys(parsed.checkins).length && !Object.keys(parsed.sessions).length && !parsed.meals.length && !Object.keys(parsed.plan).length){ msg.textContent = 'Had n-nskha khawya wla machi dyal had l-app.'; return; }
+    if (!hasPlan(parsed.plan)) parsed.plan = S.plan;
     S = parsed; msg.textContent = persist() ? 'N-nskha rej3at.' : 'Ma rej3atch.'; fillPlan(); renderAll(true);
   } catch (e) { msg.textContent = 'N-ness li lse9ti machi nskha s7i7a.'; }
 });
@@ -739,12 +802,48 @@ function route(){
 }
 window.addEventListener('hashchange', route);
 
+/* ---------- first run ---------- */
+function hasPlan(p){ return !!p && ['heightCm','goalKg','kcal','proteinG','startDate'].every(k => p[k] != null && p[k] !== ''); }
+// Mifflin-St Jeor resting burn x 1.5 (training most days). Losing weight: 24% under that. Protein: 2.2 g per kg of goal weight.
+function calcPlan(sex, age, h, w, goal){
+  const tdee = (10*w + 6.25*h - 5*age + (sex === 'f' ? -161 : 5)) * 1.5, losing = goal < w - 1;
+  const kcal = Math.max(sex === 'f' ? 1300 : 1500, Math.round((losing ? tdee * 0.76 : tdee) / 50) * 50);
+  return { kcal, proteinG: Math.min(220, Math.max(90, Math.round(2.2 * goal / 5) * 5)), tdee: Math.round(tdee / 50) * 50, losing };
+}
+let pending = null;
+function showSetup(){ $('app').hidden = true; $('nav').hidden = true; $('setup').hidden = false; $('suForm').hidden = false; $('suResult').hidden = true; if (!$('suStart').value) $('suStart').value = today(); window.scrollTo(0, 0); }
+function enterApp(){ $('setup').hidden = true; $('app').hidden = false; $('nav').hidden = false; fillPlan(); route(); renderAll(true); }
+$('suGo').onclick = () => {
+  const msg = $('suMsg'), sex = radioVal('suSex'), age = numOrNull('suAge'), h = numOrNull('suHeight'), w = numOrNull('suWeight'), goal = numOrNull('suGoal'), st = $('suStart').value;
+  const bad = (id, text) => { msg.textContent = text; if (id) $(id).focus(); };
+  if (!sex) return bad(null, 'Khtar: rajel wla mra.');
+  if (age == null || age < 14 || age > 90) return bad('suAge', 'Kteb l-3mer dyalek.');
+  if (h == null || h < 120 || h > 230) return bad('suHeight', 'Kteb t-toul b cm (matalan 175).');
+  if (w == null || w < 40 || w > 250) return bad('suWeight', 'Kteb l-wazn dyalek b kg.');
+  if (goal == null || goal < 40 || goal > 200) return bad('suGoal', 'Kteb l-wazn li bghiti twsel lih.');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(st)) return bad('suStart', 'Khtar awal nhar.');
+  const c = calcPlan(sex, age, h, w, goal);
+  pending = { plan: { sex, age, heightCm: h, goalKg: goal, kcal: c.kcal, proteinG: c.proteinG, startDate: st }, weightKg: Math.round(w * 10) / 10 };
+  msg.textContent = '';
+  $('suKcal').textContent = c.kcal + ' kcal'; $('suProt').textContent = c.proteinG + ' g';
+  $('suWhy').textContent = c.losing ? 'Jismek kay7re9 te9riban ' + c.tdee + ' kcal f nhar m3a t-tmrin. Bach tn9es b chwiya o bla ma tjou3, khassek takol 9el mn hadchi.' : 'Jismek kay7re9 te9riban ' + c.tdee + ' kcal f nhar m3a t-tmrin. L-hadaf dyalek 9rib mn l-wazn dyalek, so kanakhdo nefs l-calories.';
+  $('suForm').hidden = true; $('suResult').hidden = false; window.scrollTo(0, 0);
+};
+$('suBack').onclick = () => { $('suResult').hidden = true; $('suForm').hidden = false; };
+$('suEnter').onclick = () => {
+  if (!pending) return;
+  S.plan = pending.plan;
+  const d = today(); if (!S.checkins[d]) S.checkins[d] = { date: d, weightKg: pending.weightKg, note: 'Wazn d l-bdya', savedAt: new Date().toISOString() };
+  persist(); pending = null; enterApp();
+};
+
 /* ---------- boot ---------- */
-function renderAll(force){ renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); }
+function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); }
 function setView(v){ view = v; $('vWeek').setAttribute('aria-pressed', v === 'week'); $('vMonth').setAttribute('aria-pressed', v === 'month'); renderChart(); renderTable(); }
 $('vWeek').onclick = () => setView('week'); $('vMonth').onclick = () => setView('month');
 load(); showStorageState();
-$('ciDate').value = today(); fillPlan(); renderFoods(); route(); renderAll(true);
+$('ciDate').value = today(); renderFoods();
+if (hasPlan(S.plan)) enterApp(); else showSetup();
 // A new day starts while the app stays open in the background: refresh when it comes back.
 document.addEventListener('visibilitychange', () => { if (!document.hidden) renderAll(); });
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
