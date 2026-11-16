@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="icon-512.png" alt="Logo dyal Daftar l-Gym" width="128">
-</p>
-
-# Daftar l-Gym
+<h1><img src="icon-512.png" alt="Logo" width="56" align="middle">&nbsp; Daftar l-Gym</h1>
 
 App sghira dyal telephone bach ttebbe3 l-gym o l-makla. Katkhdem bla internet, o l-ma3lomat kayb9aw f telephone dyalek bo7do.
 
