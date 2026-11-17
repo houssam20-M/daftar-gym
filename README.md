@@ -18,7 +18,7 @@ App sghira dyal telephone bach ttebbe3 l-gym o l-makla. Katkhdem bla internet, o
 | Simana | Istibyan d kol simana: wazn, n3ass, ta9a, makla. |
 | T9eddom | Graphique dyal l-wazn, b simana wla b chher. |
 | Makla | Katzid li kliti o kat7seb l-calories o l-protein 3la l-hadaf dyal nhar. |
-| Kter | Ta9rir l l-coach, l-plan (toul, hadaf, calories), o nskha i7tiyatiya. |
+| Kter | I3dadat (lon: auto, bid wla k7el; lugha: Darija wla English), ta9rir l l-coach, l-plan (toul, hadaf, calories), o nskha i7tiyatiya. |
 
 ## L-programme
 
