@@ -1,6 +1,23 @@
 // Offline shell for Daftar l-Gym. Bump CACHE when index.html changes so phones pick up the new version.
-const CACHE = 'daftar-gym-v8';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'daftar-gym-v9';
+const FILES = [
+  './',
+  'index.html',
+  'styles.css',
+  'manifest.webmanifest',
+  'icon-192.png',
+  'icon-512.png',
+  'js/store.js',
+  'js/lang.js',
+  'js/ui.js',
+  'js/helpers.js',
+  'js/stats.js',
+  'js/session.js',
+  'js/food.js',
+  'js/photos.js',
+  'js/report.js',
+  'js/boot.js'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
