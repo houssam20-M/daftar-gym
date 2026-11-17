@@ -1,5 +1,5 @@
 // Offline shell for Daftar l-Gym. Bump CACHE when index.html changes so phones pick up the new version.
-const CACHE = 'daftar-gym-v18';
+const CACHE = 'daftar-gym-v19';
 const FILES = [
   './',
   'index.html',
@@ -48,7 +48,8 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request).then(res => {
+    // no-cache: ask GitHub every time if the file changed (it answers 'not modified' fast), so an update shows at once
+    fetch(e.request, { cache: 'no-cache' }).then(res => {
       if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
       return res;
     }).catch(() => caches.match(e.request, { ignoreSearch: true }).then(hit => hit || caches.match('index.html')))

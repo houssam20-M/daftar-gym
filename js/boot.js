@@ -118,4 +118,12 @@ applyLang();
 let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (hasPlan(S.plan) && !$('progress').hidden) renderChart(); }, 150); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) renderAll(); });
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
-if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
+// Updates: check for a new version on every open, and when a new one takes over, reload once so it shows right away.
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  const hadOld = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadOld && !reloaded){ reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });
+  }).catch(() => {});
+}
