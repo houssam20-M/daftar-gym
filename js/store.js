@@ -13,6 +13,7 @@ function clean(o){
   if (o.plan && typeof o.plan === 'object') for (const k in DEF) if (o.plan[k] != null) out.plan[k] = o.plan[k];
   if (o.settings && typeof o.settings === 'object'){
     if (['auto','light','dark'].includes(o.settings.theme)) out.settings.theme = o.settings.theme;
+    if (['khdar', 'majorelle', 'zafran', 'ward', 'zitoun', 'bnafsaji'].includes(o.settings.palette)) out.settings.palette = o.settings.palette;
     if (['dar','en'].includes(o.settings.lang)) out.settings.lang = o.settings.lang;
     if (typeof o.settings.backupAt === 'string' && !isNaN(Date.parse(o.settings.backupAt))) out.settings.backupAt = o.settings.backupAt;
     if (Number(o.settings.v) === 2) out.settings.v = 2;

@@ -18,12 +18,29 @@ function applyLang(){
     ORIGA.set(e, m);
   });
 }
-function applyTheme(){ const t = S.settings.theme; if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme'); syncQuick(); }
+function applyTheme(){
+  const r = document.documentElement, t = S.settings.theme, p = S.settings.palette;
+  if (t === 'dark' || t === 'light') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme');
+  if (p && p !== 'khdar') r.setAttribute('data-palette', p); else r.removeAttribute('data-palette');
+  // the phone's status bar takes the theme's main colour
+  const meta = document.querySelector('meta[name="theme-color"]'), acc = getComputedStyle(r).getPropertyValue('--accent').trim();
+  if (meta && acc) meta.setAttribute('content', acc);
+  syncQuick();
+}
+// Colour theme picker in Kter.
+$('palettes').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || !b.dataset.p) return;
+  S.settings.palette = b.dataset.p; persist(); applyTheme();
+});
+// The phone switching between light and dark changes the main colour too.
+if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());
 // The two header controls and the radios in Kter show the same setting.
 function syncQuick(){
   const t = S.settings.theme || 'auto', tg = $('qTheme'), lg = $('qLang');
   if (tg) tg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === t ? 'true' : 'false'));
   if (lg) lg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === lang ? 'true' : 'false'));
+  const pl = S.settings.palette || 'khdar', pk = $('palettes');
+  if (pk) pk.querySelectorAll('button').forEach(b => b.setAttribute('aria-checked', b.dataset.p === pl ? 'true' : 'false'));
 }
 function syncSettingsUI(){ setRadio('setTheme', S.settings.theme || 'auto'); setRadio('setLang', lang); setRadio('suLang', lang); syncQuick(); }
 function setLang(v){

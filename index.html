@@ -10,8 +10,9 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Daftar l-Gym</title>
-<script>try{var st=(JSON.parse(localStorage.getItem('daftar-gym-v1')||'{}').settings||{}).theme;if(st==='dark'||st==='light')document.documentElement.setAttribute('data-theme',st)}catch(e){}</script>
+<script>try{var cs=JSON.parse(localStorage.getItem('daftar-gym-v1')||'{}').settings||{},st=cs.theme,pl=cs.palette;if(st==='dark'||st==='light')document.documentElement.setAttribute('data-theme',st);if(pl&&pl!=='khdar')document.documentElement.setAttribute('data-palette',pl)}catch(e){}</script>
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/palettes.css">
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/tools.css">
 <link rel="stylesheet" href="css/progress.css">

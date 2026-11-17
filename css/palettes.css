@@ -1,0 +1,54 @@
+/* Colour themes. No data-palette = Khdar, the default in base.css.
+   Each theme has a light and a dark set: Auto follows the phone, and an explicit Light/Dark choice wins. */
+:root[data-palette="majorelle"]{
+  --bg:#ECEFF7; --surface:#FFFFFF; --sunk:#F4F6FB; --ink:#141A2E; --muted:#59617A; --line:#D4D9E8;
+  --accent:#2B45C2; --accent-ink:#FFFFFF; --accent-soft:#E0E5FA; }
+@media (prefers-color-scheme: dark){ :root[data-palette="majorelle"]:not([data-theme="light"]){
+  --bg:#0D1020; --surface:#151A2E; --sunk:#111527; --ink:#E6E9F5; --muted:#9198B3; --line:#262C45;
+  --accent:#8EA2FF; --accent-ink:#0C1233; --accent-soft:#1D2546; } }
+:root[data-palette="majorelle"][data-theme="dark"]{
+  --bg:#0D1020; --surface:#151A2E; --sunk:#111527; --ink:#E6E9F5; --muted:#9198B3; --line:#262C45;
+  --accent:#8EA2FF; --accent-ink:#0C1233; --accent-soft:#1D2546; }
+:root[data-palette="zafran"]{
+  --bg:#F3EFE8; --surface:#FFFFFF; --sunk:#F8F5F0; --ink:#221A10; --muted:#6B5F50; --line:#E0D7CA;
+  --accent:#A3500A; --accent-ink:#FFFFFF; --accent-soft:#F8E6D3; }
+@media (prefers-color-scheme: dark){ :root[data-palette="zafran"]:not([data-theme="light"]){
+  --bg:#16120C; --surface:#201A12; --sunk:#1A150E; --ink:#F2ECE3; --muted:#A99C8A; --line:#352B1E;
+  --accent:#F2A54A; --accent-ink:#2A1703; --accent-soft:#3A2913; } }
+:root[data-palette="zafran"][data-theme="dark"]{
+  --bg:#16120C; --surface:#201A12; --sunk:#1A150E; --ink:#F2ECE3; --muted:#A99C8A; --line:#352B1E;
+  --accent:#F2A54A; --accent-ink:#2A1703; --accent-soft:#3A2913; }
+:root[data-palette="ward"]{
+  --bg:#F4EEF0; --surface:#FFFFFF; --sunk:#F9F5F6; --ink:#22141A; --muted:#6E5A62; --line:#E5D6DC;
+  --accent:#B02D5C; --accent-ink:#FFFFFF; --accent-soft:#F8DDE7; }
+@media (prefers-color-scheme: dark){ :root[data-palette="ward"]:not([data-theme="light"]){
+  --bg:#170E12; --surface:#21151A; --sunk:#1A1015; --ink:#F3E8EC; --muted:#A8939B; --line:#36232B;
+  --accent:#F27FA6; --accent-ink:#2E0A17; --accent-soft:#3D1A27; } }
+:root[data-palette="ward"][data-theme="dark"]{
+  --bg:#170E12; --surface:#21151A; --sunk:#1A1015; --ink:#F3E8EC; --muted:#A8939B; --line:#36232B;
+  --accent:#F27FA6; --accent-ink:#2E0A17; --accent-soft:#3D1A27; }
+:root[data-palette="zitoun"]{
+  --bg:#EEF0E6; --surface:#FFFFFF; --sunk:#F6F7F0; --ink:#1A1D10; --muted:#61654F; --line:#D9DCC8;
+  --accent:#566513; --accent-ink:#FFFFFF; --accent-soft:#E6EBCF; }
+@media (prefers-color-scheme: dark){ :root[data-palette="zitoun"]:not([data-theme="light"]){
+  --bg:#11130B; --surface:#1A1D12; --sunk:#15170E; --ink:#ECEEE2; --muted:#9EA28A; --line:#2D3220;
+  --accent:#BDCB5E; --accent-ink:#1A1F04; --accent-soft:#2C331A; } }
+:root[data-palette="zitoun"][data-theme="dark"]{
+  --bg:#11130B; --surface:#1A1D12; --sunk:#15170E; --ink:#ECEEE2; --muted:#9EA28A; --line:#2D3220;
+  --accent:#BDCB5E; --accent-ink:#1A1F04; --accent-soft:#2C331A; }
+:root[data-palette="bnafsaji"]{
+  --bg:#F0EDF7; --surface:#FFFFFF; --sunk:#F6F4FB; --ink:#1B1528; --muted:#645C78; --line:#DCD5EA;
+  --accent:#6A3CC2; --accent-ink:#FFFFFF; --accent-soft:#E9E0FA; }
+@media (prefers-color-scheme: dark){ :root[data-palette="bnafsaji"]:not([data-theme="light"]){
+  --bg:#120E1D; --surface:#1B1629; --sunk:#151122; --ink:#EEEAF7; --muted:#A39AB8; --line:#2D2642;
+  --accent:#B79CFF; --accent-ink:#1C0E3D; --accent-soft:#2C2148; } }
+:root[data-palette="bnafsaji"][data-theme="dark"]{
+  --bg:#120E1D; --surface:#1B1629; --sunk:#151122; --ink:#EEEAF7; --muted:#A39AB8; --line:#2D2642;
+  --accent:#B79CFF; --accent-ink:#1C0E3D; --accent-soft:#2C2148; }
+
+/* the picker in Kter */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.swatches button{display:flex;align-items:center;gap:8px;padding:9px 10px;font-size:14px;font-weight:600;min-width:0}
+.swatches button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.swatches i{width:22px;height:22px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(127,127,127,.35)}
+.swatches button[aria-checked="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
