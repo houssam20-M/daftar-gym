@@ -14,11 +14,13 @@ App sghira dyal telephone bach ttebbe3 l-gym o l-makla. Katkhdem bla internet, o
 
 | Tab | Ach kaydir |
 |---|---|
-| Lyoum | Seance d nhar (A, B, C wla nhar khfif). Kat3ellem 3la l-exercices o katkteb l-kg. |
+| Lyoum | Seance d nhar (A, B, C wla nhar khfif). Kat3ellem 3la l-exercices o katkteb l-kg. Fiha timer dyal l-ra7a (60/90/120 tanya), 3adad dyal nhar mtaba3, o bouton "Lyoum rya7a" li kayweqqef l-rotation bla ma tkhtlef. |
 | Simana | Istibyan d kol simana: wazn, n3ass, ta9a, makla. |
-| T9eddom | Graphique dyal l-wazn, b simana wla b chher. |
-| Makla | Katzid li kliti o kat7seb l-calories o l-protein 3la l-hadaf dyal nhar. |
+| T9eddom | Graphique dyal l-wazn, b simana wla b chher, o khet mkhettet dyal l-iqa3 l-mtwq3 (0.75 kg f simana). |
+| Makla | Katzid li kliti o kat7seb l-calories o l-protein 3la l-hadaf dyal nhar. Fiha l-5 wejbat dyal l-plan b dghya wa7da, o 3adad dyal l-ma (12 kas = 3 L). |
 | Kter | I3dadat (lon: auto, bid wla k7el; lugha: Darija wla English), ta9rir l l-coach, l-plan (toul, hadaf, calories), o nskha i7tiyatiya. |
+
+L-lon o l-lugha 3ndhom 7ta boutons f l-foug dyal l-app, bla ma tmchi l Kter.
 
 ## L-programme
 
@@ -35,7 +37,7 @@ Tertib: A, B, C, A, B, C, nhar khfif, o t3awed.
 ## L-ma3lomat
 
 - Kolchi kayt7fed f `localStorage` dyal l-mtsaffe7 f telephone. Walou ma kaymchi l chi serveur.
-- Ila ms7ti l-ma3lomat dyal Chrome wla beddelti telephone, kaydi3o. Dir "Khrej nskha" f tab Kter merra f simana.
+- Ila ms7ti l-ma3lomat dyal Chrome wla beddelti telephone, kaydi3o. Dir "Khrej nskha" f tab Kter merra f simana. Ila 3ad 7 nhar bla nskha, l-app kat3ayet lik b banner f l-foug.
 - "Nskh t-ta9rir" kay3tik ness fih l-wazn, l-awzan dyal l-exercices o l-makla, bach tlse9o l l-coach.
 
 ## L-fichiers

@@ -124,7 +124,17 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .foods{display:flex;gap:8px;flex-wrap:wrap}
 .foods button{font-size:13.5px;font-weight:500;padding:8px 11px;text-align:left}
 .foods button.off{border-color:var(--bad);color:var(--bad)}
+.foods button.ok{border-color:var(--good);color:var(--good)}
 .foods button small{display:block;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+
+/* rest timer, pace line, water */
+.timer{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.timer .flabel{margin:0}
+.timer .timer-txt{font-size:22px;font-weight:800;min-width:64px;text-align:left;margin-right:auto;font-variant-numeric:tabular-nums}
+.timer.on .timer-txt{color:var(--accent)}
+.chart .pace{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4;opacity:.85}
+.legend{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.legend i{display:block;width:22px;border-top:2px dashed var(--muted)}
 .meal{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .meal:last-child{border-bottom:none}
 .meal .txt{min-width:0;overflow-wrap:anywhere}
@@ -289,6 +299,13 @@ button:active,.seg label:active{transform:scale(.95)}
 
   <div class="banner" id="banner" hidden></div>
 
+  <div class="banner" id="bannerBk" hidden>
+    <div class="row" style="justify-content:space-between">
+      <span id="bannerBkText"></span>
+      <button type="button" class="primary" id="bannerBkGo">Dir nskha daba</button>
+    </div>
+  </div>
+
   <div class="stats" id="stats" data-view="lyoum">
     <div class="stat"><div class="lbl">Wazn daba</div><div class="val num" id="sNow">—</div><div class="sub" id="sNowSub">&nbsp;</div></div>
     <div class="stat"><div class="lbl">N9es mn l-bdya</div><div class="val num" id="sLost">—</div><div class="sub" id="sLostSub">&nbsp;</div></div>
@@ -302,20 +319,35 @@ button:active,.seg label:active{transform:scale(.95)}
         <h2>Seance d lyoum</h2>
         <p class="muted small" id="sxSub">&nbsp;</p>
       </div>
-      <span class="pill" id="sxDay">&nbsp;</span>
+      <div class="row"><span class="pill" id="sxStreak" hidden></span><span class="pill" id="sxDay">&nbsp;</span></div>
     </div>
     <div id="sxBody"></div>
-    <div class="field"><span class="flabel">Kifach dazt?</span>
-      <div class="seg" role="radiogroup" aria-label="Kifach dazt">
-        <input type="radio" name="sxFeel" id="sxF1" value="sahla"><label for="sxF1">Sahla</label>
-        <input type="radio" name="sxFeel" id="sxF2" value="mezyana"><label for="sxF2">Mezyana</label>
-        <input type="radio" name="sxFeel" id="sxF3" value="s3iba"><label for="sxF3">S3iba</label>
+    <div class="timer" id="restBox">
+      <span class="timer-txt" id="restTxt">0:00</span>
+      <div class="toggle compact" role="group" aria-label="Ra7a" id="restLen">
+        <button type="button" data-s="60" aria-pressed="true">60s</button>
+        <button type="button" data-s="90" aria-pressed="false">90s</button>
+        <button type="button" data-s="120" aria-pressed="false">120s</button>
+      </div>
+      <button type="button" id="restGo">Bda</button>
+    </div>
+    <div id="sxForm">
+      <div class="field"><span class="flabel">Kifach dazt?</span>
+        <div class="seg" role="radiogroup" aria-label="Kifach dazt">
+          <input type="radio" name="sxFeel" id="sxF1" value="sahla"><label for="sxF1">Sahla</label>
+          <input type="radio" name="sxFeel" id="sxF2" value="mezyana"><label for="sxF2">Mezyana</label>
+          <input type="radio" name="sxFeel" id="sxF3" value="s3iba"><label for="sxF3">S3iba</label>
+        </div>
+      </div>
+      <div class="field"><label for="sxNote">Molahada (wja3, machine ma l9itihach...)</label><input id="sxNote" type="text" maxlength="300"></div>
+      <div class="row">
+        <button class="primary" type="button" id="sxSave">Sejjel seance</button>
+        <span class="msg" id="sxMsg" role="status"></span>
       </div>
     </div>
-    <div class="field"><label for="sxNote">Molahada (wja3, machine ma l9itihach...)</label><input id="sxNote" type="text" maxlength="300"></div>
     <div class="row">
-      <button class="primary" type="button" id="sxSave">Sejjel seance</button>
-      <span class="msg" id="sxMsg" role="status"></span>
+      <button type="button" id="sxRest">Lyoum rya7a</button>
+      <span class="msg" id="sxRestMsg" role="status"></span>
     </div>
   </section>
 
@@ -367,6 +399,7 @@ button:active,.seg label:active{transform:scale(.95)}
       </div>
     </div>
     <div class="chart" id="chart"></div>
+    <div class="legend" id="chartLegend" hidden><i></i><span id="chartLegendTxt"></span></div>
     <div class="tablewrap" id="tableWrap"></div>
   </section>
 
@@ -383,6 +416,18 @@ button:active,.seg label:active{transform:scale(.95)}
       <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
     </div>
     <p class="msg" id="mVerdict" role="status"></p>
+
+    <div class="meter">
+      <div class="top"><span>L-ma lyoum</span><span class="num" id="mWaterTxt">0 / 12 kisan</span></div>
+      <div class="bar"><i id="mWaterBar"></i></div>
+      <div class="row"><button type="button" id="wAdd">+ Kas</button><button type="button" class="link" id="wSub">− Kas</button></div>
+    </div>
+
+    <div>
+      <h3>Wejbat l-plan</h3>
+      <p class="muted small" style="margin:2px 0 10px">Dghet 3la l-wejba bach tzidha b kcal o protein dyalha.</p>
+      <div class="foods" id="mealPresets"></div>
+    </div>
 
     <div>
       <h3>Zid b dghya</h3>
@@ -497,20 +542,23 @@ button:active,.seg label:active{transform:scale(.95)}
 const KEY = 'daftar-gym-v1';
 // No built-in numbers: every phone starts empty and fills these in on the first-run screen.
 const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null };
-let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[] };
+let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
 let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'dar';
 const $ = id => document.getElementById(id);
 function clean(o){
-  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[] };
+  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
   if (!o || typeof o !== 'object') return out;
   if (o.plan && typeof o.plan === 'object') for (const k in DEF) if (o.plan[k] != null) out.plan[k] = o.plan[k];
   if (o.settings && typeof o.settings === 'object'){
     if (['auto','light','dark'].includes(o.settings.theme)) out.settings.theme = o.settings.theme;
     if (['dar','en'].includes(o.settings.lang)) out.settings.lang = o.settings.lang;
+    if (typeof o.settings.backupAt === 'string' && !isNaN(Date.parse(o.settings.backupAt))) out.settings.backupAt = o.settings.backupAt;
   }
   const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s);
   if (o.checkins && typeof o.checkins === 'object') for (const k in o.checkins) { const c = o.checkins[k]; if (isDate(k) && c && typeof c.weightKg === 'number') out.checkins[k] = { ...c, date:k }; }
   if (o.sessions && typeof o.sessions === 'object') for (const k in o.sessions) { const s = o.sessions[k]; if (isDate(k) && s && typeof s === 'object') out.sessions[k] = { ...s, date:k }; }
+  if (o.rests && typeof o.rests === 'object') for (const k in o.rests) if (isDate(k) && o.rests[k]) out.rests[k] = true;
+  if (o.water && typeof o.water === 'object') for (const k in o.water) { const n = Number(o.water[k]); if (isDate(k) && n > 0) out.water[k] = Math.min(30, Math.round(n)); }
   if (Array.isArray(o.meals)) out.meals = o.meals.filter(m => m && isDate(m.date || '')).map(m => ({ id:String(m.id || (m.ts + '-' + Math.random().toString(36).slice(2,7))), ts:Number(m.ts) || 0, date:m.date, text:String(m.text || ''), kcal:Number(m.kcal) || 0, proteinG:Number(m.proteinG) || 0, off:!!m.off }));
   return out;
 }
@@ -612,7 +660,20 @@ const EN = {
   'Kteb l-wazn dyalek b kg.':'Enter your weight in kg.', 'Kteb l-wazn li bghiti twsel lih.':'Enter your goal weight.', 'Khtar awal nhar.':'Pick your first day.',
   'Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. Bach tn9es b chwiya o bla ma tjou3, khassek takol 9el mn hadchi.':'Your body burns about {0} kcal a day with training. To lose weight steadily without going hungry, you eat a bit less than that.',
   'Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. L-hadaf dyalek 9rib mn l-wazn dyalek, so kanakhdo nefs l-calories.':'Your body burns about {0} kcal a day with training. Your goal is close to your current weight, so you eat about the same.',
-  'Wazn d l-bdya':'Starting weight'
+  'Wazn d l-bdya':'Starting weight',
+  // rest day, timer, water, plan meals, backup nudge
+  'Rya7a':'Rest', 'Lyoum rya7a':'Rest today', 'Rje3 l l-7adid':'Back to training',
+  'Lyoum rya7a. Ghddan katbda mn nhar {0}.':'Rest day today. Tomorrow you start again on day {0}.',
+  'Rya7a tsejjlat. L-rotation b9at 3la 7alha.':'Rest day saved. The rotation stays where it is.',
+  'Rya7a tms7at.':'Rest day removed.',
+  '{0} nhar mtaba3':'{0} days in a row',
+  'Bda':'Start', '7bes':'Stop', 'Sali. Rje3 l l-7adid.':'Time. Back to the weights.',
+  'L-ma lyoum':'Water today', '+ Kas':'+ Glass', '− Kas':'− Glass',
+  '{0} / 12 kisan':'{0} / 12 glasses',
+  'Wejbat l-plan':'Plan meals', 'Dghet 3la l-wejba bach tzidha b kcal o protein dyalha.':'Tap a meal to add it, with its calories and protein.',
+  '10h':'10 am', 'L-iqa3 l-mtwq3: {0} kg f simana':'Expected pace: {0} kg per week',
+  'Dir nskha dyal l-ma3lomat dyalek: 3ad 7 nhar wla ktar bla nskha.':'Back up your data: it has been 7 days or more since your last backup.',
+  'Dir nskha daba':'Back up now'
 };
 function L(s){ let out = (lang === 'en' && EN[s] != null) ? EN[s] : s; for (let i = 1; i < arguments.length; i++) out = out.split('{' + (i - 1) + '}').join(arguments[i]); return out; }
 // Static page text is written in Darija in the HTML. This walks it once per switch and swaps each piece through L().
@@ -680,6 +741,9 @@ function renderStats(){
   const first = checkins[0], last = checkins[checkins.length-1];
   $('subline').textContent = L('{0} cm · l-hadaf {1} kg', plan.heightCm, plan.goalKg);
   $('weekChip').textContent = L('Simana {0}', dayInfo().week);
+  const st = trainStreak();
+  $('sxStreak').hidden = st < 2;
+  $('sxStreak').textContent = st >= 2 ? L('{0} nhar mtaba3', st) : '';
   if (!last){
     ['sNow','sLost','sLeft','sBmi'].forEach(i => $(i).textContent = '—');
     $('sNowSub').textContent = L('Twzen o 3emmer tab "Simana"');
@@ -718,9 +782,13 @@ function renderChart(){
   const box = $('chart'); box.innerHTML = '';
   const pts = view === 'week' ? checkins.map(c => ({ x:dnum(c.date), y:c.weightKg, label:dShort(c.date) }))
                               : monthly().map(m => ({ x:dnum(m.key + '-15'), y:m.weightKg, label:mLabel(m.key) }));
-  if (!pts.length){ box.append(el('div','empty', L('Ba9i ma kayn 7ta wazn. Mnin t3emmer awal istibyan, l-khet dyal l-wazn ghadi yban hna.'))); return; }
+  if (!pts.length){ box.append(el('div','empty', L('Ba9i ma kayn 7ta wazn. Mnin t3emmer awal istibyan, l-khet dyal l-wazn ghadi yban hna.'))); $('chartLegend').hidden = true; return; }
   const W = Math.max(280, Math.round(box.clientWidth) || 340), H = 230, m = { l:36, r:58, t:14, b:28 };
-  let lo = Math.min(...pts.map(p => p.y)), hi = Math.max(...pts.map(p => p.y));
+  // Dashed pace line: 0.75 kg a week from the first weigh-in, only over the days he has data for.
+  const PACE = 0.75;
+  const pacePts = pts.length > 1 ? [pts[0], pts[pts.length-1]].map(p => ({ x:p.x, y:pts[0].y - PACE * (p.x - pts[0].x) / 864e5 / 7 })) : null;
+  const ys = pts.map(p => p.y).concat(pacePts ? pacePts.map(p => p.y) : []);
+  let lo = Math.min(...ys), hi = Math.max(...ys);
   if (hi - lo < 2){ lo -= 1; hi += 1; }
   const step = [0.5,1,2,5,10,20].find(s => (hi - lo) / s <= 5) || 20;
   lo = Math.floor(lo/step)*step; hi = Math.ceil(hi/step)*step;
@@ -745,6 +813,9 @@ function renderChart(){
     svg.append(s('path', { class:'area', d: d + ' L' + X(x1).toFixed(1) + ' ' + (H - m.b) + ' L' + X(x0).toFixed(1) + ' ' + (H - m.b) + ' Z' }));
     svg.append(s('path', { class:'ln', d }));
   }
+  if (pacePts) svg.append(s('line', { class:'pace', x1:X(pacePts[0].x), y1:Y(pacePts[0].y), x2:X(pacePts[1].x), y2:Y(pacePts[1].y) }));
+  $('chartLegend').hidden = !pacePts;
+  if (pacePts) $('chartLegendTxt').textContent = L('L-iqa3 l-mtwq3: {0} kg f simana', String(PACE));
   pts.forEach(p => svg.append(s('circle', { class:'dot', cx:X(p.x), cy:Y(p.y), r:4.5 })));
   const lastP = pts[pts.length-1];
   svg.append(s('text', { class:'end-t', x:X(lastP.x) + 9, y:Y(lastP.y) + 4 }, f1(lastP.y) + ' kg'));
@@ -836,9 +907,26 @@ const PROGRAM = {
   L: { am:[['cardio','Vélo wla tapis, khfif',1,'30 d9i9a',0]], pm:[['stretch','Étirements',1,'10 d9ay9',0],['plank','Plank',3,'20-40 tanya',0]] }
 };
 let sessDirty = false, sessShown = '';
+// Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
+function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
+function isRest(d){ return !!S.rests[d]; }
+// A marked rest day does not move the A/B/C rotation forward: the next training day carries on where he stopped.
 function dayInfo(){
-  const idx = Math.round((dnum(today()) - dnum(plan.startDate)) / 864e5), pre = idx < 0;
-  return { day: ['A','B','C','A','B','C','L'][pre ? 0 : idx % 7], week: pre ? 1 : Math.floor(idx / 7) + 1, pre };
+  const t = today(), raw = Math.round((dnum(t) - dnum(plan.startDate)) / 864e5), pre = raw < 0;
+  let rest = 0;
+  if (!pre) eachDate(plan.startDate, t, d => { if (isRest(d)) rest++; });
+  const idx = Math.max(0, raw - rest), base = ['A','B','C','A','B','C','L'], restToday = !pre && isRest(t);
+  return { day: restToday ? 'R' : base[idx % 7], next: base[idx % 7], week: pre ? 1 : Math.floor(idx / 7) + 1, pre, restToday, restDays: rest };
+}
+// Days in a row with a ticked session or a marked rest day. A today that is still empty does not break the chain.
+function trainStreak(){
+  const has = d => isRest(d) || !!(S.sessions[d] && Object.values(S.sessions[d].items || {}).some(i => i.done));
+  if (!plan.startDate) return 0;
+  const d = new Date();
+  if (!has(iso(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dnum(iso(d)) >= dnum(plan.startDate) && has(iso(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
 }
 function lastKg(key){
   const t = today();
@@ -850,9 +938,17 @@ function renderSession(force){
   const stamp = today() + info.day + info.week + lang + (mine ? mine.savedAt : '');
   if (!force && (sessDirty || stamp === sessShown)) return;
   sessShown = stamp; sessDirty = false;
-  $('sxDay').textContent = info.day === 'L' ? L('Nhar khfif') : L('Nhar {0}', info.day);
-  $('sxSub').textContent = info.pre ? L('Katbda nhar {0}. Hada howa awal nhar.', dShort(plan.startDate)) : (info.week <= 2 ? L('Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.', info.week) : L('Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.', info.week));
   const body = $('sxBody'); body.innerHTML = '';
+  $('sxDay').textContent = info.restToday ? L('Rya7a') : info.day === 'L' ? L('Nhar khfif') : L('Nhar {0}', info.day);
+  $('sxRest').textContent = info.restToday ? L('Rje3 l l-7adid') : L('Lyoum rya7a');
+  $('sxForm').hidden = info.restToday;
+  $('restBox').hidden = info.restToday;
+  if (info.restToday){
+    $('sxSub').textContent = L('Lyoum rya7a. Ghddan katbda mn nhar {0}.', info.next);
+    body.append(el('div','empty', L('Nhar rya7a. Ma kayn 7ta seance lyoum.')));
+    return;
+  }
+  $('sxSub').textContent = info.pre ? L('Katbda nhar {0}. Hada howa awal nhar.', dShort(plan.startDate)) : (info.week <= 2 ? L('Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.', info.week) : L('Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.', info.week));
   const prog = PROGRAM[info.day];
   [['am','Sba7'],['pm','3chiya']].forEach(part => {
     body.append(el('div','part', L(part[1])));
@@ -877,7 +973,9 @@ function renderSession(force){
   setRadio('sxFeel', mine ? mine.feel : null); $('sxNote').value = mine && mine.note ? mine.note : '';
 }
 function saveSession(){
-  const msg = $('sxMsg'), info = dayInfo(), prog = PROGRAM[info.day], items = {};
+  const info = dayInfo();
+  if (info.restToday) return; // a rest day has no session to save
+  const msg = $('sxMsg'), prog = PROGRAM[info.day], items = {};
   [...prog.am, ...prog.pm].forEach(x => {
     const key = x[0], it = { done: $('sx-' + key + '-done').checked };
     if (x[4]){ const v = $('sx-' + key + '-kg').value.trim().replace(',', '.'), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.kg = n; }
@@ -896,6 +994,47 @@ function saveSession(){
 $('sxSave').onclick = saveSession;
 $('sxNote').addEventListener('input', () => { sessDirty = true; });
 document.querySelectorAll('input[name="sxFeel"]').forEach(r => r.addEventListener('change', saveSession));
+
+/* ---------- rest day ---------- */
+$('sxRest').onclick = () => {
+  const t = today(), msg = $('sxRestMsg');
+  if (S.rests[t]) delete S.rests[t]; else S.rests[t] = true;
+  if (!persist()){ msg.textContent = L('Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.'); return; }
+  msg.textContent = S.rests[t] ? L('Rya7a tsejjlat. L-rotation b9at 3la 7alha.') : L('Rya7a tms7at.');
+  renderSession(true); renderStats(); renderBackupBanner();
+};
+
+/* ---------- rest timer ---------- */
+let restSec = 60, restTick = null, restEnd = 0, audioCtx = null;
+function restShow(){ const left = Math.max(0, Math.ceil((restEnd - Date.now()) / 1000)); $('restTxt').textContent = Math.floor(left/60) + ':' + String(left % 60).padStart(2,'0'); }
+function restStop(text){ clearInterval(restTick); restTick = null; restEnd = 0; $('restBox').classList.remove('on'); $('restGo').textContent = L('Bda'); if (text != null) $('restTxt').textContent = text; }
+function restBeep(){
+  try { if (navigator.vibrate) navigator.vibrate([220,120,220,120,220]); } catch (e) {}
+  try {
+    if (!audioCtx) return;
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.14;
+    o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.45);
+  } catch (e) {}
+}
+$('restLen').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  restSec = Number(b.dataset.s) || 60;
+  $('restLen').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  if (!restTick) $('restTxt').textContent = '0:00';
+});
+$('restGo').onclick = () => {
+  if (restTick){ restStop('0:00'); return; }
+  // The tap is the gesture that lets the phone play the beep later.
+  try { const C = window.AudioContext || window.webkitAudioContext; if (C && !audioCtx) audioCtx = new C(); if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); } catch (e) {}
+  restEnd = Date.now() + restSec * 1000;
+  $('restBox').classList.add('on'); $('restGo').textContent = L('7bes'); restShow();
+  clearInterval(restTick);
+  restTick = setInterval(() => {
+    if (Date.now() >= restEnd){ restStop(L('Sali. Rje3 l l-7adid.')); restBeep(); }
+    else restShow();
+  }, 250);
+};
 
 /* ---------- food ---------- */
 // [name, kcal, protein g, off-plan]
@@ -920,7 +1059,38 @@ function renderFoods(){
     box.append(b);
   });
 }
+/* ---------- water: 12 glasses = 3 L ---------- */
+function waterToday(){ return S.water[today()] || 0; }
+function renderWater(){
+  const n = waterToday(), litres = (n * 0.25).toFixed(2).replace(/\.?0+$/, '') || '0';
+  $('mWaterTxt').textContent = L('{0} / 12 kisan', n) + ' · ' + litres + ' L';
+  $('mWaterBar').style.width = Math.min(100, n / 12 * 100) + '%';
+  $('wAdd').textContent = L('+ Kas'); $('wSub').textContent = L('− Kas');
+  $('wSub').disabled = n === 0;
+}
+function setWater(delta){
+  const t = today(), n = Math.max(0, Math.min(30, waterToday() + delta));
+  if (n) S.water[t] = n; else delete S.water[t];
+  persist(); renderWater(); renderBackupBanner();
+}
+$('wAdd').onclick = () => setWater(1);
+$('wSub').onclick = () => setWater(-1);
+
+/* ---------- the five plan meals, one tap each ---------- */
+const MEAL_PRESETS = [['Ftour',600,35],['10h',300,12],['Ghda',750,65],['9bel wla b3d l-7adid',330,40],['3cha',520,40]];
+function renderPresets(){
+  const box = $('mealPresets'), logged = new Set(todayMeals().map(m => m.text));
+  box.innerHTML = '';
+  MEAL_PRESETS.forEach(p => {
+    const name = L(p[0]), done = logged.has(name);
+    const b = el('button', done ? 'ok' : '', (done ? '✓ ' : '') + name); b.type = 'button';
+    b.append(el('small','', '≈' + p[1] + ' kcal · ' + p[2] + ' g'));
+    b.onclick = () => { $('mealMsg').textContent = addMeal(name, p[1], p[2]) ? L('Tzadet: {0}', name) : L('Ma tzadetch.'); };
+    box.append(b);
+  });
+}
 function renderMeals(){
+  renderPresets();
   const list = todayMeals();
   const kcal = list.reduce((a,m) => a + m.kcal, 0), prot = list.reduce((a,m) => a + m.proteinG, 0), offs = list.filter(m => m.off).length;
   $('mKcalTxt').textContent = kcal + ' / ' + plan.kcal + ' kcal';
@@ -973,7 +1143,10 @@ function report(){
   const byDay = {}; meals.forEach(m => { (byDay[m.date] = byDay[m.date] || []).push(m); });
   const days = Object.keys(byDay).sort().slice(-7);
   if (!days.length) R.push('  (none yet)');
-  days.forEach(d => { const a = byDay[d]; R.push('  ' + d + ': ' + a.reduce((x,m) => x + m.kcal, 0) + ' kcal, ' + a.reduce((x,m) => x + m.proteinG, 0) + ' g protein | ' + a.map(m => m.text + (m.kcal ? '' : ' (kcal unknown)')).join('; ')); });
+  days.forEach(d => { const a = byDay[d]; R.push('  ' + d + ': ' + a.reduce((x,m) => x + m.kcal, 0) + ' kcal, ' + a.reduce((x,m) => x + m.proteinG, 0) + ' g protein | ' + a.map(m => m.text + (m.kcal ? '' : ' (kcal unknown)')).join('; ') + (S.water[d] ? ' | water ' + S.water[d] + '/12' : '')); });
+  const rests = Object.keys(S.rests).sort().slice(-10);
+  R.push(''); R.push('REST DAYS (last 10): ' + (rests.length ? rests.join(', ') : 'none'));
+  if (S.water[today()]) R.push('Water today: ' + S.water[today()] + '/12 glasses.');
   return R.join('\n');
 }
 async function copyText(text, box, msg, okText){
@@ -1001,12 +1174,31 @@ $('pSave').onclick = () => {
   S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st };
   msg.textContent = persist() ? L('L-plan tsejjel.') : L('Ma tsejjelch.'); renderAll(true);
 };
-$('bkShow').onclick = () => copyText(JSON.stringify(S), $('bkBox'), $('bkMsg'), L('N-nskha tnskhat. Sifetha l rassek f WhatsApp wla Telegram.'));
+/* ---------- backup nudge: once a week, the banner asks for a backup ---------- */
+function dataDays(){
+  return new Set([...Object.keys(S.checkins), ...Object.keys(S.sessions), ...Object.keys(S.water), ...Object.keys(S.rests), ...(S.meals || []).map(m => m.date)]).size;
+}
+function renderBackupBanner(){
+  const b = $('bannerBk');
+  if (!b) return;
+  if (!hasPlan(S.plan) || !dataDays()){ b.hidden = true; return; }
+  const last = S.settings.backupAt ? Date.parse(S.settings.backupAt) : NaN;
+  const since = isNaN(last) ? (Date.now() - dnum(plan.startDate)) / 864e5 : (Date.now() - last) / 864e5;
+  if (since < 7){ b.hidden = true; return; }
+  $('bannerBkText').textContent = L('Dir nskha dyal l-ma3lomat dyalek: 3ad 7 nhar wla ktar bla nskha.');
+  b.hidden = false;
+}
+function markBackup(){ S.settings.backupAt = new Date().toISOString(); persist(); renderBackupBanner(); }
+$('bannerBkGo').onclick = () => {
+  location.hash = 'kter';
+  setTimeout(() => { const t = $('bkExport'); if (t) t.scrollIntoView({ block:'center', behavior:'smooth' }); }, 120);
+};
+$('bkShow').onclick = () => { copyText(JSON.stringify(S), $('bkBox'), $('bkMsg'), L('N-nskha tnskhat. Sifetha l rassek f WhatsApp wla Telegram.')); markBackup(); };
 $('bkExport').onclick = () => {
   try {
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 1)], { type:'application/json' }));
     a.download = 'daftar-gym-' + today() + '.json'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-    $('bkMsg').textContent = L('L-fichier khrej l Téléchargements.');
+    $('bkMsg').textContent = L('L-fichier khrej l Téléchargements.'); markBackup();
   } catch (e) { $('bkMsg').textContent = L('Ma khrejch. Dghet "Werri n-nskha" o nskhha.'); }
 };
 twoStep($('bkImport'), 'Rje3 n-nskha', () => {
@@ -1069,7 +1261,7 @@ $('suEnter').onclick = () => {
 };
 
 /* ---------- boot ---------- */
-function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); }
+function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); renderWater(); renderBackupBanner(); }
 function setView(v){ view = v; $('vWeek').setAttribute('aria-pressed', v === 'week'); $('vMonth').setAttribute('aria-pressed', v === 'month'); renderChart(); renderTable(); }
 $('vWeek').onclick = () => setView('week'); $('vMonth').onclick = () => setView('month');
 load(); applyTheme(); showStorageState();
