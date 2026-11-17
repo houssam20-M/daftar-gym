@@ -1,11 +1,8 @@
 // views/settings.js - markup of the Settings page (opened by the gear): light/dark, colours, language.
-// Only HTML lives here. The code: js/ui.js (theme, colours, language) and js/boot.js (opening and going back).
+// Only HTML lives here. The code: js/ui.js (theme, colours, language) and js/boot.js (the gear opens and closes it).
 document.getElementById('app').insertAdjacentHTML('beforeend', `
 <section class="block" id="settings" data-view="settings">
-  <div class="row" style="justify-content:space-between">
-    <h2>I3dadat</h2>
-    <button type="button" id="setBack">← Rje3</button>
-  </div>
+  <h2>I3dadat</h2>
   <div class="field"><span class="flabel">Lon</span>
     <div class="seg" role="radiogroup" aria-label="Lon">
       <input type="radio" name="setTheme" id="setThemeA" value="auto"><label for="setThemeA">Auto</label>

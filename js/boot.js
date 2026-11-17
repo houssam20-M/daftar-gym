@@ -16,7 +16,11 @@ function route(){
   setTimeout(() => window.scrollTo(0, 0), 0);
 }
 window.addEventListener('hashchange', route);
-$('setBack').onclick = () => { location.hash = lastTab; };
+// The gear opens Settings; tapped again, it closes them and goes back to the tab he was on.
+document.querySelector('.gear').addEventListener('click', e => {
+  e.preventDefault();
+  location.hash = location.hash === '#settings' ? lastTab : 'settings';
+});
 // A deep link like index.html#makla lands on that section; the browser scrolls to it after load, so come back to the top.
 window.addEventListener('load', () => {
   const id = location.hash.slice(1);
