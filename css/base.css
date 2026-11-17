@@ -39,6 +39,10 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 /* the settings gear: only the black icon, no disc behind it, whatever the theme (his choice) */
 .gear{flex:none;width:44px;height:44px;display:grid;place-items:center;transition:transform .25s ease}
 .gear svg{width:28px;height:28px;display:block}
+/* black in light mode, grey in dark mode so it still shows (his choice) */
+.gear{color:#111111}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .gear{color:#A3A8AD} }
+:root[data-theme="dark"] .gear{color:#A3A8AD}
 .gear:active{transform:rotate(45deg) scale(.94)}
 .gear:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .gear[aria-current="page"]{transform:rotate(45deg)}

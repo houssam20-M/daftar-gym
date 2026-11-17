@@ -19,7 +19,7 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
       <p class="muted" id="subline">&nbsp;</p>
     </div>
   </div>
-  <a class="gear" href="#settings" aria-label="I3dadat"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" fill="#111111" stroke="#111111" stroke-width="1.3" stroke-linejoin="round" d="M9.92 3.66 L10.44 0.91 L13.56 0.91 L14.08 3.66 L16.43 4.63 L18.74 3.06 L20.94 5.26 L19.37 7.57 L20.34 9.92 L23.09 10.44 L23.09 13.56 L20.34 14.08 L19.37 16.43 L20.94 18.74 L18.74 20.94 L16.43 19.37 L14.08 20.34 L13.56 23.09 L10.44 23.09 L9.92 20.34 L7.57 19.37 L5.26 20.94 L3.06 18.74 L4.63 16.43 L3.66 14.08 L0.91 13.56 L0.91 10.44 L3.66 9.92 L4.63 7.57 L3.06 5.26 L5.26 3.06 L7.57 4.63 Z M12 8.4 A3.6 3.6 0 1 0 12 15.6 A3.6 3.6 0 1 0 12 8.4 Z"/></svg></a>
+  <a class="gear" href="#settings" aria-label="I3dadat"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" d="M9.92 3.66 L10.44 0.91 L13.56 0.91 L14.08 3.66 L16.43 4.63 L18.74 3.06 L20.94 5.26 L19.37 7.57 L20.34 9.92 L23.09 10.44 L23.09 13.56 L20.34 14.08 L19.37 16.43 L20.94 18.74 L18.74 20.94 L16.43 19.37 L14.08 20.34 L13.56 23.09 L10.44 23.09 L9.92 20.34 L7.57 19.37 L5.26 20.94 L3.06 18.74 L4.63 16.43 L3.66 14.08 L0.91 13.56 L0.91 10.44 L3.66 9.92 L4.63 7.57 L3.06 5.26 L5.26 3.06 L7.57 4.63 Z M12 8.4 A3.6 3.6 0 1 0 12 15.6 A3.6 3.6 0 1 0 12 8.4 Z"/></svg></a>
 </header>
 <div class="week-row"><span class="week-chip num" id="weekChip">&nbsp;</span></div>
 
