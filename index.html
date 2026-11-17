@@ -121,6 +121,8 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .bar i.over{background:var(--bad)}
 .rules{display:flex;gap:8px;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--sunk)}
+.pill.good{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.pill.warn{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
 .foods{display:flex;gap:8px;flex-wrap:wrap}
 .foods button{font-size:13.5px;font-weight:500;padding:8px 11px;text-align:left}
 .foods button.off{border-color:var(--bad);color:var(--bad)}
@@ -135,6 +137,29 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .chart .pace{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4;opacity:.85}
 .legend{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
 .legend i{display:block;width:22px;border-top:2px dashed var(--muted)}
+
+/* weekly recap, exercise progression, photos */
+.recap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:560px){ .recap{grid-template-columns:repeat(4,1fr)} }
+.rc{background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.rc .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.rc .v{font-size:19px;font-weight:800;line-height:1.2;margin-top:2px}
+.rc .v small{font-size:12px;font-weight:500;color:var(--muted)}
+.prow{display:grid;grid-template-columns:1fr;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+.prow .pill{justify-self:start;font-size:12.5px;padding:3px 9px}
+.prow:last-child{border-bottom:none}
+.prow .nm{font-weight:700;min-width:0}
+.prow .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.photos p{grid-column:1/-1;margin:0}
+.photos button{position:relative;padding:0;border:none;background:none;line-height:0}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+.photos .d{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;padding:2px 6px;border-radius:6px;line-height:1.4}
+.viewer{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px}
+.viewer img{max-width:100%;max-height:78vh;border-radius:12px}
+.viewer .vdate{color:#fff;font-size:13px;opacity:.85}
+.viewer #phClose{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:17px;padding:9px 13px;border-radius:10px}
+.viewer #phDel{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:14px;padding:9px 14px;border-radius:10px}
 .meal{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .meal:last-child{border-bottom:none}
 .meal .txt{min-width:0;overflow-wrap:anywhere}
@@ -143,7 +168,12 @@ details{border-top:1px solid var(--line);padding-top:12px}
 summary{cursor:pointer;font-weight:700}
 .plan td:first-child{font-weight:700;white-space:nowrap}
 .part{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
-.ex{display:grid;grid-template-columns:auto 1fr 100px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.ex{display:grid;grid-template-columns:auto 1fr 76px 52px;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.ex-head{display:grid;grid-template-columns:auto 1fr 76px 52px;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:center;padding-bottom:2px}
+.ex-head span:first-child{grid-column:1/3}
+.swaps{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 10px 36px}
+.swaps button{font-size:12.5px;padding:6px 10px;font-weight:500}
+.swaps button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .ex input[type="checkbox"]{width:26px;height:26px;padding:0;accent-color:var(--accent)}
 .ex .nm{font-weight:700;min-width:0}
 .ex .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
@@ -351,6 +381,24 @@ button:active,.seg label:active{transform:scale(.95)}
     </div>
   </section>
 
+  <section class="block" data-view="simana">
+    <div class="block-head">
+      <div>
+        <h2>Recap dyal simana</h2>
+        <p class="muted small">Hadi l-akhbar dyal 7 simanat li fatou.</p>
+      </div>
+      <button type="button" id="recapShare">Sift</button>
+    </div>
+    <div id="recapBody"></div>
+    <div class="banner" id="kcalNudge" hidden>
+      <div class="row" style="justify-content:space-between">
+        <span id="kcalNudgeText"></span>
+        <button type="button" class="primary" id="kcalApply"></button>
+      </div>
+    </div>
+    <p class="msg" id="recapMsg" role="status"></p>
+  </section>
+
   <section class="block" id="checkin" data-view="simana">
     <div>
       <h2>Istibyan d simana</h2>
@@ -393,14 +441,24 @@ button:active,.seg label:active{transform:scale(.95)}
   <section class="block" id="progress" data-view="t9eddom">
     <div class="block-head">
       <h2>T9eddom dyal l-wazn</h2>
-      <div class="toggle" role="group" aria-label="Simana wla chher">
-        <button type="button" id="vWeek" aria-pressed="true">Kol simana</button>
-        <button type="button" id="vMonth" aria-pressed="false">Kol chher</button>
+      <div class="row">
+        <div class="toggle" role="group" aria-label="Simana wla chher">
+          <button type="button" id="vWeek" aria-pressed="true">Kol simana</button>
+          <button type="button" id="vMonth" aria-pressed="false">Kol chher</button>
+        </div>
+        <div class="toggle compact" id="vRange" role="group" aria-label="Ch7al mn wa9t">
+          <button type="button" data-r="12" aria-pressed="true" id="vRange12">12 simana</button>
+          <button type="button" data-r="all" aria-pressed="false">Kolchi</button>
+        </div>
       </div>
     </div>
     <div class="chart" id="chart"></div>
     <div class="legend" id="chartLegend" hidden><i></i><span id="chartLegendTxt"></span></div>
     <div class="tablewrap" id="tableWrap"></div>
+    <div>
+      <h3>Progression dyal l-exercices</h3>
+      <div id="progList"></div>
+    </div>
   </section>
 
   <section class="block" id="makla" data-view="makla">
@@ -427,6 +485,19 @@ button:active,.seg label:active{transform:scale(.95)}
       <h3>Wejbat l-plan</h3>
       <p class="muted small" style="margin:2px 0 10px">Dghet 3la l-wejba bach tzidha b kcal o protein dyalha.</p>
       <div class="foods" id="mealPresets"></div>
+    </div>
+
+    <div>
+      <h3>Makla dyalek</h3>
+      <p class="muted small" style="margin:2px 0 10px">Kteb smiytha, kcal o protein, o mn b3d katb9a bouton 3ndek.</p>
+      <div class="foods" id="myFoods"></div>
+      <div class="grid" style="margin-top:12px">
+        <div class="field"><label for="fName">Smiya</label><input id="fName" type="text" maxlength="60" placeholder="Matalan: tajine l7em b l-ber9o9"></div>
+        <div class="field"><label for="fKcal">kcal</label><input id="fKcal" type="number" min="0" max="3000" inputmode="numeric"></div>
+        <div class="field"><label for="fProt">Protein g</label><input id="fProt" type="number" min="0" max="300" inputmode="numeric"></div>
+      </div>
+      <div class="row" style="margin-top:10px"><button type="button" id="fAdd">Zid makla</button><span class="msg" id="fMsg" role="status"></span></div>
+      <details style="margin-top:8px"><summary>7iyed makla dyalek</summary><div id="myFoodsList"></div></details>
     </div>
 
     <div>
@@ -525,6 +596,19 @@ button:active,.seg label:active{transform:scale(.95)}
     <div class="field"><label for="bkBox">Bach trje3 nskha 9dima: lse9ha hna o dghet "Rje3 n-nskha"</label><textarea class="mono" id="bkBox"></textarea></div>
     <div class="row"><button type="button" id="bkImport">Rje3 n-nskha</button></div>
   </section>
+
+  <section class="block" data-view="kter">
+    <div>
+      <h2>Tsawer dyal l-jism</h2>
+      <p class="muted small">Merra f chher, nefs l-blasa o nefs l-lon. Kayt7efdo f had telephone bo7do, machi f n-nskha.</p>
+    </div>
+    <div class="row">
+      <button type="button" class="primary" id="phAdd">Zid tsawira</button>
+      <input type="file" id="phFile" accept="image/*" hidden>
+      <span class="msg" id="phMsg" role="status"></span>
+    </div>
+    <div class="photos" id="phList"></div>
+  </section>
 </div>
 
 <nav class="nav" id="nav" aria-label="Tabs" hidden>
@@ -537,16 +621,23 @@ button:active,.seg label:active{transform:scale(.95)}
   </div>
 </nav>
 
+<div class="viewer" id="phView" hidden>
+  <button type="button" id="phClose" aria-label="Sed">✕</button>
+  <img id="phImg" alt="">
+  <span class="vdate" id="phDate"></span>
+  <button type="button" id="phDel">7iyed tsawira</button>
+</div>
+
 <script>
 /* ---------- storage: everything lives in this phone's localStorage ---------- */
 const KEY = 'daftar-gym-v1';
 // No built-in numbers: every phone starts empty and fills these in on the first-run screen.
-const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null };
-let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
+const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null, kcalAt:null };
+let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{} };
 let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'en';
 const $ = id => document.getElementById(id);
 function clean(o){
-  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
+  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{} };
   if (!o || typeof o !== 'object') return out;
   if (o.plan && typeof o.plan === 'object') for (const k in DEF) if (o.plan[k] != null) out.plan[k] = o.plan[k];
   if (o.settings && typeof o.settings === 'object'){
@@ -560,6 +651,10 @@ function clean(o){
   if (o.sessions && typeof o.sessions === 'object') for (const k in o.sessions) { const s = o.sessions[k]; if (isDate(k) && s && typeof s === 'object') out.sessions[k] = { ...s, date:k }; }
   if (o.rests && typeof o.rests === 'object') for (const k in o.rests) if (isDate(k) && o.rests[k]) out.rests[k] = true;
   if (o.water && typeof o.water === 'object') for (const k in o.water) { const n = Number(o.water[k]); if (isDate(k) && n > 0) out.water[k] = Math.min(30, Math.round(n)); }
+  if (Array.isArray(o.foods)) out.foods = o.foods.filter(f => f && f.name).slice(0, 60).map(f => ({
+    name: String(f.name).slice(0, 60), kcal: Math.max(0, Math.min(3000, Math.round(Number(f.kcal) || 0))),
+    proteinG: Math.max(0, Math.min(300, Math.round(Number(f.proteinG) || 0))), off: !!f.off }));
+  if (o.swaps && typeof o.swaps === 'object') for (const k in o.swaps) if (typeof o.swaps[k] === 'string' && o.swaps[k]) out.swaps[k] = o.swaps[k];
   if (Array.isArray(o.meals)) out.meals = o.meals.filter(m => m && isDate(m.date || '')).map(m => ({ id:String(m.id || (m.ts + '-' + Math.random().toString(36).slice(2,7))), ts:Number(m.ts) || 0, date:m.date, text:String(m.text || ''), kcal:Number(m.kcal) || 0, proteinG:Number(m.proteinG) || 0, off:!!m.off }));
   return out;
 }
@@ -680,7 +775,37 @@ const EN = {
   'Wejbat l-plan':'Plan meals', 'Dghet 3la l-wejba bach tzidha b kcal o protein dyalha.':'Tap a meal to add it, with its calories and protein.',
   '10h':'10 am', 'L-iqa3 l-mtwq3: {0} kg f simana':'Expected pace: {0} kg per week',
   'Dir nskha dyal l-ma3lomat dyalek: 3ad 7 nhar wla ktar bla nskha.':'Back up your data: it has been 7 days or more since your last backup.',
-  'Dir nskha daba':'Back up now'
+  'Dir nskha daba':'Back up now',
+  // warm-up, reps, progression
+  'Warm-up 5 min':'Warm-up 5 min', 'Mchi khfif 5 d9ay9':'Easy walk, 5 min', 'Dawran dyal l-katif':'Arm circles',
+  'Dawran dyal l-7awd o r-rokba':'Hip and knee circles', 'Squat bla wazn':'Bodyweight squats',
+  'Progression dyal l-exercices':'Exercise progression', 'Zid 2.5 kg':'Add 2.5 kg',
+  'Bqa f nefs l-wazn, zid reps':'Same weight, more reps', 'N9es chwiya':'Go a bit lighter',
+  'Kteb reps l-merra jaya':'Log your reps next time', 'Ba9i ma kayn 7ta wazn f l-exercices.':'No exercise weights logged yet.',
+  // chart window
+  '12 simana':'12 weeks', '12 chhour':'12 months', 'Kolchi':'All',
+  // calorie nudge
+  'N9es 200 kcal':'Cut 200 kcal', 'Zid 200 kcal':'Add 200 kcal', 'L-plan tbeddel: {0} kcal f nhar.':'Plan updated: {0} kcal a day.',
+  'Wazn ma tnqes bzerba3a: {0} kg f simana. N9es 200 kcal bach tkemmel b l-iqa3.':'Your weight is barely moving: {0} kg a week. Cut 200 kcal to get back on pace.',
+  'Katnqes bzerba3a: {0} kg f simana. Zid 200 kcal bach ma tf9edch l-3adala wla l-7adid.':'You are losing fast: {0} kg a week. Add 200 kcal so you keep your muscle.',
+  // own food buttons
+  'Makla dyalek':'Your own food', 'Kteb smiytha, kcal o protein, o mn b3d katb9a bouton 3ndek.':'Name, kcal and protein, then it becomes one of your buttons.',
+  'Smiya':'Name', 'Zid makla':'Add food', '7iyed makla dyalek':'Delete your foods',
+  'Ba9i ma zedti 7ta makla dyalek.':'You have not added any food yet.', 'Kteb smiya, kcal o protein.':'Enter a name, kcal and protein.',
+  // swap exercise
+  'Beddel l-exercice':'Change exercise', 'Rje3 l l-asl':'Back to original', 'Beddelna: {0}':'Switched to: {0}',
+  // weekly recap
+  'Recap dyal simana':'This week', 'Sift':'Share', 'Seances':'Sessions', 'Mtaba3':'In a row',
+  'Hadi l-akhbar dyal 7 simanat li fatou.':'The last 7 days in short.', 'Ch7al mn wa9t':'How far back', 'Sed':'Close', 'Protein g':'Protein g',
+  'Ma kaynch chi recap daba.':'No recap yet.', 'Nqes':'-', 'Zada':'+',
+  // body photos
+  'Tsawer dyal l-jism':'Body photos', 'Zid tsawira':'Add a photo', 'Ma kaynch tsawer ba9i.':'No photos yet.',
+  'Tsawira t7eydat.':'Photo deleted.', 'Ma 9dertch nzid tsawira.':'Could not add the photo.',
+  'Merra f chher, nefs l-blasa o nefs l-lon. Kayt7efdo f had telephone bo7do, machi f n-nskha.':'Once a month, same spot and same light. Stored on this phone only, not in the backup.',
+  'Tsawira':'Photo', '7iyed tsawira':'Delete photo', 'Tsawira tzadet.':'Photo added.',
+  '{0}: reps':'{0}: reps',
+  'Tnsakh. Lse3o fin bghiti.':'Copied. Paste it wherever you like.', 'Ma tsiftch.':'Could not share.',
+  'Bzaf 3la l-akhir. 7iyed chi wa7ed.':'That is the most you can add. Delete one.'
 };
 function L(s){ let out = (lang === 'en' && EN[s] != null) ? EN[s] : s; for (let i = 1; i < arguments.length; i++) out = out.split('{' + (i - 1) + '}').join(arguments[i]); return out; }
 // Static page text is written in Darija in the HTML. This walks it once per switch and swaps each piece through L().
@@ -785,10 +910,14 @@ function monthly(){
   }
   return out;
 }
+let chartRange = '12';
 function renderChart(){
   const box = $('chart'); box.innerHTML = '';
-  const pts = view === 'week' ? checkins.map(c => ({ x:dnum(c.date), y:c.weightKg, label:dShort(c.date) }))
-                              : monthly().map(m => ({ x:dnum(m.key + '-15'), y:m.weightKg, label:mLabel(m.key) }));
+  $('vRange12').textContent = view === 'week' ? L('12 simana') : L('12 chhour');
+  let pts = view === 'week' ? checkins.map(c => ({ x:dnum(c.date), y:c.weightKg, label:dShort(c.date) }))
+                            : monthly().map(m => ({ x:dnum(m.key + '-15'), y:m.weightKg, label:mLabel(m.key) }));
+  // A long log would squash the line: show the last 12 weeks (or months) unless he asks for everything.
+  if (chartRange === '12') pts = pts.slice(-12);
   if (!pts.length){ box.append(el('div','empty', L('Ba9i ma kayn 7ta wazn. Mnin t3emmer awal istibyan, l-khet dyal l-wazn ghadi yban hna.'))); $('chartLegend').hidden = true; return; }
   const W = Math.max(280, Math.round(box.clientWidth) || 340), H = 230, m = { l:36, r:58, t:14, b:28 };
   // Dashed pace line: 0.75 kg a week from the first weigh-in, only over the days he has data for.
@@ -876,6 +1005,32 @@ function renderTable(){
   wrap.append(t);
 }
 
+/* ---------- exercise progression: what the last set says about next time ---------- */
+function renderProgression(){
+  const box = $('progList'); if (!box) return;
+  box.innerHTML = '';
+  const rows = [], seen = new Set();
+  // sessions are newest first: the first hit per exercise is his latest set.
+  sessions.forEach(s => Object.keys(s.items || {}).forEach(k => {
+    const it = s.items[k], meta = EXINFO[k];
+    if (!meta || seen.has(k) || !it) return;
+    if (typeof it.kg !== 'number' && typeof it.reps !== 'number') return;
+    seen.add(k); rows.push({ meta, date:s.date, kg:it.kg, reps:it.reps });
+  }));
+  if (!rows.length){ box.append(el('p','muted small', L('Ba9i ma kayn 7ta wazn f l-exercices.'))); return; }
+  rows.forEach(r => {
+    const target = Number(repTarget(r.meta.reps)) || 12;
+    let hint, cls = '';
+    if (r.reps == null){ hint = L('Kteb reps l-merra jaya'); }
+    else if (r.reps >= target){ hint = L('Zid 2.5 kg'); cls = ' good'; }
+    else if (r.reps >= target - 4){ hint = L('Bqa f nefs l-wazn, zid reps'); }
+    else { hint = L('N9es chwiya'); cls = ' warn'; }
+    const row = el('div','prow'), nm = el('div','nm', L(r.meta.name));
+    nm.append(el('span','num', (r.kg != null ? r.kg + ' kg' : '—') + (r.reps != null ? ' × ' + r.reps : '') + ' · ' + dShort(r.date)));
+    row.append(nm, el('span','pill' + cls, hint)); box.append(row);
+  });
+}
+
 /* ---------- weekly form ---------- */
 function fillForm(c){
   $('ciDate').value = c.date; $('ciWeight').value = c.weightKg == null ? '' : c.weightKg; $('ciWaist').value = c.waistCm == null ? '' : c.waistCm;
@@ -913,6 +1068,32 @@ const PROGRAM = {
        pm:[['incline-press','Développé incliné b haltères',3,'10-12',1],['cable-row','Tirage horizontal',3,'10-12',1],['triceps-pushdown','Triceps pushdown',2,'12',1]] },
   L: { am:[['cardio','Vélo wla tapis, khfif',1,'30 d9i9a',0]], pm:[['stretch','Étirements',1,'10 d9ay9',0],['plank','Plank',3,'20-40 tanya',0]] }
 };
+// Warm-up before every session: 5 minutes, no weight.
+const WARM = [['w-walk','Mchi khfif 5 d9ay9'],['w-arm','Dawran dyal l-katif'],['w-hip','Dawran dyal l-7awd o r-rokba'],['w-squat','Squat bla wazn']];
+// Substitutes, for a machine that is taken or a joint that hurts.
+const ALTS = {
+  'leg-press':[['goblet-squat','Goblet squat (wla squat 3la banc)',3,'10',1],['leg-ext','Leg extension',3,'12-15',1]],
+  'chest-press':[['incline-press','Développé incliné b haltères',3,'10-12',1],['pushup','Pompes 3la l-banc',3,'8-12',0]],
+  'lat-pulldown':[['seated-row','Seated row',3,'10-12',1],['pulldown-machine','Tirage 3la l-machine',3,'10-12',1]],
+  'romanian-deadlift':[['leg-curl','Leg curl',2,'12',1]],
+  'leg-curl':[['romanian-deadlift','Romanian deadlift b haltères',3,'10',1]],
+  'biceps-curl':[['hammer-curl','Hammer curl',2,'12',1]],
+  'cable-row':[['seated-row','Seated row',3,'10-12',1]],
+  'triceps-pushdown':[['triceps-over','Extension triceps b l-7bla',2,'12',1]],
+  'mchi':[['cardio','Vélo wla tapis, khfif',1,'30 d9i9a',0]]
+};
+// Every exercise name and rep target in one place (progression list, report).
+const EXINFO = (() => {
+  const m = {};
+  const add = x => { if (!m[x[0]]) m[x[0]] = { name: x[1], reps: x[3] }; };
+  Object.values(PROGRAM).forEach(d => ['am','pm'].forEach(p => d[p].forEach(add)));
+  Object.values(ALTS).forEach(l => l.forEach(add));
+  WARM.forEach(add);
+  return m;
+})();
+// The substitute he picked for a slot, if any.
+function exActual(x){ const list = ALTS[x[0]], sw = S.swaps[x[0]]; if (list && sw){ const hit = list.find(a => a[0] === sw); if (hit) return hit; } return x; }
+const repTarget = s => { const m = String(s).match(/\d+/g); return m ? m[m.length - 1] : ''; };
 let sessDirty = false, sessShown = '';
 // Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
 function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
@@ -935,9 +1116,9 @@ function trainStreak(){
   while (dnum(iso(d)) >= dnum(plan.startDate) && has(iso(d))){ n++; d.setDate(d.getDate() - 1); }
   return n;
 }
-function lastKg(key){
+function lastEntry(key){
   const t = today();
-  for (const s of sessions) if (s.date < t && s.items && s.items[key] && typeof s.items[key].kg === 'number') return s.items[key].kg;
+  for (const s of sessions) if (s.date < t && s.items && s.items[key] && (typeof s.items[key].kg === 'number' || typeof s.items[key].reps === 'number')) return s.items[key];
   return null;
 }
 function renderSession(force){
@@ -957,21 +1138,46 @@ function renderSession(force){
   }
   $('sxSub').textContent = info.pre ? L('Katbda nhar {0}. Hada howa awal nhar.', dShort(plan.startDate)) : (info.week <= 2 ? L('Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.', info.week) : L('Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.', info.week));
   const prog = PROGRAM[info.day];
+  // The warm-up matters on a training day; a light day is already easy.
+  const anyKg = [...prog.am, ...prog.pm].some(x => exActual(x)[4]);
+  if (anyKg){ const head = el('div','ex-head'); head.append(el('span'), el('span','','kg'), el('span','','reps')); body.append(head); }
+  if (info.day !== 'L'){
+    body.append(el('div','part', L('Warm-up 5 min')));
+    WARM.forEach(w => {
+      const key = w[0], name = L(w[1]), saved = (mine && mine.items && mine.items[key]) || {};
+      const row = el('div','ex'), cb = el('input'); cb.type = 'checkbox'; cb.id = 'sx-' + key + '-done'; cb.checked = !!saved.done;
+      cb.setAttribute('aria-label', L('{0}: derta', name));
+      const nm = el('div','nm', name); nm.style.gridColumn = '2 / -1';
+      row.append(cb, nm);
+      if (saved.done) row.classList.add('done');
+      cb.addEventListener('change', () => { row.classList.toggle('done', cb.checked); saveSession(); });
+      body.append(row);
+    });
+  }
   [['am','Sba7'],['pm','3chiya']].forEach(part => {
     body.append(el('div','part', L(part[1])));
-    prog[part[0]].forEach(x => {
-      const key = x[0], name = L(x[1]), sets = x[2], reps = L(x[3]), hasKg = x[4];
+    prog[part[0]].forEach(base => {
+      const x = exActual(base), key = x[0], name = L(x[1]), sets = x[2], reps = L(x[3]), hasKg = x[4];
       const saved = (mine && mine.items && mine.items[key]) || {};
       const n = info.week <= 2 ? Math.min(sets, 2) : sets;
       const row = el('div','ex'), cb = el('input'); cb.type = 'checkbox'; cb.id = 'sx-' + key + '-done'; cb.checked = !!saved.done; cb.setAttribute('aria-label', L('{0}: derta', name));
-      const nm = el('div','nm', name), prev = hasKg ? lastKg(key) : null;
-      nm.append(el('span','num', (sets > 1 || hasKg ? n + ' x ' : '') + reps + (prev != null ? L(' · akhir merra {0} kg', prev) : '')));
+      const nm = el('div','nm', name), prev = hasKg ? lastEntry(key) : null;
+      nm.append(el('span','num', (sets > 1 || hasKg ? n + ' x ' : '') + reps + (prev && prev.kg != null ? L(' · akhir merra {0} kg', prev.kg) + (prev.reps != null ? ' × ' + prev.reps : '') : '')));
+      if (ALTS[base[0]]){
+        const sw = el('button','link', L('Beddel l-exercice')); sw.type = 'button';
+        sw.onclick = () => showSwaps(row, base);
+        nm.append(sw);
+      }
       row.append(cb, nm);
       if (hasKg){
         const kg = el('div','kg'), inp = el('input'); inp.type = 'number'; inp.step = '0.5'; inp.min = '0'; inp.max = '500'; inp.inputMode = 'decimal'; inp.id = 'sx-' + key + '-kg';
-        inp.setAttribute('aria-label', L('{0}: wazn b kg', name)); if (typeof saved.kg === 'number') inp.value = saved.kg; else if (prev != null) inp.placeholder = prev;
-        inp.addEventListener('input', () => { sessDirty = true; }); kg.append(inp, 'kg'); row.append(kg);
-      } else row.append(el('span'));
+        inp.setAttribute('aria-label', L('{0}: wazn b kg', name)); if (typeof saved.kg === 'number') inp.value = saved.kg; else if (prev && prev.kg != null) inp.placeholder = prev.kg;
+        inp.addEventListener('input', () => { sessDirty = true; }); kg.append(inp);
+        const rp = el('div','kg'), rin = el('input'); rin.type = 'number'; rin.step = '1'; rin.min = '0'; rin.max = '100'; rin.inputMode = 'numeric'; rin.id = 'sx-' + key + '-reps';
+        rin.setAttribute('aria-label', L('{0}: reps', name)); if (typeof saved.reps === 'number') rin.value = saved.reps; else rin.placeholder = repTarget(x[3]);
+        rin.addEventListener('input', () => { sessDirty = true; });
+        rp.append(rin); row.append(kg, rp);
+      } else nm.style.gridColumn = '2 / -1';
       if (saved.done) row.classList.add('done');
       cb.addEventListener('change', () => { row.classList.toggle('done', cb.checked); saveSession(); });
       body.append(row);
@@ -979,14 +1185,33 @@ function renderSession(force){
   });
   setRadio('sxFeel', mine ? mine.feel : null); $('sxNote').value = mine && mine.note ? mine.note : '';
 }
+// The pills that let him swap an exercise, shown under the row.
+function showSwaps(row, base){
+  const old = row.nextElementSibling;
+  if (old && old.classList.contains('swaps')){ old.remove(); return; }
+  const box = el('div','swaps'), cur = S.swaps[base[0]] || '';
+  const opts = [{ key:'', label:L('Rje3 l l-asl') + ' · ' + L(base[1]) }].concat((ALTS[base[0]] || []).map(a => ({ key:a[0], label:L(a[1]) })));
+  opts.forEach(o => {
+    const b = el('button','', o.label); b.type = 'button';
+    b.setAttribute('aria-pressed', o.key === cur ? 'true' : 'false');
+    b.onclick = () => {
+      if (o.key) S.swaps[base[0]] = o.key; else delete S.swaps[base[0]];
+      persist(); renderSession(true); $('sxMsg').textContent = L('Beddelna: {0}', o.label);
+    };
+    box.append(b);
+  });
+  row.after(box);
+}
 function saveSession(){
   const info = dayInfo();
   if (info.restToday) return; // a rest day has no session to save
   const msg = $('sxMsg'), prog = PROGRAM[info.day], items = {};
-  [...prog.am, ...prog.pm].forEach(x => {
-    const key = x[0], it = { done: $('sx-' + key + '-done').checked };
+  WARM.forEach(w => { const cb = $('sx-' + w[0] + '-done'); if (cb && cb.checked) items[w[0]] = { done:true }; });
+  [...prog.am, ...prog.pm].forEach(base => {
+    const x = exActual(base), key = x[0], it = { done: $('sx-' + key + '-done').checked };
     if (x[4]){ const v = $('sx-' + key + '-kg').value.trim().replace(',', '.'), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.kg = n; }
-    if (it.done || it.kg != null) items[key] = it;
+    if (x[4]){ const v = $('sx-' + key + '-reps').value.trim(), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.reps = Math.round(n); }
+    if (it.done || it.kg != null || it.reps != null) items[key] = it;
   });
   const feel = radioVal('sxFeel'), note = $('sxNote').value.trim();
   if (!Object.keys(items).length && !feel && !note){ msg.textContent = L('3ellem 3la l-exercices li derti wla kteb l-awzan.'); return; }
@@ -995,8 +1220,9 @@ function saveSession(){
   S.sessions[doc.date] = doc;
   if (!persist()){ msg.textContent = L('Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.'); return; }
   sessDirty = false; sessShown = today() + info.day + info.week + lang + doc.savedAt;
-  const done = Object.values(items).filter(i => i.done).length, total = prog.am.length + prog.pm.length;
+  const done = Object.values(items).filter(i => i.done).length, total = document.querySelectorAll('#sxBody input[type="checkbox"]').length;
   msg.textContent = L('Tsejjlat ({0}/{1}).', done, total) + (done === total ? L(' Bsa7a o ra7a.') : '');
+  renderProgression(); renderRecap();
 }
 $('sxSave').onclick = saveSession;
 $('sxNote').addEventListener('input', () => { sessDirty = true; });
@@ -1132,6 +1358,185 @@ $('mealAdd').onclick = () => {
   } else msg.textContent = L('Ma tzadetch.');
 };
 
+/* ---------- calorie nudge: the scale decides, not the mood ---------- */
+// Needs at least two weigh-ins in the last 14 days, at least 10 days apart.
+function nudgeAdvice(){
+  if (plan.kcalAt && (dnum(today()) - dnum(plan.kcalAt)) / 864e5 < 14) return null; // he just changed it
+  const recent = checkins.filter(c => (dnum(today()) - dnum(c.date)) / 864e5 <= 14);
+  if (recent.length < 2) return null;
+  const first = recent[0], last = recent[recent.length-1], days = (dnum(last.date) - dnum(first.date)) / 864e5;
+  if (days < 10) return null;
+  const rate = (first.weightKg - last.weightKg) / (days / 7);
+  if (rate < 0.5) return { delta:-200, rate };
+  if (rate > 1.5) return { delta:200, rate };
+  return null;
+}
+function renderNudge(){
+  const b = $('kcalNudge'); if (!b) return;
+  const a = nudgeAdvice();
+  if (!a){ b.hidden = true; return; }
+  $('kcalNudgeText').textContent = a.delta < 0
+    ? L('Wazn ma tnqes bzerba3a: {0} kg f simana. N9es 200 kcal bach tkemmel b l-iqa3.', signed(a.rate))
+    : L('Katnqes bzerba3a: {0} kg f simana. Zid 200 kcal bach ma tf9edch l-3adala wla l-7adid.', signed(a.rate));
+  $('kcalApply').textContent = a.delta < 0 ? L('N9es 200 kcal') : L('Zid 200 kcal');
+  $('kcalApply').onclick = () => {
+    const next = Math.max(1300, Math.round((plan.kcal + a.delta) / 50) * 50);
+    S.plan = { ...S.plan, kcal: next, kcalAt: today() };
+    $('recapMsg').textContent = persist() ? L('L-plan tbeddel: {0} kcal f nhar.', next) : L('Ma tsejjelch.');
+    renderAll(true);
+  };
+  b.hidden = false;
+}
+
+/* ---------- weekly recap: the last 7 days on one card ---------- */
+function recapData(){
+  const d = new Date(); d.setDate(d.getDate() - 6);
+  const from = iso(d), to = today();
+  const inWin = c => c.date >= from && c.date <= to, cs = checkins.filter(inWin);
+  const before = checkins.filter(c => c.date < from).pop(), lastW = cs[cs.length-1] || null;
+  const startW = before || cs[0] || null;
+  const delta = (startW && lastW && startW !== lastW) ? lastW.weightKg - startW.weightKg : null;
+  const sess = sessions.filter(s => s.date >= from && s.date <= to && Object.values(s.items || {}).some(i => i.done)).length;
+  const avg = k => { const v = cs.map(c => c[k]).filter(x => typeof x === 'number'); return v.length ? v.reduce((a,b) => a+b, 0) / v.length : null; };
+  return { from, to, delta, sess, diet:avg('dietDays'), sleep:avg('sleepH') };
+}
+function recapText(){
+  const r = recapData();
+  return [
+    L('Recap dyal simana') + ' ' + dShort(r.from) + ' – ' + dShort(r.to),
+    L('Wazn') + ': ' + (r.delta == null ? '—' : L('{0} kg f simana', signed(r.delta))),
+    L('Seances') + ': ' + r.sess + '/7',
+    L('Makla') + ': ' + (r.diet == null ? '—' : f1(r.diet) + '/7'),
+    L('N3ass') + ': ' + (r.sleep == null ? '—' : f1(r.sleep) + ' h'),
+    L('Mtaba3') + ': ' + trainStreak() + ' · Daftar l-Gym'
+  ].join('\n');
+}
+function renderRecap(){
+  const box = $('recapBody'); if (!box) return;
+  const r = recapData(); box.innerHTML = '';
+  const grid = el('div','recap');
+  const card = (k, v, sub) => { const c = el('div','rc'), vv = el('div','v num', v); if (sub) vv.append(el('small','', ' ' + sub)); c.append(el('div','k', k), vv); return c; };
+  grid.append(
+    card(L('Wazn'), r.delta == null ? '—' : signed(r.delta), 'kg'),
+    card(L('Seances'), String(r.sess), '/7'),
+    card(L('Makla'), r.diet == null ? '—' : f1(r.diet), '/7'),
+    card(L('N3ass'), r.sleep == null ? '—' : f1(r.sleep), 'h')
+  );
+  box.append(grid);
+  if (r.delta == null && !r.sess && r.diet == null) box.append(el('p','muted small', L('Ma kaynch chi recap daba.')));
+}
+$('recapShare').onclick = async () => {
+  const text = recapText();
+  try {
+    if (navigator.share) await navigator.share({ text });
+    else await navigator.clipboard.writeText(text);
+    $('recapMsg').textContent = L('Tnsakh. Lse3o fin bghiti.');
+  } catch (e) { $('recapMsg').textContent = L('Ma tsiftch.'); }
+};
+
+/* ---------- his own food buttons ---------- */
+function renderMyFoods(){
+  const box = $('myFoods'), list = $('myFoodsList'); if (!box || !list) return;
+  box.innerHTML = ''; list.innerHTML = '';
+  if (!S.foods.length){ box.append(el('p','muted small', L('Ba9i ma zedti 7ta makla dyalek.'))); return; }
+  S.foods.forEach(f => {
+    const b = el('button', f.off ? 'off' : '', (f.off ? '✕ ' : '') + f.name); b.type = 'button';
+    b.append(el('small','', f.kcal + ' kcal · ' + f.proteinG + ' g'));
+    b.onclick = () => { $('mealMsg').textContent = addMeal(f.name, f.kcal, f.proteinG, f.off) ? L('Tzadet: {0}', f.name) : L('Ma tzadetch.'); };
+    box.append(b);
+    const row = el('div','meal'), del = el('button','link', L('7iyed')); del.type = 'button';
+    twoStep(del, '7iyed', () => { S.foods = S.foods.filter(x => x !== f); persist(); renderMyFoods(); });
+    row.append(el('div','txt', f.name + ' · ' + f.kcal + ' kcal · ' + f.proteinG + ' g'), del);
+    list.append(row);
+  });
+}
+$('fAdd').onclick = () => {
+  const msg = $('fMsg'), name = $('fName').value.trim(), k = numOrNull('fKcal'), p = numOrNull('fProt');
+  if (!name || k == null || p == null){ msg.textContent = L('Kteb smiya, kcal o protein.'); $('fName').focus(); return; }
+  if (S.foods.length >= 60){ msg.textContent = L('Bzaf 3la l-akhir. 7iyed chi wa7ed.'); return; }
+  S.foods.push({ name: name.slice(0, 60), kcal: Math.round(k), proteinG: Math.round(p), off: false });
+  $('fName').value = $('fKcal').value = $('fProt').value = '';
+  msg.textContent = persist() ? L('Tzadet: {0}', name) : L('Ma tzadetch.');
+  renderMyFoods();
+};
+
+/* ---------- body photos: this phone only, never in the backup ---------- */
+const PH_DB = 'daftar-gym-photos', PH_STORE = 'p';
+function phOpen(){
+  return new Promise((res, rej) => {
+    if (!window.indexedDB) return rej(new Error('no indexeddb'));
+    const rq = indexedDB.open(PH_DB, 1);
+    rq.onupgradeneeded = () => { const db = rq.result; if (!db.objectStoreNames.contains(PH_STORE)) db.createObjectStore(PH_STORE, { keyPath:'id' }); };
+    rq.onsuccess = () => res(rq.result);
+    rq.onerror = () => rej(rq.error);
+  });
+}
+function phRun(mode, run){
+  return phOpen().then(db => new Promise((res, rej) => {
+    const tx = db.transaction(PH_STORE, mode), st = tx.objectStore(PH_STORE), rq = run(st);
+    rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error);
+    tx.oncomplete = () => db.close();
+  }));
+}
+const phAll = () => phRun('readonly', st => st.getAll()).then(list => (list || []).sort((a,b) => a.date < b.date ? 1 : -1));
+const phPut = rec => phRun('readwrite', st => st.put(rec));
+const phDel = id => phRun('readwrite', st => st.delete(id));
+// A phone photo is 3-5 MB; 720 px JPEG is about 80 KB, which the browser happily keeps.
+function shrinkPhoto(file){
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 720, sc = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.72));
+      };
+      img.onerror = () => rej(new Error('bad image'));
+      img.src = fr.result;
+    };
+    fr.onerror = () => rej(fr.error);
+    fr.readAsDataURL(file);
+  });
+}
+function openPhoto(p){
+  $('phImg').src = p.data; $('phDate').textContent = dShort(p.date);
+  $('phView').hidden = false;
+  const del = $('phDel'); del.textContent = L('7iyed tsawira'); del.dataset.sure = '';
+  twoStep(del, '7iyed tsawira', async () => {
+    try { await phDel(p.id); } catch (e) {}
+    $('phView').hidden = true; $('phImg').src = '';
+    $('phMsg').textContent = L('Tsawira t7eydat.'); renderPhotos();
+  });
+}
+async function renderPhotos(){
+  const box = $('phList'); if (!box) return;
+  box.innerHTML = '';
+  let list = [];
+  try { list = await phAll(); } catch (e) {}
+  if (!list.length){ box.append(el('p','muted small', L('Ma kaynch tsawer ba9i.'))); return; }
+  list.forEach(p => {
+    const b = el('button'), img = el('img');
+    b.type = 'button'; img.src = p.data; img.alt = L('Tsawira') + ' ' + dShort(p.date);
+    b.append(img, el('span','d', dShort(p.date))); b.onclick = () => openPhoto(p);
+    box.append(b);
+  });
+}
+$('phAdd').onclick = () => $('phFile').click();
+$('phFile').addEventListener('change', async () => {
+  const f = $('phFile').files && $('phFile').files[0]; if (!f) return;
+  const msg = $('phMsg');
+  try {
+    const data = await shrinkPhoto(f);
+    await phPut({ id: today() + '-' + Date.now(), date: today(), data });
+    msg.textContent = L('Tsawira tzadet.'); renderPhotos();
+  } catch (e) { msg.textContent = L('Ma 9dertch nzid tsawira.'); }
+  $('phFile').value = '';
+});
+$('phClose').onclick = () => { $('phView').hidden = true; $('phImg').src = ''; };
+
 /* ---------- report for the coach (always in English so any coach or model reads it) ---------- */
 function report(){
   const R = [], info = dayInfo();
@@ -1228,8 +1633,17 @@ function route(){
   if (v === 't9eddom' && hasPlan(S.plan)) renderChart();
   animate(document.querySelectorAll('#app [data-view="' + v + '"]'));
   window.scrollTo(0, 0);
+  // A tab name can match a section id (#makla): the browser scrolls to it after us, so scroll again.
+  setTimeout(() => window.scrollTo(0, 0), 0);
 }
 window.addEventListener('hashchange', route);
+// A deep link like index.html#makla lands on that section; the browser scrolls to it after load, so come back to the top.
+window.addEventListener('load', () => {
+  const id = location.hash.slice(1);
+  if (!id || !document.getElementById(id)) return;
+  setTimeout(() => window.scrollTo(0, 0), 100);
+  setTimeout(() => window.scrollTo(0, 0), 300);
+});
 
 /* ---------- first run ---------- */
 function hasPlan(p){ return !!p && ['heightCm','goalKg','kcal','proteinG','startDate'].every(k => p[k] != null && p[k] !== ''); }
@@ -1268,9 +1682,15 @@ $('suEnter').onclick = () => {
 };
 
 /* ---------- boot ---------- */
-function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); renderWater(); renderBackupBanner(); }
+function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); renderWater(); renderBackupBanner(); renderProgression(); renderRecap(); renderNudge(); renderMyFoods(); renderPhotos(); }
 function setView(v){ view = v; $('vWeek').setAttribute('aria-pressed', v === 'week'); $('vMonth').setAttribute('aria-pressed', v === 'month'); renderChart(); renderTable(); }
 $('vWeek').onclick = () => setView('week'); $('vMonth').onclick = () => setView('month');
+$('vRange').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || !b.dataset.r) return;
+  chartRange = b.dataset.r;
+  $('vRange').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  renderChart();
+});
 load(); applyTheme(); showStorageState();
 $('ciDate').value = today(); renderFoods(); syncSettingsUI();
 if (hasPlan(S.plan)) enterApp(); else showSetup();
