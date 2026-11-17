@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ary-Latn">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -220,8 +220,8 @@ button:active,.seg label:active{transform:scale(.95)}
   <section class="block" id="suForm">
     <div class="field"><span class="flabel">Lugha</span>
       <div class="seg" role="radiogroup" aria-label="Lugha">
-        <input type="radio" name="suLang" id="suLangD" value="dar"><label for="suLangD">Darija</label>
         <input type="radio" name="suLang" id="suLangE" value="en"><label for="suLangE">English</label>
+        <input type="radio" name="suLang" id="suLangD" value="dar"><label for="suLangD">Darija</label>
       </div>
     </div>
     <div>
@@ -290,8 +290,8 @@ button:active,.seg label:active{transform:scale(.95)}
         <button type="button" data-t="auto" aria-pressed="false">Auto</button>
       </div>
       <div class="toggle compact" id="qLang" role="group" aria-label="Lugha">
-        <button type="button" data-l="dar" aria-pressed="true">Dar</button>
-        <button type="button" data-l="en" aria-pressed="false">EN</button>
+        <button type="button" data-l="en" aria-pressed="true">EN</button>
+        <button type="button" data-l="dar" aria-pressed="false">Dar</button>
       </div>
       <span class="week-chip num" id="weekChip">&nbsp;</span>
     </div>
@@ -482,8 +482,8 @@ button:active,.seg label:active{transform:scale(.95)}
     </div>
     <div class="field"><span class="flabel">Lugha</span>
       <div class="seg" role="radiogroup" aria-label="Lugha">
-        <input type="radio" name="setLang" id="setLangD" value="dar"><label for="setLangD">Darija</label>
         <input type="radio" name="setLang" id="setLangE" value="en"><label for="setLangE">English</label>
+        <input type="radio" name="setLang" id="setLangD" value="dar"><label for="setLangD">Darija</label>
       </div>
     </div>
   </section>
@@ -543,7 +543,7 @@ const KEY = 'daftar-gym-v1';
 // No built-in numbers: every phone starts empty and fills these in on the first-run screen.
 const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null };
 let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
-let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'dar';
+let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'en';
 const $ = id => document.getElementById(id);
 function clean(o){
   const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{} };
@@ -553,6 +553,7 @@ function clean(o){
     if (['auto','light','dark'].includes(o.settings.theme)) out.settings.theme = o.settings.theme;
     if (['dar','en'].includes(o.settings.lang)) out.settings.lang = o.settings.lang;
     if (typeof o.settings.backupAt === 'string' && !isNaN(Date.parse(o.settings.backupAt))) out.settings.backupAt = o.settings.backupAt;
+    if (Number(o.settings.v) === 2) out.settings.v = 2;
   }
   const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s);
   if (o.checkins && typeof o.checkins === 'object') for (const k in o.checkins) { const c = o.checkins[k]; if (isDate(k) && c && typeof c.weightKg === 'number') out.checkins[k] = { ...c, date:k }; }
@@ -562,11 +563,16 @@ function clean(o){
   if (Array.isArray(o.meals)) out.meals = o.meals.filter(m => m && isDate(m.date || '')).map(m => ({ id:String(m.id || (m.ts + '-' + Math.random().toString(36).slice(2,7))), ts:Number(m.ts) || 0, date:m.date, text:String(m.text || ''), kcal:Number(m.kcal) || 0, proteinG:Number(m.proteinG) || 0, off:!!m.off }));
   return out;
 }
-function load(){ try { const raw = localStorage.getItem(KEY); if (raw) S = clean(JSON.parse(raw)); } catch (e) { storageOk = false; } sync(); }
+function load(){
+  try { const raw = localStorage.getItem(KEY); if (raw) S = clean(JSON.parse(raw)); } catch (e) { storageOk = false; }
+  // One-time move: English is now the app's main language. After this, his own choice is kept.
+  if (S.settings.v !== 2){ S.settings.v = 2; delete S.settings.lang; persist(); }
+  else sync();
+}
 function persist(){ try { localStorage.setItem(KEY, JSON.stringify(S)); storageOk = true; } catch (e) { storageOk = false; } sync(); showStorageState(); return storageOk; }
 function sync(){
   plan = { ...DEF, ...S.plan };
-  lang = S.settings.lang === 'en' ? 'en' : 'dar';
+  lang = S.settings.lang === 'dar' ? 'dar' : 'en'; // English is the main language; Darija is the option.
   checkins = Object.values(S.checkins).sort((a,b) => a.date < b.date ? -1 : 1);
   sessions = Object.values(S.sessions).sort((a,b) => a.date < b.date ? 1 : -1);
   meals = [...S.meals].sort((a,b) => a.ts - b.ts);
@@ -662,7 +668,8 @@ const EN = {
   'Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. L-hadaf dyalek 9rib mn l-wazn dyalek, so kanakhdo nefs l-calories.':'Your body burns about {0} kcal a day with training. Your goal is close to your current weight, so you eat about the same.',
   'Wazn d l-bdya':'Starting weight',
   // rest day, timer, water, plan meals, backup nudge
-  'Rya7a':'Rest', 'Lyoum rya7a':'Rest today', 'Rje3 l l-7adid':'Back to training',
+  'Rya7a':'Rest', 'Ra7a':'Rest', 'Lyoum rya7a':'Rest today', 'Rje3 l l-7adid':'Back to training',
+  'Nhar rya7a. Ma kayn 7ta seance lyoum.':'Rest day. No session today.',
   'Lyoum rya7a. Ghddan katbda mn nhar {0}.':'Rest day today. Tomorrow you start again on day {0}.',
   'Rya7a tsejjlat. L-rotation b9at 3la 7alha.':'Rest day saved. The rotation stays where it is.',
   'Rya7a tms7at.':'Rest day removed.',
