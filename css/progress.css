@@ -1,0 +1,48 @@
+/* weekly recap, exercise progression, photos */
+.recap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:560px){ .recap{grid-template-columns:repeat(4,1fr)} }
+.rc{background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.rc .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.rc .v{font-size:19px;font-weight:800;line-height:1.2;margin-top:2px}
+.rc .v small{font-size:12px;font-weight:500;color:var(--muted)}
+.prow{display:grid;grid-template-columns:1fr;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+.prow .pill{justify-self:start;font-size:12.5px;padding:3px 9px}
+.prow:last-child{border-bottom:none}
+.prow .nm{font-weight:700;min-width:0}
+.prow .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.photos p{grid-column:1/-1;margin:0}
+.photos button{position:relative;padding:0;border:none;background:none;line-height:0}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+.photos .d{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;padding:2px 6px;border-radius:6px;line-height:1.4}
+.viewer{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px}
+.viewer img{max-width:100%;max-height:78vh;border-radius:12px}
+.viewer .vdate{color:#fff;font-size:13px;opacity:.85}
+.viewer #phClose{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:17px;padding:9px 13px;border-radius:10px}
+.viewer #phDel{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:14px;padding:9px 14px;border-radius:10px}
+.meal{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.meal:last-child{border-bottom:none}
+.meal .txt{min-width:0;overflow-wrap:anywhere}
+.meal .side{text-align:right;white-space:nowrap;font-size:13px;color:var(--muted)}
+details{border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:700}
+.plan td:first-child{font-weight:700;white-space:nowrap}
+.part{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.ex{display:grid;grid-template-columns:auto 1fr 76px 52px;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.ex-head{display:grid;grid-template-columns:auto 1fr 76px 52px;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:center;padding-bottom:2px}
+.ex-head span:first-child{grid-column:1/3}
+.swaps{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 10px 36px}
+.swaps button{font-size:12.5px;padding:6px 10px;font-weight:500}
+.swaps button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ex input[type="checkbox"]{width:26px;height:26px;padding:0;accent-color:var(--accent)}
+.ex .nm{font-weight:700;min-width:0}
+.ex .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.ex .kg{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted)}
+.ex .kg input{text-align:right;padding:8px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;min-height:150px}
+
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.nav .in{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;width:100%;max-width:560px}
+.nav a{text-decoration:none;color:var(--muted);text-align:center;padding:12px 2px;border-radius:10px;font-weight:700;font-size:13px}
+.nav a[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}

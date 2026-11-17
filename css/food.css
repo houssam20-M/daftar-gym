@@ -1,0 +1,8 @@
+/* food tab: today's menu and the day report */
+.menu-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.menu-row input[type="checkbox"]{width:26px;height:26px;margin:2px 0 0;padding:0;accent-color:var(--accent)}
+.menu-row .nm{font-weight:700;min-width:0}
+.menu-row .nm span{display:block;font-weight:400;font-size:13.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.menu-row .nm small{display:block;font-weight:500;font-size:12px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.menu-row.done .nm{opacity:.55}
+.dayrep{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink)}

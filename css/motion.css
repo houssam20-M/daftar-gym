@@ -1,0 +1,22 @@
+/* ---------- motion ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.55) rotate(-20deg)}60%{opacity:1;transform:scale(1.08) rotate(4deg)}100%{opacity:1;transform:none}}
+@keyframes lift{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(-12deg) translateY(-3px)}}
+@keyframes fadeout{to{opacity:0;visibility:hidden}}
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;animation:fadeout .35s 3s forwards}
+#splash.out{animation:fadeout .35s forwards}
+#splash svg{width:116px;height:116px;border-radius:27px;animation:pop .7s cubic-bezier(.2,.9,.3,1.2) both}
+#splash svg g{transform-origin:50px 50px;transform:rotate(-30deg);animation:lift .9s .55s ease-in-out 1}
+#splash .nm{font-size:27px;font-weight:800;letter-spacing:-.01em;animation:rise .5s .35s both}
+#splash .tg{color:var(--muted);font-size:14px;animation:rise .5s .5s both}
+.anim{animation:rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * 55ms)}
+button,.seg label{transition:transform .12s ease,background-color .15s ease,color .15s ease,border-color .15s ease}
+button:active,.seg label:active{transform:scale(.95)}
+.nav a{transition:background-color .2s ease,color .2s ease,transform .12s ease}
+.nav a:active{transform:scale(.94)}
+.bar i{transition:width .55s cubic-bezier(.2,.8,.2,1),background-color .2s ease}
+.ex .nm{transition:opacity .25s ease}
+.ex.done .nm{opacity:.5}
+.logo{transition:transform .3s cubic-bezier(.2,.9,.3,1.4)}
+.brand:active .logo{transform:rotate(-12deg) scale(1.06)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important} }
