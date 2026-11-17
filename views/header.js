@@ -1,5 +1,5 @@
-// views/header.js - markup of the top of the app: logo, theme and language buttons, week number, banners.
-// Only HTML lives here. The code that fills it and handles its buttons: js/ui.js, js/report.js.
+// views/header.js - markup of the top of the app: logo, the settings gear, the week number, banners.
+// Only HTML lives here. The code that fills it and handles its buttons: js/stats.js (week), js/boot.js (gear), js/report.js (banners).
 document.getElementById('app').insertAdjacentHTML('beforeend', `
 <header class="top">
   <div class="brand">
@@ -19,19 +19,9 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
       <p class="muted" id="subline">&nbsp;</p>
     </div>
   </div>
-  <div class="hdr-tools">
-    <div class="toggle compact" id="qTheme" role="group" aria-label="Lon">
-      <button type="button" data-t="light" aria-pressed="false" aria-label="Bid"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.3M12 19.3v2.3M2.4 12h2.3M19.3 12h2.3M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg></button>
-      <button type="button" data-t="dark" aria-pressed="false" aria-label="K7el"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3z"/></svg></button>
-      <button type="button" data-t="auto" aria-pressed="false">Auto</button>
-    </div>
-    <div class="toggle compact" id="qLang" role="group" aria-label="Lugha">
-      <button type="button" data-l="en" aria-pressed="true">EN</button>
-      <button type="button" data-l="dar" aria-pressed="false">Dar</button>
-    </div>
-    <span class="week-chip num" id="weekChip">&nbsp;</span>
-  </div>
+  <a class="gear" href="#settings" aria-label="I3dadat"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" fill="#111111" stroke="#111111" stroke-width="1.3" stroke-linejoin="round" d="M9.92 3.66 L10.44 0.91 L13.56 0.91 L14.08 3.66 L16.43 4.63 L18.74 3.06 L20.94 5.26 L19.37 7.57 L20.34 9.92 L23.09 10.44 L23.09 13.56 L20.34 14.08 L19.37 16.43 L20.94 18.74 L18.74 20.94 L16.43 19.37 L14.08 20.34 L13.56 23.09 L10.44 23.09 L9.92 20.34 L7.57 19.37 L5.26 20.94 L3.06 18.74 L4.63 16.43 L3.66 14.08 L0.91 13.56 L0.91 10.44 L3.66 9.92 L4.63 7.57 L3.06 5.26 L5.26 3.06 L7.57 4.63 Z M12 8.4 A3.6 3.6 0 1 0 12 15.6 A3.6 3.6 0 1 0 12 8.4 Z"/></svg></a>
 </header>
+<div class="week-row"><span class="week-chip num" id="weekChip">&nbsp;</span></div>
 
 <div class="banner" id="banner" hidden></div>
 

@@ -18,11 +18,11 @@ A small phone app to track the gym and food. It works offline, and all data stay
 | Week | The weekly check-in: weight, sleep, energy, food. At the top: a recap of the last 7 days (weight, sessions, food, sleep) with a "Share" button, and a calorie nudge when the weight is not moving or is dropping too fast. |
 | Progress | The weight chart, weekly or monthly, last 12 weeks or everything, a dashed line for the expected pace (0.75 kg a week), and the exercise progression: every exercise with its last kg x reps and a hint (add 2.5 kg / more reps / go lighter). |
 | Food | Add what you ate and see calories and protein against the daily target. It has the 5 plan meals in one tap, your own food buttons (ones you save yourself), and the water counter (12 glasses = 3 L). |
-| More | Settings (theme: auto, light or dark; language: English or Darija), the report for your coach, the plan (height, goal, calories), the backup, and body photos (once a month). |
+| More | The report for your coach, the plan (height, goal, calories), the backup, and body photos (once a month). |
 
 The app's main language is **English**; Darija is an option (from the top bar or from More).
 
-The theme and the language also have buttons in the app's top bar, so you do not have to go to More.
+Settings open from the gear at the top right of every tab: light, dark or auto, six colour themes (Khdar, Majorelle, Zafran, Ward, Zitoun, Bnafsaji), and the language (English or Darija). The week number sits in the middle under the header.
 
 ## The programme
 

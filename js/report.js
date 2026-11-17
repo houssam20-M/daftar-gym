@@ -39,14 +39,6 @@ $('repCopy').onclick = () => copyText(report(), $('repBox'), $('repMsg'), L('Tns
 /* ---------- settings, plan, backup ---------- */
 document.querySelectorAll('input[name="setTheme"]').forEach(r => r.addEventListener('change', () => { S.settings.theme = r.value; persist(); applyTheme(); }));
 document.querySelectorAll('input[name="setLang"], input[name="suLang"]').forEach(r => r.addEventListener('change', () => setLang(r.value)));
-$('qTheme').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b || !b.dataset.t) return;
-  S.settings.theme = b.dataset.t; persist(); applyTheme(); syncSettingsUI();
-});
-$('qLang').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b || !b.dataset.l) return;
-  setLang(b.dataset.l);
-});
 function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; setRadio('pSess', sessPerDay()); setRadio('pDays', daysPerWeek()); }
 $('pSave').onclick = () => {
   const h = numOrNull('pHeight'), g = numOrNull('pGoal'), k = numOrNull('pKcal'), p = numOrNull('pProt'), st = $('pStart').value, msg = $('pMsg');

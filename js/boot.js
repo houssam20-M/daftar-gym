@@ -1,9 +1,12 @@
 // boot.js - tabs, first run and the start of the app.
 /* ---------- tabs ---------- */
-const VIEWS = ['lyoum','simana','t9eddom','makla','kter'];
+const VIEWS = ['lyoum','simana','t9eddom','makla','kter','settings'];
+let lastTab = 'lyoum'; // where the back button of Settings returns
 function route(){
   const h = location.hash.slice(1), v = VIEWS.includes(h) ? h : 'lyoum';
   document.querySelectorAll('[data-view]').forEach(e => { e.hidden = e.dataset.view !== v; });
+  if (v !== 'settings') lastTab = v;
+  const g = document.querySelector('.gear'); if (g){ if (v === 'settings') g.setAttribute('aria-current','page'); else g.removeAttribute('aria-current'); }
   document.querySelectorAll('.nav a').forEach(a => { if (a.getAttribute('href') === '#' + v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   if (v === 't9eddom' && hasPlan(S.plan)) renderChart();
   document.querySelectorAll('#app [data-view="' + v + '"] textarea.grow').forEach(autoGrow);
@@ -13,6 +16,7 @@ function route(){
   setTimeout(() => window.scrollTo(0, 0), 0);
 }
 window.addEventListener('hashchange', route);
+$('setBack').onclick = () => { location.hash = lastTab; };
 // A deep link like index.html#makla lands on that section; the browser scrolls to it after load, so come back to the top.
 window.addEventListener('load', () => {
   const id = location.hash.slice(1);

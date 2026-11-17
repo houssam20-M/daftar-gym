@@ -34,11 +34,8 @@ $('palettes').addEventListener('click', e => {
 });
 // The phone switching between light and dark changes the main colour too.
 if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyTheme());
-// The two header controls and the radios in Kter show the same setting.
+// The colour swatches show the theme in use.
 function syncQuick(){
-  const t = S.settings.theme || 'auto', tg = $('qTheme'), lg = $('qLang');
-  if (tg) tg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === t ? 'true' : 'false'));
-  if (lg) lg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === lang ? 'true' : 'false'));
   const pl = S.settings.palette || 'khdar', pk = $('palettes');
   if (pk) pk.querySelectorAll('button').forEach(b => b.setAttribute('aria-checked', b.dataset.p === pl ? 'true' : 'false'));
 }

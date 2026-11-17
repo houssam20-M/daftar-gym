@@ -1,5 +1,5 @@
 // Offline shell for Daftar l-Gym. Bump CACHE when index.html changes so phones pick up the new version.
-const CACHE = 'daftar-gym-v16';
+const CACHE = 'daftar-gym-v17';
 const FILES = [
   './',
   'index.html',
@@ -21,6 +21,7 @@ const FILES = [
   'views/t9eddom.js',
   'views/makla.js',
   'views/kter.js',
+  'views/settings.js',
   'views/nav.js',
   'views/photo-viewer.js',
   'js/store.js',

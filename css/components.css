@@ -1,5 +1,4 @@
 /* Quick buttons in the header: switch theme and language without opening Kter. */
-.hdr-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
 .toggle.compact button{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:7px 10px;font-size:13px;line-height:1}
 .toggle.compact button svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
