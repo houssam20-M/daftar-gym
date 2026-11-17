@@ -34,7 +34,7 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
         <input type="radio" name="sxFeel" id="sxF3" value="s3iba"><label for="sxF3">S3iba</label>
       </div>
     </div>
-    <div class="field"><label for="sxNote">Molahada (wja3, machine ma l9itihach...)</label><input id="sxNote" type="text" maxlength="300"></div>
+    <div class="field"><label for="sxNote">Molahada (wja3, machine ma l9itihach...)</label><textarea id="sxNote" class="grow" rows="1" maxlength="600"></textarea></div>
     <div class="row">
       <button class="primary" type="button" id="sxSave">Sejjel seance</button>
       <span class="msg" id="sxMsg" role="status"></span>

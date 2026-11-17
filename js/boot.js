@@ -6,6 +6,7 @@ function route(){
   document.querySelectorAll('[data-view]').forEach(e => { e.hidden = e.dataset.view !== v; });
   document.querySelectorAll('.nav a').forEach(a => { if (a.getAttribute('href') === '#' + v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   if (v === 't9eddom' && hasPlan(S.plan)) renderChart();
+  document.querySelectorAll('#app [data-view="' + v + '"] textarea.grow').forEach(autoGrow);
   animate(document.querySelectorAll('#app [data-view="' + v + '"]'));
   window.scrollTo(0, 0);
   // A tab name can match a section id (#makla): the browser scrolls to it after us, so scroll again.

@@ -31,7 +31,7 @@ function clean(o){
   if (o.dayfood && typeof o.dayfood === 'object') for (const k in o.dayfood) {
     const d = o.dayfood[k]; if (!isDate(k) || !d || typeof d !== 'object') continue;
     const eaten = {}; if (d.eaten && typeof d.eaten === 'object') for (const m in d.eaten) if (d.eaten[m] && /^[a-z0-9-]{1,20}$/.test(m)) eaten[m] = true;
-    const note = typeof d.note === 'string' ? d.note.slice(0, 300) : '';
+    const note = typeof d.note === 'string' ? d.note.slice(0, 600) : '';
     if (Object.keys(eaten).length || note) out.dayfood[k] = note ? { eaten, note } : { eaten };
   }
   // menu = his own meals: [{ id, name, desc, kcal, proteinG }]. Empty for a new user.

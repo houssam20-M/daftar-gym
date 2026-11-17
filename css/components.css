@@ -23,6 +23,8 @@ section.block{background:var(--surface);border:1px solid var(--line);border-radi
 label,.flabel{font-size:13px;font-weight:500;color:var(--muted)}
 input,textarea,select{font:inherit;font-size:16px;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;min-width:0}
 textarea{resize:vertical;min-height:64px}
+/* Note boxes: one line when empty, and taller with every line he writes. */
+textarea.grow{resize:none;min-height:0;overflow:hidden;line-height:1.45}
 input:focus-visible,textarea:focus-visible,button:focus-visible,.seg label:focus-within,.nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .seg input{position:absolute;opacity:0;width:1px;height:1px}

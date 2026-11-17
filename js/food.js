@@ -65,7 +65,7 @@ function renderMeals(){
     });
     row.append(cb, nm); box.append(row);
   });
-  if (document.activeElement !== $('dfNote')) $('dfNote').value = df.note || '';
+  if (document.activeElement !== $('dfNote')){ $('dfNote').value = df.note || ''; autoGrow($('dfNote')); }
   renderDayReport();
 }
 $('mnAdd').onclick = () => {
@@ -82,7 +82,7 @@ $('dfNote').addEventListener('input', () => {
   clearTimeout(dfT);
   dfT = setTimeout(() => {
     const cur = dayFood(), next = { eaten: { ...cur.eaten } }, v = $('dfNote').value.trim();
-    if (v) next.note = v.slice(0, 300);
+    if (v) next.note = v.slice(0, 600);
     $('dfMsg').textContent = saveDayFood(next) ? L('Tsejjlat.') : L('Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.');
     renderDayReport();
   }, 500);

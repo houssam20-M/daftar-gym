@@ -228,7 +228,7 @@ function renderSession(force){
       body.append(row);
     });
   });
-  setRadio('sxFeel', mine ? mine.feel : null); $('sxNote').value = mine && mine.note ? mine.note : '';
+  setRadio('sxFeel', mine ? mine.feel : null); $('sxNote').value = mine && mine.note ? mine.note : ''; autoGrow($('sxNote'));
 }
 // The pills that let him swap an exercise, shown under the row.
 function showSwaps(row, base){

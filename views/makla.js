@@ -26,7 +26,7 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
     <div class="row" style="margin-top:10px"><button class="primary" type="button" id="mnAdd">Zid</button><span class="msg" id="mnMsg" role="status"></span></div>
   </details>
 
-  <div class="field"><label for="dfNote">Ila klit chi 7aja khra, kteb hna</label><input id="dfNote" type="text" maxlength="300" placeholder="Matalan: f l-ghda klit tajine l7em"></div>
+  <div class="field"><label for="dfNote">Ila klit chi 7aja khra, kteb hna</label><textarea id="dfNote" class="grow" rows="1" maxlength="600" placeholder="Matalan: f l-ghda klit tajine l7em"></textarea></div>
   <span class="msg" id="dfMsg" role="status"></span>
 
   <div class="meter">

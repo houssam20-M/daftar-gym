@@ -23,3 +23,7 @@ function twoStep(btn, key, run){
     btn.dataset.sure = ''; btn.textContent = L(key); run();
   };
 }
+
+// A note box that grows with its text: one line when empty, one more line for each line he writes.
+function autoGrow(t){ if (!t) return; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; }
+document.addEventListener('input', e => { if (e.target.classList && e.target.classList.contains('grow')) autoGrow(e.target); });
