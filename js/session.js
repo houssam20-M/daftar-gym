@@ -227,7 +227,7 @@ function saveSession(){
   sessDirty = false; sessShown = today() + info.day + info.week + lang + doc.savedAt;
   const done = Object.values(items).filter(i => i.done).length, total = document.querySelectorAll('#sxBody input[type="checkbox"]').length;
   msg.textContent = L('Tsejjlat ({0}/{1}).', done, total) + (done === total ? L(' Bsa7a o ra7a.') : '');
-  renderProgression(); renderRecap();
+  renderProgression(); renderRecap(); renderDayReport();
 }
 $('sxSave').onclick = saveSession;
 $('sxNote').addEventListener('input', () => { sessDirty = true; });

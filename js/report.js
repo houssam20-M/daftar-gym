@@ -18,6 +18,10 @@ function report(){
   const days = Object.keys(byDay).sort().slice(-7);
   if (!days.length) R.push('  (none yet)');
   days.forEach(d => { const a = byDay[d]; R.push('  ' + d + ': ' + a.reduce((x,m) => x + m.kcal, 0) + ' kcal, ' + a.reduce((x,m) => x + m.proteinG, 0) + ' g protein | ' + a.map(m => m.text + (m.kcal ? '' : ' (kcal unknown)')).join('; ') + (S.water[d] ? ' | water ' + S.water[d] + '/12' : '')); });
+  R.push(''); R.push('PLAN MEALS EATEN (last 7 days, out of ' + MENU.length + ': ' + MENU.map(m => m[0]).join(', ') + '):');
+  const fdays = Object.keys(S.dayfood).sort().slice(-7);
+  if (!fdays.length) R.push('  (none yet)');
+  fdays.forEach(d => { const f = S.dayfood[d]; R.push('  ' + d + ': ' + (Object.keys(f.eaten).join(', ') || 'none') + (f.note ? ' | ' + f.note : '') + (S.water[d] ? ' | water ' + S.water[d] + '/12' : '')); });
   const rests = Object.keys(S.rests).sort().slice(-10);
   R.push(''); R.push('REST DAYS (last 10): ' + (rests.length ? rests.join(', ') : 'none'));
   if (S.water[today()]) R.push('Water today: ' + S.water[today()] + '/12 glasses.');

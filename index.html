@@ -266,82 +266,32 @@
   <section class="block" id="makla" data-view="makla">
     <div class="block-head">
       <div>
-        <h2>Makla</h2>
-        <p class="muted small">L-hadaf dyal kol nhar, o ch7al kliti lyoum.</p>
+        <h2>Makla d lyoum</h2>
+        <p class="muted small">Ach takol lyoum. 3ellem 3la kol wejba mnin takolha.</p>
       </div>
-      <div class="rules"><span class="pill">✕ Bla khobz</span><span class="pill">✕ Bla sokkar</span><span class="pill">3 L ma</span></div>
+      <div class="rules"><span class="pill">✕ Bla khobz</span><span class="pill">✕ Bla sokkar</span><span class="pill">✕ Bla 7lib</span></div>
     </div>
-    <div class="targets">
-      <div class="meter"><div class="top"><span>Calories lyoum</span><span class="num" id="mKcalTxt">0 kcal</span></div><div class="bar"><i id="mKcalBar"></i></div></div>
-      <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
-    </div>
-    <p class="msg" id="mVerdict" role="status"></p>
+
+    <div id="menuToday"></div>
+    <p class="muted small" id="menuTotal">&nbsp;</p>
+    <div class="field"><label for="dfNote">Ila klit chi 7aja khra, kteb hna</label><input id="dfNote" type="text" maxlength="300" placeholder="Matalan: f l-ghda klit tajine l7em"></div>
+    <span class="msg" id="dfMsg" role="status"></span>
 
     <div class="meter">
       <div class="top"><span>L-ma lyoum</span><span class="num" id="mWaterTxt">0 / 12 kisan</span></div>
       <div class="bar"><i id="mWaterBar"></i></div>
       <div class="row"><button type="button" id="wAdd">+ Kas</button><button type="button" class="link" id="wSub">− Kas</button></div>
     </div>
+  </section>
 
+  <section class="block" id="dayReport" data-view="makla">
     <div>
-      <h3>Wejbat l-plan</h3>
-      <p class="muted small" style="margin:2px 0 10px">Dghet 3la l-wejba bach tzidha b kcal o protein dyalha.</p>
-      <div class="foods" id="mealPresets"></div>
+      <h2>Ta9rir d lyoum</h2>
+      <p class="muted small">Ach derti lyoum f gym o f l-makla. Nskho o lse9o l l-coach mnin trje3 l d-dar.</p>
     </div>
-
-    <div>
-      <h3>Makla dyalek</h3>
-      <p class="muted small" style="margin:2px 0 10px">Kteb smiytha, kcal o protein, o mn b3d katb9a bouton 3ndek.</p>
-      <div class="foods" id="myFoods"></div>
-      <div class="grid" style="margin-top:12px">
-        <div class="field"><label for="fName">Smiya</label><input id="fName" type="text" maxlength="60" placeholder="Matalan: tajine l7em b l-ber9o9"></div>
-        <div class="field"><label for="fKcal">kcal</label><input id="fKcal" type="number" min="0" max="3000" inputmode="numeric"></div>
-        <div class="field"><label for="fProt">Protein g</label><input id="fProt" type="number" min="0" max="300" inputmode="numeric"></div>
-      </div>
-      <div class="row" style="margin-top:10px"><button type="button" id="fAdd">Zid makla</button><span class="msg" id="fMsg" role="status"></span></div>
-      <details style="margin-top:8px"><summary>7iyed makla dyalek</summary><div id="myFoodsList"></div></details>
-    </div>
-
-    <div>
-      <h3>Zid b dghya</h3>
-      <p class="muted small" style="margin:2px 0 10px">Dghet 3la li kliti. L-ar9am ta9ribiya, l kol portion.</p>
-      <div class="foods" id="foods"></div>
-    </div>
-
-    <div>
-      <h3>Wejba khra</h3>
-      <div class="grid" style="margin-top:8px">
-        <div class="field wide"><label for="mealText">Ach kliti</label><input id="mealText" type="text" maxlength="200" placeholder="Matalan: tajine l7em b l-ber9o9"></div>
-        <div class="field"><label for="mealKcal">kcal (ila 3refti)</label><input id="mealKcal" type="number" min="0" max="5000" inputmode="numeric"></div>
-        <div class="field"><label for="mealProt">Protein g (ila 3refti)</label><input id="mealProt" type="number" min="0" max="400" inputmode="numeric"></div>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button class="primary" type="button" id="mealAdd">Zid l-wejba</button>
-        <span class="msg" id="mealMsg" role="status"></span>
-      </div>
-    </div>
-
-    <div>
-      <h3>Wejbat lyoum</h3>
-      <div id="mealsToday"></div>
-    </div>
-
-    <details>
-      <summary>Mital dyal nhar kamel (bla khobz, bla sokkar)</summary>
-      <div class="tablewrap" style="margin-top:10px">
-        <table class="plan">
-          <thead><tr><th>Wejba</th><th>Ach takol</th><th class="n">kcal</th><th class="n">Protein</th></tr></thead>
-          <tbody>
-            <tr><td>Ftour</td><td>3 bidat + chofan (60 g) b 7lib + banana + atay bla sokkar</td><td class="n">≈600</td><td class="n">≈35 g</td></tr>
-            <tr><td>10h</td><td>Raib wla yaourt nature + kemcha louz (30 g)</td><td class="n">≈300</td><td class="n">≈12 g</td></tr>
-            <tr><td>Ghda</td><td>Tajine djaj (200 g sder) b khodra bzaf + rouz wla btata (200 g mteybin) + chlada</td><td class="n">≈750</td><td class="n">≈65 g</td></tr>
-            <tr><td>9bel wla b3d l-7adid</td><td>7okka tun (b l-ma) + 2 bidat meslou9in + teffa7a</td><td class="n">≈330</td><td class="n">≈40 g</td></tr>
-            <tr><td>3cha</td><td>T9ebsil 3des wla loubia + 150 g 7out mechwi + chlada</td><td class="n">≈520</td><td class="n">≈40 g</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="muted small" style="margin-top:8px">F blast l-khobz: rouz, btata, chofan, 3des. Zit: mel3e9a wa7da kbira f tajine dyalek.</p>
-    </details>
+    <pre class="dayrep" id="dayRep"></pre>
+    <div class="row"><button class="primary" type="button" id="dayRepCopy">Nskh ta9rir d lyoum</button><span class="msg" id="dayRepMsg" role="status"></span></div>
+    <textarea class="mono" id="dayRepBox" readonly hidden aria-label="Ta9rir"></textarea>
   </section>
 
   <section class="block" data-view="kter">

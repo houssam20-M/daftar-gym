@@ -3,11 +3,11 @@
 const KEY = 'daftar-gym-v1';
 // No built-in numbers: every phone starts empty and fills these in on the first-run screen.
 const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null, kcalAt:null };
-let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{} };
+let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{}, dayfood:{} };
 let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'en';
 const $ = id => document.getElementById(id);
 function clean(o){
-  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{} };
+  const out = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{}, dayfood:{} };
   if (!o || typeof o !== 'object') return out;
   if (o.plan && typeof o.plan === 'object') for (const k in DEF) if (o.plan[k] != null) out.plan[k] = o.plan[k];
   if (o.settings && typeof o.settings === 'object'){
@@ -25,6 +25,13 @@ function clean(o){
     name: String(f.name).slice(0, 60), kcal: Math.max(0, Math.min(3000, Math.round(Number(f.kcal) || 0))),
     proteinG: Math.max(0, Math.min(300, Math.round(Number(f.proteinG) || 0))), off: !!f.off }));
   if (o.swaps && typeof o.swaps === 'object') for (const k in o.swaps) if (typeof o.swaps[k] === 'string' && o.swaps[k]) out.swaps[k] = o.swaps[k];
+  // dayfood[date] = { eaten: { ftour:true, ... }, note: '...' }: the plan meals he ticked that day.
+  if (o.dayfood && typeof o.dayfood === 'object') for (const k in o.dayfood) {
+    const d = o.dayfood[k]; if (!isDate(k) || !d || typeof d !== 'object') continue;
+    const eaten = {}; if (d.eaten && typeof d.eaten === 'object') for (const m in d.eaten) if (d.eaten[m] && /^[a-z0-9-]{1,20}$/.test(m)) eaten[m] = true;
+    const note = typeof d.note === 'string' ? d.note.slice(0, 300) : '';
+    if (Object.keys(eaten).length || note) out.dayfood[k] = note ? { eaten, note } : { eaten };
+  }
   if (Array.isArray(o.meals)) out.meals = o.meals.filter(m => m && isDate(m.date || '')).map(m => ({ id:String(m.id || (m.ts + '-' + Math.random().toString(36).slice(2,7))), ts:Number(m.ts) || 0, date:m.date, text:String(m.text || ''), kcal:Number(m.kcal) || 0, proteinG:Number(m.proteinG) || 0, off:!!m.off }));
   return out;
 }
