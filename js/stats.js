@@ -15,15 +15,18 @@ function renderStats(){
   }
   const setVal = (id, v) => { $(id).textContent = ''; $(id).append(f1(v) + ' ', el('small','', 'kg')); };
   setVal('sNow', last.weightKg); $('sNowSub').textContent = L('Akhir wazn: {0}', dShort(last.date));
-  const lost = first.weightKg - last.weightKg; setVal('sLost', lost);
+  // "Progress" points the way of his goal: down when losing, up when gaining.
+  const g = goalType(), dir = g === 'gain' ? 1 : -1;
+  $('sLostLbl').textContent = L(g === 'gain' ? 'Zad mn l-bdya' : g === 'keep' ? 'Tbeddel mn l-bdya' : 'N9es mn l-bdya');
+  const lost = (last.weightKg - first.weightKg) * dir; setVal('sLost', g === 'keep' ? last.weightKg - first.weightKg : lost);
   const days = (dnum(last.date) - dnum(first.date)) / 864e5;
   $('sLostSub').textContent = days >= 7 ? L('{0} kg f simana', f1(lost / (days/7))) : L('Mn {0} kg', f1(first.weightKg));
-  const left = last.weightKg - plan.goalKg; setVal('sLeft', Math.max(0, left));
+  const left = g === 'keep' ? Math.abs(last.weightKg - plan.goalKg) : (plan.goalKg - last.weightKg) * dir; setVal('sLeft', Math.max(0, left));
   const rate = days >= 14 ? lost / (days/7) : 0;
   $('sLeftSub').textContent = (rate > 0.1 && left > 0) ? L('Te9riban {0} simana b had l-iqa3', Math.ceil(left / rate)) : L('L-hadaf: {0} kg', plan.goalKg);
   const bmi = last.weightKg / Math.pow(plan.heightCm/100, 2);
   $('sBmi').textContent = f1(bmi);
-  $('sBmiSub').textContent = bmi < 25 ? L('Wazn 3adi') : bmi < 30 ? L('Fo9 l-wazn chwiya') : L('L-3adi: ta7t 25');
+  $('sBmiSub').textContent = bmi < 18.5 ? L('Ta7t l-wazn l-3adi') : bmi < 25 ? L('Wazn 3adi') : bmi < 30 ? L('Fo9 l-wazn chwiya') : L('L-3adi: ta7t 25');
 }
 
 /* ---------- chart ---------- */

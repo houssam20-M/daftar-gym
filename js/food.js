@@ -1,41 +1,82 @@
-// food.js - meals, plan meals, own food buttons, water, calorie nudge, weekly recap.
-/* ---------- today's food: a fixed daily menu he ticks (no dairy, no bread, no sugar) ---------- */
-// [key, name, what to eat, ≈kcal, ≈protein g]
-const MENU = [
-  ['ftour','Ftour (sa3a 9bel gym)','3 bidat + chofan b l-ma (60 g) wla fakya. 9ahwa mn b3d l-makla, machi 9belha.',550,30],
-  ['ghda','Ghda','Assiette: noss khodra, rbe3 sder djaj wla 7out (200 g), rbe3 btata wla rouz.',700,60],
-  ['snack','Bin l-ghda o l-3cha','2 bidat wla 7okka tun + teffa7a wla kemcha louz.',300,25],
-  ['3cha','3cha','Soupe khodra wla 3des + 2-3 bidat wla 7out + chlada.',450,30]
+// food.js - his own meal list against the day's target, the day report, water, calorie nudge, weekly recap.
+/* ---------- today's food: his own meal list, empty at first, ticked against the day's target ---------- */
+// The meals he had before the list became his own: kept for him, never shown to a new user.
+const OLD_MENU = [
+  { id:'ftour', name:'Ftour', desc:'3 bidat + chofan b l-ma (60 g) wla fakya', kcal:550, proteinG:30 },
+  { id:'ghda', name:'Ghda', desc:'Noss khodra, rbe3 sder djaj wla 7out (200 g), rbe3 btata wla rouz', kcal:700, proteinG:60 },
+  { id:'snack', name:'Bin l-ghda o l-3cha', desc:'2 bidat wla 7okka tun + teffa7a wla louz', kcal:300, proteinG:25 },
+  { id:'3cha', name:'3cha', desc:'Soupe khodra wla 3des + 2-3 bidat wla 7out + chlada', kcal:450, proteinG:30 }
 ];
+function migrateMenu(){
+  if (S.settings.menuV === 1) return;
+  if (hasPlan(S.plan) && !S.menu.length) S.menu = OLD_MENU.map(m => ({ ...m }));
+  S.settings.menuV = 1; persist();
+}
 function dayFood(d){ return S.dayfood[d || today()] || { eaten:{} }; }
 function saveDayFood(df){
   const t = today();
   if (Object.keys(df.eaten).length || df.note) S.dayfood[t] = df; else delete S.dayfood[t];
   return persist();
 }
+function eatenTotals(d){
+  const df = dayFood(d); let kcal = 0, prot = 0, n = 0;
+  S.menu.forEach(m => { if (df.eaten[m.id]){ kcal += m.kcal; prot += m.proteinG; n++; } });
+  return { kcal, prot, n };
+}
 function renderMeals(){
   const box = $('menuToday'); if (!box) return;
-  const df = dayFood(); box.innerHTML = '';
-  let kcal = 0, prot = 0, n = 0;
-  MENU.forEach(m => {
-    const done = !!df.eaten[m[0]];
-    if (done){ kcal += m[3]; prot += m[4]; n++; }
+  const df = dayFood(), tot = eatenTotals(), listK = S.menu.reduce((a, m) => a + m.kcal, 0);
+  $('mnIntro').textContent = L('L-hadaf dyalek: {0} kcal o {1} g protein f nhar. Zid l-wejbat li katakol, o 3ellem 3lihom kol nhar.', plan.kcal, plan.proteinG);
+  $('mKcalTxt').textContent = tot.kcal + ' / ' + plan.kcal + ' kcal';
+  $('mProtTxt').textContent = tot.prot + ' / ' + plan.proteinG + ' g';
+  $('mKcalBar').style.width = Math.min(100, tot.kcal / plan.kcal * 100) + '%';
+  $('mKcalBar').classList.toggle('over', tot.kcal > plan.kcal * 1.05);
+  $('mProtBar').style.width = Math.min(100, tot.prot / plan.proteinG * 100) + '%';
+  const v = $('mVerdict');
+  if (!S.menu.length) v.textContent = '';
+  else if (Math.abs(listK - plan.kcal) > plan.kcal * 0.1) v.textContent = L('L-lista kamla fiha {0} kcal, o l-hadaf {1}. Beddel l-kemmiyat bach yt9arbo.', listK, plan.kcal);
+  else if (tot.kcal > plan.kcal * 1.05) v.textContent = L('Fetti l-hadaf b {0} kcal lyoum.', tot.kcal - plan.kcal);
+  else if (tot.kcal >= plan.kcal * 0.9) v.textContent = L('✓ Wselti l-hadaf dyal lyoum.');
+  else v.textContent = L('Ba9i lik {0} kcal o {1} g protein.', plan.kcal - tot.kcal, Math.max(0, plan.proteinG - tot.prot));
+  box.innerHTML = '';
+  if (!S.menu.length){
+    box.append(el('div','empty', L('L-lista khawya. Zid l-wejbat li katakol (Ftour, Ghda...) b l-calories o l-protein dyalhom, bach l-majmou3 ywsel l {0} kcal.', plan.kcal)));
+    $('mnAddBox').open = true;
+  }
+  S.menu.forEach(m => {
+    const done = !!df.eaten[m.id];
     const row = el('div','menu-row' + (done ? ' done' : '')), cb = el('input');
-    cb.type = 'checkbox'; cb.id = 'mn-' + m[0]; cb.checked = done; cb.setAttribute('aria-label', L('{0}: klitha', L(m[1])));
-    const nm = el('div','nm', L(m[1])); nm.append(el('span','', L(m[2])), el('small','', '≈' + m[3] + ' kcal · ' + m[4] + ' g protein'));
+    cb.type = 'checkbox'; cb.id = 'mn-' + m.id; cb.checked = done; cb.setAttribute('aria-label', L('{0}: klitha', m.name));
+    const nm = el('div','nm', m.name);
+    if (m.desc) nm.append(el('span','', m.desc));
+    nm.append(el('small','', m.kcal + ' kcal · ' + m.proteinG + ' g protein'));
+    const del = el('button','link', L('7iyed')); del.type = 'button';
+    twoStep(del, '7iyed', () => {
+      S.menu = S.menu.filter(x => x.id !== m.id);
+      for (const d in S.dayfood) if (S.dayfood[d].eaten[m.id] && d === today()) delete S.dayfood[d].eaten[m.id];
+      persist(); renderMeals();
+    });
+    nm.append(del);
     cb.addEventListener('change', () => {
       const cur = dayFood(), next = { eaten: { ...cur.eaten } }; if (cur.note) next.note = cur.note;
-      if (cb.checked) next.eaten[m[0]] = true; else delete next.eaten[m[0]];
+      if (cb.checked) next.eaten[m.id] = true; else delete next.eaten[m.id];
       $('dfMsg').textContent = saveDayFood(next) ? '' : L('Ma tsejjlatch: l-mtsaffe7 ma khellanich n7fed.');
       renderMeals();
     });
     row.append(cb, nm); box.append(row);
   });
-  const all = MENU.reduce((a, m) => a + m[3], 0), allP = MENU.reduce((a, m) => a + m[4], 0);
-  $('menuTotal').textContent = L('Kliti {0} mn {1} wejbat · ≈{2} kcal, ≈{3} g protein. Nhar kamel: ≈{4} kcal, ≈{5} g.', n, MENU.length, kcal, prot, all, allP);
   if (document.activeElement !== $('dfNote')) $('dfNote').value = df.note || '';
   renderDayReport();
 }
+$('mnAdd').onclick = () => {
+  const msg = $('mnMsg'), name = $('mnName').value.trim(), k = numOrNull('mnKcal'), p = numOrNull('mnProt');
+  if (!name || k == null || p == null){ msg.textContent = L('Kteb smiya, kcal o protein.'); $(name ? (k == null ? 'mnKcal' : 'mnProt') : 'mnName').focus(); return; }
+  if (S.menu.length >= 30){ msg.textContent = L('Bzaf 3la l-akhir. 7iyed chi wa7ed.'); return; }
+  S.menu.push({ id: 'm' + Date.now().toString(36), name: name.slice(0, 60), desc: $('mnDesc').value.trim().slice(0, 160), kcal: Math.round(k), proteinG: Math.round(p) });
+  ['mnName','mnDesc','mnKcal','mnProt'].forEach(i => $(i).value = '');
+  msg.textContent = persist() ? L('Tzadet: {0}', name) : L('Ma tzadetch.');
+  renderMeals();
+};
 let dfT;
 $('dfNote').addEventListener('input', () => {
   clearTimeout(dfT);
@@ -70,7 +111,9 @@ function dayReportText(){
   }
   R.push('');
   R.push(L('Makla') + ':');
-  MENU.forEach(m => R.push('  ' + (df.eaten[m[0]] ? '✓ ' : '✕ ') + L(m[1])));
+  if (!S.menu.length) R.push('  ' + L('L-lista khawya'));
+  S.menu.forEach(m => R.push('  ' + (df.eaten[m.id] ? '✓ ' : '✕ ') + m.name + ' · ' + m.kcal + ' kcal'));
+  const tot = eatenTotals(t); R.push('  = ' + tot.kcal + ' / ' + plan.kcal + ' kcal · ' + tot.prot + ' / ' + plan.proteinG + ' g protein');
   if (df.note) R.push('  ' + df.note);
   R.push(L('L-ma') + ': ' + (S.water[t] || 0) + '/12 ' + L('kisan'));
   return R.join('\n');

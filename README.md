@@ -36,6 +36,18 @@ Order: A, B, C, A, B, C, a light day, then repeat.
 | C | Goblet squat, calf raises, walk | Incline dumbbell press, cable row, triceps pushdown |
 | Light | Bike or treadmill, 30 minutes | Stretching, plank |
 
+## Goals
+
+The setup screen works out the goal from the current and goal weight: lose, keep, or gain.
+
+| Goal | Calories | Protein | Training |
+|---|---|---|---|
+| Lose | Burn minus a deficit aimed at about 0.75% of body weight a week (never more than 1 kg a week, never below 1500 kcal for men or 1200 for women) | 2.0 g per kg of goal weight | 3 x 10-12, walking 20-30 min |
+| Keep | Same as the burn | 1.6 g per kg | 3 x 8-12 on the big lifts, walking 15-20 min |
+| Gain | Burn plus 10% (150 to 350 kcal) | 1.8 g per kg | 4 x 6-10 on the big lifts, 3 x 10-12 on the small ones, walking 10 min |
+
+The burn is Mifflin-St Jeor times an activity factor from the days per week (1.375 for 3 days up to 1.6 for 6-7, plus 0.1 for two sessions a day). The food tab starts empty: each person adds their own meals with calories and protein, and ticks them each day against the target.
+
 ## The data
 
 - Everything is stored in the browser's `localStorage` on the phone. Nothing goes to any server.

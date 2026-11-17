@@ -98,6 +98,26 @@ const WEEK_PATTERN = { 7:[1,1,1,1,1,1,'L'], 6:[1,1,1,1,1,1,0], 5:[1,1,0,1,1,1,0]
 // One session: walk first, then all the weights. Two sessions: morning and evening, as in PROGRAM.
 function twoADay(){ return sessPerDay() === 2; }
 const isCardio = x => x[0] === 'mchi' || x[0] === 'cardio';
+// The goal decides sets, reps and how much walking. Losing: more reps and more walking. Gaining: heavier compound lifts,
+// fewer reps, an extra set, little cardio (ACSM 2026: at least ~10 hard sets per muscle a week for size).
+const COMPOUND = new Set(['leg-press','chest-press','lat-pulldown','romanian-deadlift','seated-row','shoulder-press','goblet-squat','incline-press','cable-row','pulldown-machine','leg-ext']);
+function goalType(){
+  if (plan.goalType === 'lose' || plan.goalType === 'gain' || plan.goalType === 'keep') return plan.goalType;
+  const first = checkins[0], w = first ? first.weightKg : plan.goalKg;
+  return plan.goalKg < w - 1 ? 'lose' : plan.goalKg > w + 1 ? 'gain' : 'keep';
+}
+function forGoal(x){
+  const g = goalType(), y = x.slice();
+  if (isCardio(y)){
+    if (y[0] === 'mchi') y[3] = g === 'gain' ? '10 d9ay9' : g === 'keep' ? '15-20 d9i9a' : '20-30 d9i9a';
+    if (y[0] === 'cardio') y[3] = g === 'gain' ? '15 d9i9a' : '30 d9i9a';
+    return y;
+  }
+  if (!y[4]) return y; // plank, stretching: same for everyone
+  if (g === 'gain'){ if (COMPOUND.has(y[0])){ y[2] = 4; y[3] = '6-10'; } else { y[2] = 3; y[3] = '10-12'; } }
+  else if (g === 'keep'){ if (COMPOUND.has(y[0])){ y[2] = 3; y[3] = '8-12'; } }
+  return y;
+}
 function sessionParts(prog){
   if (twoADay()) return [['Sba7', prog.am], ['3chiya', prog.pm]];
   const all = [...prog.am, ...prog.pm], plank = all.filter(x => x[0] === 'plank');
@@ -160,6 +180,7 @@ function renderSession(force){
     return;
   }
   $('sxSub').textContent = info.pre ? L('Katbda nhar {0}. Hada howa awal nhar.', dShort(plan.startDate)) : (info.week <= 2 ? L('Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.', info.week) : L('Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.', info.week));
+  $('sxSub').textContent += ' ' + L(goalType() === 'gain' ? 'Hadaf: tzid. Khdem t9il o zid l-wazn kol merra.' : goalType() === 'keep' ? 'Hadaf: tb9a f l-wazn o tbni l-3adala.' : 'Hadaf: tn9es. Bzaf d l-mchi o l-7adid bach t7fed l-3adala.');
   const prog = PROGRAM[info.day];
   // The warm-up matters on a training day; a light day is already easy.
   const anyKg = [...prog.am, ...prog.pm].some(x => exActual(x)[4]);
@@ -181,7 +202,7 @@ function renderSession(force){
     if (!part[1].length) return;
     body.append(el('div','part', L(part[0])));
     part[1].forEach(base => {
-      const x = exActual(base), key = x[0], name = L(x[1]), sets = x[2], reps = L(x[3]), hasKg = x[4];
+      const x = forGoal(exActual(base)), key = x[0], name = L(x[1]), sets = x[2], reps = L(x[3]), hasKg = x[4];
       const saved = (mine && mine.items && mine.items[key]) || {};
       const n = info.week <= 2 ? Math.min(sets, 2) : sets;
       const row = el('div','ex'), cb = el('input'); cb.type = 'checkbox'; cb.id = 'sx-' + key + '-done'; cb.checked = !!saved.done; cb.setAttribute('aria-label', L('{0}: derta', name));
@@ -232,7 +253,7 @@ function saveSession(){
   const msg = $('sxMsg'), prog = PROGRAM[info.day], items = {};
   WARM.forEach(w => { const cb = $('sx-' + w[0] + '-done'); if (cb && cb.checked) items[w[0]] = { done:true }; });
   [...prog.am, ...prog.pm].forEach(base => {
-    const x = exActual(base), key = x[0], it = { done: $('sx-' + key + '-done').checked };
+    const x = forGoal(exActual(base)), key = x[0], it = { done: $('sx-' + key + '-done').checked };
     if (x[4]){ const v = $('sx-' + key + '-kg').value.trim().replace(',', '.'), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.kg = n; }
     if (x[4]){ const v = $('sx-' + key + '-reps').value.trim(), n = Number(v); if (v !== '' && !isNaN(n) && n >= 0) it.reps = Math.round(n); }
     if (it.done || it.kg != null || it.reps != null) items[key] = it;

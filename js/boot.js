@@ -22,13 +22,32 @@ window.addEventListener('load', () => {
 
 /* ---------- first run ---------- */
 function hasPlan(p){ return !!p && ['heightCm','goalKg','kcal','proteinG','startDate'].every(k => p[k] != null && p[k] !== ''); }
-// Mifflin-St Jeor resting burn x activity: 1.3 + 0.03 per training day, + 0.05 for two sessions a day (7 days, one session = 1.51).
-// Losing weight: 24% under that. Protein: 2.2 g per kg of goal weight.
+// Calories and protein for the goal he picked. Sources: Mifflin-St Jeor (1990) for the resting burn; the usual activity
+// multipliers (1.375 light, 1.55 moderate, 1.725 hard training 6-7 days); ISSN 2017 for protein (1.4-2.0 g/kg, more in a deficit);
+// losing about 0.5-1% of body weight a week keeps more muscle; a lean gain is about 0.25-0.5% a week from a small surplus.
+const ACTIVITY = { 3:1.375, 4:1.46, 5:1.55, 6:1.6, 7:1.6 };
+function goalOf(w, goal){ return goal < w - 1 ? 'lose' : goal > w + 1 ? 'gain' : 'keep'; }
 function calcPlan(sex, age, h, w, goal, days, sess){
-  const act = 1.3 + 0.03 * (days || 7) + (sess === 2 ? 0.05 : 0);
-  const tdee = (10*w + 6.25*h - 5*age + (sex === 'f' ? -161 : 5)) * act, losing = goal < w - 1;
-  const kcal = Math.max(sex === 'f' ? 1300 : 1500, Math.round((losing ? tdee * 0.76 : tdee) / 50) * 50);
-  return { kcal, proteinG: Math.min(220, Math.max(90, Math.round(2.2 * goal / 5) * 5)), tdee: Math.round(tdee / 50) * 50, losing };
+  const bmr = 10*w + 6.25*h - 5*age + (sex === 'f' ? -161 : 5);
+  const act = Math.min(1.725, (ACTIVITY[days] || 1.55) + (sess === 2 ? 0.1 : 0));
+  const tdee = bmr * act, type = goalOf(w, goal), bmi = w / Math.pow(h / 100, 2);
+  let kcal = tdee;
+  if (type === 'lose'){
+    // aim for 0.75% of body weight a week (7700 kcal per kg), never more than 1 kg a week,
+    // and never cut more than 20-30% of the burn (bigger cut allowed the higher the BMI).
+    const want = Math.min(1, w * 0.0075) * 7700 / 7, cap = tdee * (bmi >= 30 ? 0.3 : bmi >= 25 ? 0.25 : 0.2);
+    kcal = tdee - Math.min(want, cap, 1000);
+    kcal = Math.max(kcal, sex === 'f' ? 1200 : 1500, bmr * 0.9);
+  } else if (type === 'gain'){
+    // a small surplus: 10% of the burn, between 150 and 350 kcal a day.
+    kcal = tdee + Math.min(350, Math.max(150, tdee * 0.1));
+  }
+  kcal = Math.round(kcal / 50) * 50;
+  // Protein: losing, by the goal weight (a big body has a lot of fat, not muscle); gaining or keeping, by today's weight.
+  const perKg = type === 'lose' ? 2.0 : type === 'gain' ? 1.8 : 1.6, base = type === 'lose' ? goal : w;
+  const proteinG = Math.min(220, Math.max(70, Math.round(perKg * base / 5) * 5));
+  const weekly = (kcal - tdee) * 7 / 7700;
+  return { kcal, proteinG, tdee: Math.round(tdee / 50) * 50, bmr: Math.round(bmr), type, losing: type === 'lose', weekly };
 }
 let pending = null;
 function showSetup(){ $('app').hidden = true; $('nav').hidden = true; $('setup').hidden = false; $('suForm').hidden = false; $('suResult').hidden = true; if (!$('suStart').value) $('suStart').value = today(); window.scrollTo(0, 0); animate(document.querySelectorAll('#setup .brand, #suForm > *')); }
@@ -46,10 +65,15 @@ $('suGo').onclick = () => {
   if (!sess) return bad(null, L('Khtar ch7al mn seance f nhar.'));
   if (!days) return bad(null, L('Khtar ch7al mn nhar f simana.'));
   const c = calcPlan(sex, age, h, w, goal, days, sess);
-  pending = { plan: { sex, age, heightCm: h, goalKg: goal, kcal: c.kcal, proteinG: c.proteinG, startDate: st, sessionsPerDay: sess, daysPerWeek: days, planAt: today() }, weightKg: Math.round(w * 10) / 10 };
+  pending = { plan: { sex, age, heightCm: h, goalKg: goal, kcal: c.kcal, proteinG: c.proteinG, startDate: st, sessionsPerDay: sess, daysPerWeek: days, planAt: today(), goalType: c.type }, weightKg: Math.round(w * 10) / 10 };
   msg.textContent = '';
   $('suKcal').textContent = c.kcal + ' kcal'; $('suProt').textContent = c.proteinG + ' g';
-  $('suWhy').textContent = c.losing ? L('Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. Bach tn9es b chwiya o bla ma tjou3, khassek takol 9el mn hadchi.', c.tdee) : L('Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. L-hadaf dyalek 9rib mn l-wazn dyalek, so kanakhdo nefs l-calories.', c.tdee);
+  const wk = Math.abs(c.weekly).toFixed(1);
+  $('suWhy').textContent = c.type === 'lose'
+    ? L('Hadafek tn9es. Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. B had l-calories ghadi tn9es te9riban {1} kg f simana, bla ma tkhser l-3adala.', c.tdee, wk)
+    : c.type === 'gain'
+    ? L('Hadafek tzid. Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. B had l-calories ghadi tzid te9riban {1} kg f simana, ktar men l-3adala o 9lil men ch-ch7em.', c.tdee, wk)
+    : L('Hadafek tb9a f nefs l-wazn o tbni l-3adala. Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin, so katakol nefs l-calories.', c.tdee);
   $('suForm').hidden = true; $('suResult').hidden = false; window.scrollTo(0, 0);
   animate(document.querySelectorAll('#suResult .stat, #suResult .row'));
 };
@@ -57,6 +81,7 @@ $('suBack').onclick = () => { $('suResult').hidden = true; $('suForm').hidden = 
 $('suEnter').onclick = () => {
   if (!pending) return;
   S.plan = pending.plan;
+  S.settings.menuV = 1; // a new user starts with an empty food list
   const d = today(); if (!S.checkins[d]) S.checkins[d] = { date: d, weightKg: pending.weightKg, note: 'Wazn d l-bdya', savedAt: new Date().toISOString() };
   persist(); pending = null; enterApp();
 };
@@ -71,7 +96,7 @@ $('vRange').addEventListener('click', e => {
   $('vRange').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
   renderChart();
 });
-load(); applyTheme(); showStorageState();
+load(); migrateMenu(); applyTheme(); showStorageState();
 $('ciDate').value = today(); renderFoods(); syncSettingsUI();
 if (hasPlan(S.plan)) enterApp(); else showSetup();
 applyLang();

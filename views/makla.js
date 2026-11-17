@@ -1,17 +1,31 @@
-// views/makla.js - markup of the "Makla" tab: today's menu, water, and today's report.
+// views/makla.js - markup of the "Makla" tab: his own meal list against the day's target, water, and today's report.
 // Only HTML lives here. The code that fills it and handles its buttons: js/food.js.
 document.getElementById('app').insertAdjacentHTML('beforeend', `
 <section class="block" id="makla" data-view="makla">
-  <div class="block-head">
-    <div>
-      <h2>Makla d lyoum</h2>
-      <p class="muted small">Ach takol lyoum. 3ellem 3la kol wejba mnin takolha.</p>
-    </div>
-    <div class="rules"><span class="pill">✕ Bla khobz</span><span class="pill">✕ Bla sokkar</span><span class="pill">✕ Bla 7lib</span></div>
+  <div>
+    <h2>Makla d lyoum</h2>
+    <p class="muted small" id="mnIntro">&nbsp;</p>
   </div>
 
+  <div class="targets">
+    <div class="meter"><div class="top"><span>Calories lyoum</span><span class="num" id="mKcalTxt">0 kcal</span></div><div class="bar"><i id="mKcalBar"></i></div></div>
+    <div class="meter"><div class="top"><span>Protein lyoum</span><span class="num" id="mProtTxt">0 g</span></div><div class="bar"><i id="mProtBar"></i></div></div>
+  </div>
+  <p class="msg" id="mVerdict" role="status"></p>
+
   <div id="menuToday"></div>
-  <p class="muted small" id="menuTotal">&nbsp;</p>
+
+  <details id="mnAddBox">
+    <summary>Zid wejba l l-lista dyalek</summary>
+    <div class="grid" style="margin-top:10px">
+      <div class="field wide"><label for="mnName">Smiya</label><input id="mnName" type="text" maxlength="60" placeholder="Matalan: Ftour"></div>
+      <div class="field wide"><label for="mnDesc">Ach fiha (ila bghiti)</label><input id="mnDesc" type="text" maxlength="160" placeholder="Matalan: 3 bidat + chofan"></div>
+      <div class="field"><label for="mnKcal">kcal</label><input id="mnKcal" type="number" min="0" max="3000" inputmode="numeric"></div>
+      <div class="field"><label for="mnProt">Protein g</label><input id="mnProt" type="number" min="0" max="300" inputmode="numeric"></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="primary" type="button" id="mnAdd">Zid</button><span class="msg" id="mnMsg" role="status"></span></div>
+  </details>
+
   <div class="field"><label for="dfNote">Ila klit chi 7aja khra, kteb hna</label><input id="dfNote" type="text" maxlength="300" placeholder="Matalan: f l-ghda klit tajine l7em"></div>
   <span class="msg" id="dfMsg" role="status"></span>
 

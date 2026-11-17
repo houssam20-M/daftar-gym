@@ -3,7 +3,7 @@
 document.getElementById('app').insertAdjacentHTML('beforeend', `
 <div class="stats" id="stats" data-view="lyoum">
   <div class="stat"><div class="lbl">Wazn daba</div><div class="val num" id="sNow">—</div><div class="sub" id="sNowSub">&nbsp;</div></div>
-  <div class="stat"><div class="lbl">N9es mn l-bdya</div><div class="val num" id="sLost">—</div><div class="sub" id="sLostSub">&nbsp;</div></div>
+  <div class="stat"><div class="lbl" id="sLostLbl">N9es mn l-bdya</div><div class="val num" id="sLost">—</div><div class="sub" id="sLostSub">&nbsp;</div></div>
   <div class="stat"><div class="lbl">Ba9i l l-hadaf</div><div class="val num" id="sLeft">—</div><div class="sub" id="sLeftSub">&nbsp;</div></div>
   <div class="stat"><div class="lbl">BMI</div><div class="val num" id="sBmi">—</div><div class="sub" id="sBmiSub">&nbsp;</div></div>
 </div>
