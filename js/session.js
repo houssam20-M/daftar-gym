@@ -89,6 +89,15 @@ const EXINFO = (() => {
 function exActual(x){ const list = ALTS[x[0]], sw = S.swaps[x[0]]; if (list && sw){ const hit = list.find(a => a[0] === sw); if (hit) return hit; } return x; }
 const repTarget = s => { const m = String(s).match(/\d+/g); return m ? m[m.length - 1] : ''; };
 let sessDirty = false, sessShown = '';
+// Month 1: one session a day (walk first, then all the weights). From day 30 on: morning and evening, as in PROGRAM.
+const SPLIT_AFTER_DAYS = 30;
+function twoADay(){ return !!plan.startDate && Math.round((dnum(today()) - dnum(plan.startDate)) / 864e5) >= SPLIT_AFTER_DAYS; }
+const isCardio = x => x[0] === 'mchi' || x[0] === 'cardio';
+function sessionParts(prog){
+  if (twoADay()) return [['Sba7', prog.am], ['3chiya', prog.pm]];
+  const all = [...prog.am, ...prog.pm], plank = all.filter(x => x[0] === 'plank');
+  return [['Mchi (bda bih)', all.filter(isCardio)], ['L-7adid', all.filter(x => !isCardio(x) && x[0] !== 'plank').concat(plank)]];
+}
 // Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
 function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
 function isRest(d){ return !!S.rests[d]; }
@@ -148,9 +157,11 @@ function renderSession(force){
       body.append(row);
     });
   }
-  [['am','Sba7'],['pm','3chiya']].forEach(part => {
-    body.append(el('div','part', L(part[1])));
-    prog[part[0]].forEach(base => {
+  if (!info.pre && !twoADay()) $('sxSub').textContent += ' ' + L('Had chhar: seance wa7da f nhar.');
+  sessionParts(prog).forEach(part => {
+    if (!part[1].length) return;
+    body.append(el('div','part', L(part[0])));
+    part[1].forEach(base => {
       const x = exActual(base), key = x[0], name = L(x[1]), sets = x[2], reps = L(x[3]), hasKg = x[4];
       const saved = (mine && mine.items && mine.items[key]) || {};
       const n = info.week <= 2 ? Math.min(sets, 2) : sets;

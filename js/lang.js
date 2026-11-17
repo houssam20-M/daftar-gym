@@ -60,6 +60,7 @@ const EN = {
   'Nhar khfif':'Light day', 'Nhar {0}':'Day {0}', 'Katbda nhar {0}. Hada howa awal nhar.':'You start on {0}. This is your first day.',
   'Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.':'Week {0}: only 2 sets, light weight, keep 3-4 reps in reserve.',
   'Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.':'Week {0}: keep 2-3 reps in reserve. Add weight once you hit 12 clean reps.',
+  'Mchi (bda bih)':'Walk (start with it)', 'L-7adid':'Weights', 'Had chhar: seance wa7da f nhar.':'This month: one session a day.',
   'Sba7':'Morning', '3chiya':'Evening', '{0}: derta':'{0}: done', ' · akhir merra {0} kg':' · last time {0} kg', '{0}: wazn b kg':'{0}: weight in kg',
   '3ellem 3la l-exercices li derti wla kteb l-awzan.':'Tick the exercises you did or enter the weights.', 'Tsejjlat ({0}/{1}).':'Saved ({0}/{1}).', ' Bsa7a o ra7a.':' Well done.',
   'Mchi 3la tapis':'Treadmill walk', '20-30 d9i9a':'20-30 min', '20-40 tanya':'20-40 sec', 'Romanian deadlift b haltères':'Dumbbell Romanian deadlift',
