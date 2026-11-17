@@ -76,12 +76,30 @@ const ALTS = {
   'triceps-pushdown':[['triceps-over','Extension triceps b l-7bla',2,'12',1]],
   'mchi':[['cardio','Vélo wla tapis, khfif',1,'30 d9i9a',0]]
 };
+// Belly (core) work for everyone, whatever the goal: none in weeks 1-2 (plank only), one exercise at the end of days B and C
+// from week 3, 3 sets and a side plank from week 5. A heavy body (BMI 30+) gets moves that spare the lower back: no crunches.
+const CORE = {
+  heavy: { B:[['dead-bug','Dead bug',2,'10',0]], C:[['knee-raise','Knee raises (rf3 r-rkabi)',2,'10',0]] },
+  normal: { B:[['cable-crunch','Cable crunch',2,'12',1]], C:[['leg-raise','Leg raises',2,'10',0]] }
+};
+const SIDE_PLANK = ['side-plank','Side plank',2,'20-30 tanya',0];
+const CORE_KEYS = new Set(['dead-bug','knee-raise','cable-crunch','leg-raise','side-plank','plank']);
+function coreFor(day, week){
+  if (week < 3 || !CORE.heavy[day]) return [];
+  const last = checkins[checkins.length - 1], bmi = last && plan.heightCm ? last.weightKg / Math.pow(plan.heightCm / 100, 2) : 25;
+  const list = CORE[bmi >= 30 ? 'heavy' : 'normal'][day].map(x => week >= 5 ? [x[0], x[1], 3, x[3], x[4]] : x.slice());
+  if (week >= 5 && day === 'C') list.push(SIDE_PLANK.slice());
+  return list;
+}
+// The day's exercises with the core work added at the end of the evening part.
+function dayProgram(info){ const p = PROGRAM[info.day]; return { am: p.am, pm: p.pm.concat(coreFor(info.day, info.week)) }; }
 // Every exercise name and rep target in one place (progression list, report).
 const EXINFO = (() => {
   const m = {};
   const add = x => { if (!m[x[0]]) m[x[0]] = { name: x[1], reps: x[3] }; };
   Object.values(PROGRAM).forEach(d => ['am','pm'].forEach(p => d[p].forEach(add)));
   Object.values(ALTS).forEach(l => l.forEach(add));
+  [...CORE.heavy.B, ...CORE.heavy.C, ...CORE.normal.B, ...CORE.normal.C, SIDE_PLANK].forEach(add);
   WARM.forEach(add);
   return m;
 })();
@@ -120,8 +138,8 @@ function forGoal(x){
 }
 function sessionParts(prog){
   if (twoADay()) return [['Sba7', prog.am], ['3chiya', prog.pm]];
-  const all = [...prog.am, ...prog.pm], plank = all.filter(x => x[0] === 'plank');
-  return [['Mchi (bda bih)', all.filter(isCardio)], ['L-7adid', all.filter(x => !isCardio(x) && x[0] !== 'plank').concat(plank)]];
+  const all = [...prog.am, ...prog.pm], core = all.filter(x => CORE_KEYS.has(x[0]));
+  return [['Mchi (bda bih)', all.filter(isCardio)], ['L-7adid', all.filter(x => !isCardio(x) && !CORE_KEYS.has(x[0])).concat(core)]];
 }
 // Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
 function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
@@ -181,7 +199,7 @@ function renderSession(force){
   }
   $('sxSub').textContent = info.pre ? L('Katbda nhar {0}. Hada howa awal nhar.', dShort(plan.startDate)) : (info.week <= 2 ? L('Simana {0}: 2 sets ghir, wazn khfif, khelli 3-4 reps f l-jib.', info.week) : L('Simana {0}: khelli 2-3 reps f l-jib. Zid l-wazn mnin tdir 12 n9iyin.', info.week));
   $('sxSub').textContent += ' ' + L(goalType() === 'gain' ? 'Hadaf: tzid. Khdem t9il o zid l-wazn kol merra.' : goalType() === 'keep' ? 'Hadaf: tb9a f l-wazn o tbni l-3adala.' : 'Hadaf: tn9es. Bzaf d l-mchi o l-7adid bach t7fed l-3adala.');
-  const prog = PROGRAM[info.day];
+  const prog = dayProgram(info);
   // The warm-up matters on a training day; a light day is already easy.
   const anyKg = [...prog.am, ...prog.pm].some(x => exActual(x)[4]);
   if (anyKg){ const head = el('div','ex-head'); head.append(el('span'), el('span','','kg'), el('span','','reps')); body.append(head); }
@@ -250,7 +268,7 @@ function showSwaps(row, base){
 function saveSession(){
   const info = dayInfo();
   if (info.restToday || info.planRest) return; // a rest day has no session to save
-  const msg = $('sxMsg'), prog = PROGRAM[info.day], items = {};
+  const msg = $('sxMsg'), prog = dayProgram(info), items = {};
   WARM.forEach(w => { const cb = $('sx-' + w[0] + '-done'); if (cb && cb.checked) items[w[0]] = { done:true }; });
   [...prog.am, ...prog.pm].forEach(base => {
     const x = forGoal(exActual(base)), key = x[0], it = { done: $('sx-' + key + '-done').checked };

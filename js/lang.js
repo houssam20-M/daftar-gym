@@ -1,6 +1,7 @@
 // lang.js - the EN dictionary and L() (Darija text lives in the HTML and the code).
 /* ---------- language: Darija is the source text, EN maps each Darija string to English ---------- */
 const EN = {
+  'Knee raises (rf3 r-rkabi)':'Knee raises', '20-30 tanya':'20-30 sec',
   '← Rje3':'← Back',
   'Alwan':'Colours', 'Khdar':'Jade', 'Zafran':'Saffron', 'Ward':'Rose', 'Zitoun':'Olive', 'Bnafsaji':'Violet',
   'Zad mn l-bdya':'Gained since start', 'Tbeddel mn l-bdya':'Change since start', 'Ta7t l-wazn l-3adi':'Under a healthy weight',
