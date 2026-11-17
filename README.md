@@ -46,19 +46,22 @@ Order: A, B, C, A, B, C, a light day, then repeat.
 
 ## The files
 
-| File | What it is |
+Each part of the screen has its own file, and its code is in another file.
+
+| Folder / file | What it is |
 |---|---|
-| `index.html` | The HTML skeleton and structure |
-| `styles.css` | All styling and dark/light themes |
-| `js/` | Application modules (storage, language, UI, session, food, stats, etc.) |
+| `index.html` | Only the shell: it loads the other files in order |
+| `views/` | The HTML of each part: `splash`, `setup`, `header`, `lyoum`, `simana`, `t9eddom`, `makla`, `kter`, `nav`, `photo-viewer` |
+| `js/` | The code: `store` (saving), `lang` (Darija/English), `ui`, `helpers`, `stats`, `session` (the programme), `food`, `photos`, `report`, `boot` (start-up) |
+| `css/` | The styles: `base`, `components`, `tools`, `progress`, `motion`, `food` |
 | `sw.js` | Service worker: it is what makes the app work offline |
 | `manifest.webmanifest` | Name, colours and icons for the install |
 | `icon-192.png`, `icon-512.png` | The logo |
 
 ## How to change something
 
-1. Edit `index.html`.
-2. In `sw.js`, bump the number in `CACHE` (for example `daftar-gym-v2`). Without it, the phone keeps the old version.
+1. Edit the file for that part: `views/` for what a screen shows, `js/` for what it does, `css/` for how it looks.
+2. If you add a new file, add it to `FILES` in `sw.js`. Then bump the number in `CACHE` (for example `daftar-gym-v13`). Without it, the phone keeps the old version.
 3. `git commit` and `git push`. The phone picks up the new version the next time you open the app with internet.
 
 The calorie numbers in the app are estimates.
