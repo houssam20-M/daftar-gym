@@ -38,6 +38,12 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
     <div class="field"><label for="pStart">Awal nhar</label><input id="pStart" type="date"></div>
     <div class="field"><label for="pKcal">kcal f nhar</label><input id="pKcal" type="number" min="1000" max="5000" step="50" inputmode="numeric"></div>
     <div class="field"><label for="pProt">Protein f nhar (g)</label><input id="pProt" type="number" min="40" max="350" step="5" inputmode="numeric"></div>
+    <div class="field wide"><span class="flabel">Ch7al mn seance f nhar?</span>
+      <div class="seg" role="radiogroup" aria-label="Seances f nhar"><input type="radio" name="pSess" id="pSess1" value="1"><label for="pSess1">Wa7da</label><input type="radio" name="pSess" id="pSess2" value="2"><label for="pSess2">Jouj (sba7 o 3chiya)</label></div>
+    </div>
+    <div class="field wide"><span class="flabel">Ch7al mn nhar f simana?</span>
+      <div class="seg" role="radiogroup" aria-label="Iyam f simana"><input type="radio" name="pDays" id="pDays3" value="3"><label for="pDays3">3</label><input type="radio" name="pDays" id="pDays4" value="4"><label for="pDays4">4</label><input type="radio" name="pDays" id="pDays5" value="5"><label for="pDays5">5</label><input type="radio" name="pDays" id="pDays6" value="6"><label for="pDays6">6</label><input type="radio" name="pDays" id="pDays7" value="7"><label for="pDays7">7</label></div>
+    </div>
   </div>
   <div class="row"><button type="button" id="pSave">Sejjel l-plan</button><span class="msg" id="pMsg" role="status"></span></div>
 </section>

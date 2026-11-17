@@ -22,9 +22,11 @@ window.addEventListener('load', () => {
 
 /* ---------- first run ---------- */
 function hasPlan(p){ return !!p && ['heightCm','goalKg','kcal','proteinG','startDate'].every(k => p[k] != null && p[k] !== ''); }
-// Mifflin-St Jeor resting burn x 1.5 (training most days). Losing weight: 24% under that. Protein: 2.2 g per kg of goal weight.
-function calcPlan(sex, age, h, w, goal){
-  const tdee = (10*w + 6.25*h - 5*age + (sex === 'f' ? -161 : 5)) * 1.5, losing = goal < w - 1;
+// Mifflin-St Jeor resting burn x activity: 1.3 + 0.03 per training day, + 0.05 for two sessions a day (7 days, one session = 1.51).
+// Losing weight: 24% under that. Protein: 2.2 g per kg of goal weight.
+function calcPlan(sex, age, h, w, goal, days, sess){
+  const act = 1.3 + 0.03 * (days || 7) + (sess === 2 ? 0.05 : 0);
+  const tdee = (10*w + 6.25*h - 5*age + (sex === 'f' ? -161 : 5)) * act, losing = goal < w - 1;
   const kcal = Math.max(sex === 'f' ? 1300 : 1500, Math.round((losing ? tdee * 0.76 : tdee) / 50) * 50);
   return { kcal, proteinG: Math.min(220, Math.max(90, Math.round(2.2 * goal / 5) * 5)), tdee: Math.round(tdee / 50) * 50, losing };
 }
@@ -40,8 +42,11 @@ $('suGo').onclick = () => {
   if (w == null || w < 40 || w > 250) return bad('suWeight', L('Kteb l-wazn dyalek b kg.'));
   if (goal == null || goal < 40 || goal > 200) return bad('suGoal', L('Kteb l-wazn li bghiti twsel lih.'));
   if (!/^\d{4}-\d{2}-\d{2}$/.test(st)) return bad('suStart', L('Khtar awal nhar.'));
-  const c = calcPlan(sex, age, h, w, goal);
-  pending = { plan: { sex, age, heightCm: h, goalKg: goal, kcal: c.kcal, proteinG: c.proteinG, startDate: st }, weightKg: Math.round(w * 10) / 10 };
+  const sess = Number(radioVal('suSess')), days = Number(radioVal('suDays'));
+  if (!sess) return bad(null, L('Khtar ch7al mn seance f nhar.'));
+  if (!days) return bad(null, L('Khtar ch7al mn nhar f simana.'));
+  const c = calcPlan(sex, age, h, w, goal, days, sess);
+  pending = { plan: { sex, age, heightCm: h, goalKg: goal, kcal: c.kcal, proteinG: c.proteinG, startDate: st, sessionsPerDay: sess, daysPerWeek: days, planAt: today() }, weightKg: Math.round(w * 10) / 10 };
   msg.textContent = '';
   $('suKcal').textContent = c.kcal + ' kcal'; $('suProt').textContent = c.proteinG + ' g';
   $('suWhy').textContent = c.losing ? L('Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. Bach tn9es b chwiya o bla ma tjou3, khassek takol 9el mn hadchi.', c.tdee) : L('Jismek kay7re9 te9riban {0} kcal f nhar m3a t-tmrin. L-hadaf dyalek 9rib mn l-wazn dyalek, so kanakhdo nefs l-calories.', c.tdee);
@@ -57,7 +62,7 @@ $('suEnter').onclick = () => {
 };
 
 /* ---------- boot ---------- */
-function renderAll(force){ if (!hasPlan(S.plan)) return; renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); renderWater(); renderBackupBanner(); renderProgression(); renderRecap(); renderNudge(); renderMyFoods(); renderPhotos(); }
+function renderAll(force){ if (!hasPlan(S.plan)) return; renderPlanBanner(); renderStats(); renderSession(force); renderChart(); renderTable(); renderMeals(); renderWater(); renderBackupBanner(); renderProgression(); renderRecap(); renderNudge(); renderMyFoods(); renderPhotos(); }
 function setView(v){ view = v; $('vWeek').setAttribute('aria-pressed', v === 'week'); $('vMonth').setAttribute('aria-pressed', v === 'month'); renderChart(); renderTable(); }
 $('vWeek').onclick = () => setView('week'); $('vMonth').onclick = () => setView('month');
 $('vRange').addEventListener('click', e => {

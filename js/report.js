@@ -3,7 +3,7 @@
 function report(){
   const R = [], info = dayInfo();
   R.push('GYM REPORT ' + today() + ' (from the Daftar l-Gym app)');
-  R.push('Plan: ' + (plan.sex ? (plan.sex === 'f' ? 'female, ' : 'male, ') : '') + (plan.age ? plan.age + 'y, ' : '') + plan.heightCm + ' cm, goal ' + plan.goalKg + ' kg, ' + plan.kcal + ' kcal + ' + plan.proteinG + ' g protein/day, start ' + plan.startDate + '. Today = week ' + info.week + ', day ' + info.day + '.');
+  R.push('Plan: ' + (plan.sex ? (plan.sex === 'f' ? 'female, ' : 'male, ') : '') + (plan.age ? plan.age + 'y, ' : '') + plan.heightCm + ' cm, goal ' + plan.goalKg + ' kg, ' + plan.kcal + ' kcal + ' + plan.proteinG + ' g protein/day, start ' + plan.startDate + ', ' + sessPerDay() + ' session(s)/day, ' + daysPerWeek() + ' days/week. Today = week ' + info.week + ', day ' + info.day + '.');
   R.push(''); R.push('WEIGH-INS:');
   if (!checkins.length) R.push('  (none yet)');
   checkins.forEach(c => R.push('  ' + c.date + ': ' + c.weightKg + ' kg' + (c.waistCm != null ? ', waist ' + c.waistCm + ' cm' : '') + (c.lifts != null ? ', lifts ' + c.lifts : '') + (c.walkDays != null ? ', walk ' + c.walkDays + '/7' : '') + (c.sleepH != null ? ', sleep ' + c.sleepH + 'h' : '') + (c.energy != null ? ', energy ' + c.energy + '/5' : '') + (c.dietDays != null ? ', diet ' + c.dietDays + '/7' : '') + (c.cheat ? ', bread/sugar: ' + c.cheat : '') + (c.note ? ' | ' + c.note : '')));
@@ -45,13 +45,29 @@ $('qLang').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !b.dataset.l) return;
   setLang(b.dataset.l);
 });
-function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; }
+function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; setRadio('pSess', sessPerDay()); setRadio('pDays', daysPerWeek()); }
 $('pSave').onclick = () => {
   const h = numOrNull('pHeight'), g = numOrNull('pGoal'), k = numOrNull('pKcal'), p = numOrNull('pProt'), st = $('pStart').value, msg = $('pMsg');
   if (!h || !g || !k || !p || !/^\d{4}-\d{2}-\d{2}$/.test(st)){ msg.textContent = L('3emmer ga3 l-khanat.'); return; }
-  S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st };
-  msg.textContent = persist() ? L('L-plan tsejjel.') : L('Ma tsejjelch.'); renderAll(true);
+  const sess = Number(radioVal('pSess')) || sessPerDay(), days = Number(radioVal('pDays')) || daysPerWeek();
+  S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st, sessionsPerDay:sess, daysPerWeek:days, planAt:today() };
+  msg.textContent = persist() ? L('L-plan tsejjel.') : L('Ma tsejjelch.'); sessDirty = false; renderAll(true);
 };
+/* ---------- monthly plan reminder: after 30 days on the same choice, ask once ---------- */
+function renderPlanBanner(){
+  const b = $('bannerPlan'); if (!b) return;
+  if (!hasPlan(S.plan)){ b.hidden = true; return; }
+  const since = (dnum(today()) - dnum(plan.planAt || plan.startDate)) / 864e5;
+  if (since < 30){ b.hidden = true; return; }
+  $('bannerPlanText').textContent = L('Daz chhar 3la l-plan dyalek: {0} f nhar, {1} iyam f simana. Bghiti tbeddel?', L(sessPerDay() === 2 ? 'jouj seances' : 'seance wa7da'), daysPerWeek());
+  b.hidden = false;
+}
+$('bannerPlanGo').onclick = () => {
+  location.hash = 'kter';
+  setTimeout(() => { const t = $('pSess1'); if (t) t.closest('.field').scrollIntoView({ block:'center', behavior:'smooth' }); }, 120);
+};
+$('bannerPlanKeep').onclick = () => { S.plan = { ...S.plan, planAt: today() }; persist(); renderPlanBanner(); };
+
 /* ---------- backup nudge: once a week, the banner asks for a backup ---------- */
 function dataDays(){
   return new Set([...Object.keys(S.checkins), ...Object.keys(S.sessions), ...Object.keys(S.water), ...Object.keys(S.rests), ...(S.meals || []).map(m => m.date)]).size;

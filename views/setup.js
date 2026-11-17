@@ -42,6 +42,13 @@ document.getElementById('setup').insertAdjacentHTML('beforeend', `
     <div class="field"><label for="suWeight">Wazn daba (kg)</label><input id="suWeight" type="number" min="40" max="250" step="0.1" inputmode="decimal"></div>
     <div class="field"><label for="suGoal">L-wazn li bghiti twsel lih (kg)</label><input id="suGoal" type="number" min="40" max="200" step="0.5" inputmode="decimal"></div>
     <div class="field"><label for="suStart">Awal nhar d gym</label><input id="suStart" type="date"></div>
+    <div class="field wide"><span class="flabel">Ch7al mn seance f nhar?</span>
+      <div class="seg" role="radiogroup" aria-label="Seances f nhar"><input type="radio" name="suSess" id="suSess1" value="1"><label for="suSess1">Wa7da</label><input type="radio" name="suSess" id="suSess2" value="2"><label for="suSess2">Jouj (sba7 o 3chiya)</label></div>
+    </div>
+    <div class="field wide"><span class="flabel">Ch7al mn nhar f simana?</span>
+      <div class="seg" role="radiogroup" aria-label="Iyam f simana"><input type="radio" name="suDays" id="suDays3" value="3"><label for="suDays3">3</label><input type="radio" name="suDays" id="suDays4" value="4"><label for="suDays4">4</label><input type="radio" name="suDays" id="suDays5" value="5"><label for="suDays5">5</label><input type="radio" name="suDays" id="suDays6" value="6"><label for="suDays6">6</label><input type="radio" name="suDays" id="suDays7" value="7"><label for="suDays7">7</label></div>
+    </div>
+    <p class="muted small field wide">T9der tbeddelhom kol chhar f "Kter".</p>
   </div>
   <div class="row">
     <button class="primary" type="button" id="suGo">7seb l-plan dyali</button>

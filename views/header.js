@@ -35,6 +35,13 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
 
 <div class="banner" id="banner" hidden></div>
 
+<div class="banner" id="bannerPlan" hidden>
+  <div class="row" style="justify-content:space-between">
+    <span id="bannerPlanText"></span>
+    <div class="row"><button type="button" class="primary" id="bannerPlanGo">Beddel l-plan</button><button type="button" class="link" id="bannerPlanKeep">Khellih</button></div>
+  </div>
+</div>
+
 <div class="banner" id="bannerBk" hidden>
   <div class="row" style="justify-content:space-between">
     <span id="bannerBkText"></span>

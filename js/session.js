@@ -89,9 +89,14 @@ const EXINFO = (() => {
 function exActual(x){ const list = ALTS[x[0]], sw = S.swaps[x[0]]; if (list && sw){ const hit = list.find(a => a[0] === sw); if (hit) return hit; } return x; }
 const repTarget = s => { const m = String(s).match(/\d+/g); return m ? m[m.length - 1] : ''; };
 let sessDirty = false, sessShown = '';
-// Month 1: one session a day (walk first, then all the weights). From day 30 on: morning and evening, as in PROGRAM.
-const SPLIT_AFTER_DAYS = 30;
-function twoADay(){ return !!plan.startDate && Math.round((dnum(today()) - dnum(plan.startDate)) / 864e5) >= SPLIT_AFTER_DAYS; }
+// His own choice, set on the first-run screen and in Kter: sessions per day and training days per week.
+// Older saves have neither: one session a day, every day.
+const sessPerDay = () => Number(plan.sessionsPerDay) === 2 ? 2 : 1;
+const daysPerWeek = () => { const n = Number(plan.daysPerWeek); return n >= 3 && n <= 7 ? n : 7; };
+// One 7-day cycle per choice: 1 = weights day, 'L' = light day, 0 = rest day. Rest days are spread out.
+const WEEK_PATTERN = { 7:[1,1,1,1,1,1,'L'], 6:[1,1,1,1,1,1,0], 5:[1,1,0,1,1,1,0], 4:[1,1,0,1,1,0,0], 3:[1,0,1,0,1,0,0] };
+// One session: walk first, then all the weights. Two sessions: morning and evening, as in PROGRAM.
+function twoADay(){ return sessPerDay() === 2; }
 const isCardio = x => x[0] === 'mchi' || x[0] === 'cardio';
 function sessionParts(prog){
   if (twoADay()) return [['Sba7', prog.am], ['3chiya', prog.pm]];
@@ -101,17 +106,25 @@ function sessionParts(prog){
 // Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
 function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
 function isRest(d){ return !!S.rests[d]; }
-// A marked rest day does not move the A/B/C rotation forward: the next training day carries on where he stopped.
-function dayInfo(){
-  const t = today(), raw = Math.round((dnum(t) - dnum(plan.startDate)) / 864e5), pre = raw < 0;
+// What the plan says for a date. A rest day he marks himself does not move the rotation forward.
+// The A/B/C letter only moves on weights days, so it carries on across the planned rest days.
+function planDay(date){
+  const raw = Math.round((dnum(date) - dnum(plan.startDate)) / 864e5), pre = raw < 0;
   let rest = 0;
-  if (!pre) eachDate(plan.startDate, t, d => { if (isRest(d)) rest++; });
-  const idx = Math.max(0, raw - rest), base = ['A','B','C','A','B','C','L'], restToday = !pre && isRest(t);
-  return { day: restToday ? 'R' : base[idx % 7], next: base[idx % 7], week: pre ? 1 : Math.floor(idx / 7) + 1, pre, restToday, restDays: rest };
+  if (!pre) eachDate(plan.startDate, date, d => { if (isRest(d)) rest++; });
+  const idx = Math.max(0, raw - rest), pat = WEEK_PATTERN[daysPerWeek()], pos = idx % 7;
+  const perWeek = pat.filter(x => x === 1).length;
+  const before = Math.floor(idx / 7) * perWeek + pat.slice(0, pos).filter(x => x === 1).length;
+  const letter = ['A','B','C'][before % 3], slot = pre ? 1 : pat[pos];
+  const planned = slot === 1 ? letter : slot === 'L' ? 'L' : 'R';
+  const restToday = !pre && isRest(date);
+  return { day: restToday ? 'R' : planned, next: planned === 'R' ? letter : planned, week: pre ? 1 : Math.floor(idx / 7) + 1,
+           pre, restToday, planRest: !restToday && planned === 'R', restDays: rest };
 }
+function dayInfo(){ return planDay(today()); }
 // Days in a row with a ticked session or a marked rest day. A today that is still empty does not break the chain.
 function trainStreak(){
-  const has = d => isRest(d) || !!(S.sessions[d] && Object.values(S.sessions[d].items || {}).some(i => i.done));
+  const has = d => isRest(d) || planDay(d).planRest || !!(S.sessions[d] && Object.values(S.sessions[d].items || {}).some(i => i.done));
   if (!plan.startDate) return 0;
   const d = new Date();
   if (!has(iso(d))) d.setDate(d.getDate() - 1);
@@ -134,6 +147,13 @@ function renderSession(force){
   $('sxRest').textContent = info.restToday ? L('Rje3 l l-7adid') : L('Lyoum rya7a');
   $('sxForm').hidden = info.restToday;
   $('restBox').hidden = info.restToday;
+  $('sxRest').hidden = !!info.planRest;
+  if (info.planRest){
+    $('sxDay').textContent = L('Rya7a'); $('sxForm').hidden = true; $('restBox').hidden = true;
+    $('sxSub').textContent = L('Lyoum rya7a f l-plan dyalek ({0} iyam d l-7adid f simana).', daysPerWeek());
+    body.append(el('div','empty', L('Nhar rya7a. Mchi chwiya ila bghiti, o rje3 ghedda.')));
+    return;
+  }
   if (info.restToday){
     $('sxSub').textContent = L('Lyoum rya7a. Ghddan katbda mn nhar {0}.', info.next);
     body.append(el('div','empty', L('Nhar rya7a. Ma kayn 7ta seance lyoum.')));
@@ -157,7 +177,6 @@ function renderSession(force){
       body.append(row);
     });
   }
-  if (!info.pre && !twoADay()) $('sxSub').textContent += ' ' + L('Had chhar: seance wa7da f nhar.');
   sessionParts(prog).forEach(part => {
     if (!part[1].length) return;
     body.append(el('div','part', L(part[0])));
@@ -209,7 +228,7 @@ function showSwaps(row, base){
 }
 function saveSession(){
   const info = dayInfo();
-  if (info.restToday) return; // a rest day has no session to save
+  if (info.restToday || info.planRest) return; // a rest day has no session to save
   const msg = $('sxMsg'), prog = PROGRAM[info.day], items = {};
   WARM.forEach(w => { const cb = $('sx-' + w[0] + '-done'); if (cb && cb.checked) items[w[0]] = { done:true }; });
   [...prog.am, ...prog.pm].forEach(base => {
