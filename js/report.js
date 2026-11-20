@@ -39,12 +39,13 @@ $('repCopy').onclick = () => copyText(report(), $('repBox'), $('repMsg'), L('Tns
 /* ---------- settings, plan, backup ---------- */
 document.querySelectorAll('input[name="setTheme"]').forEach(r => r.addEventListener('change', () => { S.settings.theme = r.value; persist(); applyTheme(); }));
 document.querySelectorAll('input[name="setLang"], input[name="suLang"]').forEach(r => r.addEventListener('change', () => setLang(r.value)));
-function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; setRadio('pSess', sessPerDay()); setRadio('pDays', daysPerWeek()); }
+function fillPlan(){ $('pHeight').value = plan.heightCm; $('pGoal').value = plan.goalKg; $('pStart').value = plan.startDate; $('pKcal').value = plan.kcal; $('pProt').value = plan.proteinG; setRadio('pSess', sessPerDay()); setRadio('pDays', daysPerWeek()); if ($('pLight')) $('pLight').value = lightDay() >= 0 ? String(lightDay()) : ''; }
 $('pSave').onclick = () => {
   const h = numOrNull('pHeight'), g = numOrNull('pGoal'), k = numOrNull('pKcal'), p = numOrNull('pProt'), st = $('pStart').value, msg = $('pMsg');
   if (!h || !g || !k || !p || !/^\d{4}-\d{2}-\d{2}$/.test(st)){ msg.textContent = L('3emmer ga3 l-khanat.'); return; }
   const sess = Number(radioVal('pSess')) || sessPerDay(), days = Number(radioVal('pDays')) || daysPerWeek();
-  S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st, sessionsPerDay:sess, daysPerWeek:days, planAt:today() };
+  const ldRaw = $('pLight') ? $('pLight').value : '', ld = ldRaw === '' ? null : Number(ldRaw);
+  S.plan = { ...S.plan, heightCm:h, goalKg:g, kcal:k, proteinG:p, startDate:st, sessionsPerDay:sess, daysPerWeek:days, lightDay:ld, planAt:today() };
   msg.textContent = persist() ? L('L-plan tsejjel.') : L('Ma tsejjelch.'); sessDirty = false; renderAll(true);
 };
 /* ---------- monthly plan reminder: after 30 days on the same choice, ask once ---------- */

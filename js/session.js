@@ -144,12 +144,30 @@ function sessionParts(prog){
 // Real dates one by one: adding 24h to a timestamp breaks on daylight-saving days.
 function eachDate(from, to, fn){ const d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00'); while (d <= end){ fn(iso(d)); d.setDate(d.getDate() + 1); } }
 function isRest(d){ return !!S.rests[d]; }
+// The light day he picked (0 = Monday ... 6 = Sunday), or -1: the plain 7-day cycle, light on the 7th day.
+const lightDay = () => { if (plan.lightDay === null || plan.lightDay === undefined || plan.lightDay === '') return -1; const n = Number(plan.lightDay); return n >= 0 && n <= 6 ? n : -1; };
+const dowMon = d => (new Date(d + 'T00:00:00').getDay() + 6) % 7;
 // What the plan says for a date. A rest day he marks himself does not move the rotation forward.
 // The A/B/C letter only moves on weights days, so it carries on across the planned rest days.
 function planDay(date){
   const raw = Math.round((dnum(date) - dnum(plan.startDate)) / 864e5), pre = raw < 0;
   let rest = 0;
   if (!pre) eachDate(plan.startDate, date, d => { if (isRest(d)) rest++; });
+  const ld = lightDay();
+  if (ld >= 0 && daysPerWeek() === 7){
+    // He picked the weekday: the week runs Monday to Sunday, the light day is always that weekday,
+    // and the A/B/C letters restart every Monday.
+    let before = 0;
+    if (!pre){
+      const mon = new Date(date + 'T00:00:00'); mon.setDate(mon.getDate() - dowMon(date));
+      const from = iso(mon) > plan.startDate ? iso(mon) : plan.startDate;
+      eachDate(from, date, d => { if (d !== date && !isRest(d) && dowMon(d) !== ld) before++; });
+    }
+    const letter = ['A','B','C'][before % 3], isLight = !pre && dowMon(date) === ld, restToday = !pre && isRest(date);
+    const week = pre ? 1 : Math.floor((raw + dowMon(plan.startDate)) / 7) + 1;
+    return { day: restToday ? 'R' : isLight ? 'L' : letter, next: isLight ? 'L' : letter, week,
+             pre, restToday, planRest: false, restDays: rest };
+  }
   const idx = Math.max(0, raw - rest), pat = WEEK_PATTERN[daysPerWeek()], pos = idx % 7;
   const perWeek = pat.filter(x => x === 1).length;
   const before = Math.floor(idx / 7) * perWeek + pat.slice(0, pos).filter(x => x === 1).length;

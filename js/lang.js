@@ -127,6 +127,9 @@ const EN = {
   'Ba9i ma zedti 7ta makla dyalek.':'You have not added any food yet.', 'Kteb smiya, kcal o protein.':'Enter a name, kcal and protein.',
   // swap exercise
   'Beddel l-exercice':'Change exercise', 'Rje3 l l-asl':'Back to original', 'Beddelna: {0}':'Switched to: {0}',
+  // light day (picked weekday)
+  'Nhar dyal l-light':'Light day', 'Ma kaynch':'None',
+  'Tnin':'Monday', 'Tlat':'Tuesday', 'Rba3':'Wednesday', 'Khmis':'Thursday', 'Jom3a':'Friday', 'Sbt':'Saturday', 'L-7edd':'Sunday',
   // weekly recap
   'Recap dyal simana':'This week', 'Sift':'Share', 'Seances':'Sessions', 'Mtaba3':'In a row',
   'Hadi l-akhbar dyal 7 simanat li fatou.':'The last 7 days in short.', 'Ch7al mn wa9t':'How far back', 'Sed':'Close', 'Protein g':'Protein g',

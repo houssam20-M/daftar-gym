@@ -3,7 +3,7 @@
 const KEY = 'daftar-gym-v1';
 // No built-in numbers: every phone starts empty and fills these in on the first-run screen.
 // sessionsPerDay: 1 or 2. daysPerWeek: 3 to 7. planAt: the day he last chose them (the monthly reminder counts from it).
-const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null, kcalAt:null, sessionsPerDay:null, daysPerWeek:null, planAt:null, goalType:null };
+const DEF = { heightCm:null, goalKg:null, kcal:null, proteinG:null, startDate:null, sex:null, age:null, kcalAt:null, sessionsPerDay:null, daysPerWeek:null, planAt:null, goalType:null, lightDay:null };
 let S = { plan:{}, settings:{}, checkins:{}, sessions:{}, meals:[], rests:{}, water:{}, foods:[], swaps:{}, dayfood:{}, menu:[] };
 let plan = { ...DEF }, checkins = [], sessions = [], meals = [], view = 'week', storageOk = true, lang = 'en';
 const $ = id => document.getElementById(id);

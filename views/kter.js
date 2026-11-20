@@ -27,6 +27,18 @@ document.getElementById('app').insertAdjacentHTML('beforeend', `
     <div class="field wide"><span class="flabel">Ch7al mn nhar f simana?</span>
       <div class="seg" role="radiogroup" aria-label="Iyam f simana"><input type="radio" name="pDays" id="pDays3" value="3"><label for="pDays3">3</label><input type="radio" name="pDays" id="pDays4" value="4"><label for="pDays4">4</label><input type="radio" name="pDays" id="pDays5" value="5"><label for="pDays5">5</label><input type="radio" name="pDays" id="pDays6" value="6"><label for="pDays6">6</label><input type="radio" name="pDays" id="pDays7" value="7"><label for="pDays7">7</label></div>
     </div>
+    <div class="field wide"><label for="pLight">Nhar dyal l-light</label>
+      <select id="pLight">
+        <option value="">Ma kaynch</option>
+        <option value="0">Tnin</option>
+        <option value="1">Tlat</option>
+        <option value="2">Rba3</option>
+        <option value="3">Khmis</option>
+        <option value="4">Jom3a</option>
+        <option value="5">Sbt</option>
+        <option value="6">L-7edd</option>
+      </select>
+    </div>
   </div>
   <div class="row"><button type="button" id="pSave">Sejjel l-plan</button><span class="msg" id="pMsg" role="status"></span></div>
 </section>
